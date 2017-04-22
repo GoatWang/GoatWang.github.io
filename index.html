@@ -348,48 +348,14 @@
 
       
         
-          
-            <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在評價資訊檢索時，人們在意的指標有很多面相，在過去比較重要的像是搜尋的數量跟速度，但隨著科技的進步，現在更趨向於不同面相精準，這也是本章節的重點。不過值得一提的是使用者介面(UI)、使用者體驗(UX)也是在這個領域當中有人持續關注及研究的議題，例如google使用的top-10 result method一個頁面中只回傳前十筆相關資料，又或者是<a href="http://www.ajopaul.com/wp-content/uploads/2008/04/searchme.jpg" target="_blank" rel="external">Searchme Visual Search</a>提供一個創新的搜尋結果可預覽的呈現方式，然而這些資訊實在太難以被量化研究，因此，本章將主要聚焦在精準度的呈現。</p>
-<p><img src="http://www.ajopaul.com/wp-content/uploads/2008/04/searchme.jpg" alt="fig1.- Searchme Visual Search"></p>
-<h1 id="二、評價搜尋精準度預測的前提"><a href="#二、評價搜尋精準度預測的前提" class="headerlink" title="二、評價搜尋精準度預測的前提"></a>二、評價搜尋精準度預測的前提</h1><p>我們要評價一個檢索系統的精準度，我們需要以下三項測驗資源:<br>1.準備被搜尋的文章們(A benchmark document collection)<br>2.一系列的測驗問題(A benchmark suite of queries)<br>3.對應每個搜尋問題中相關的文章(An assessment of the relevance of each querydocument pair)</p>
-<p>其中前面兩者個蒐集都相對容易，不過第三者的蒐集則相當耗費人力，因為必須針對每個問題(以下稱Query)去標籤出那些文章(以下稱Document)是相關的，聽說當年微軟為了追上顧狗，即在印度聘了無數人每季要標籤出無數Queries中相關的無數Documents，然後拿去搜尋引擎做測試，另外，後來一些國家及大型組織也逐漸意識到這個query跟相關Document的測試集合的重要，因此著手蒐集測試資料集，詳細資料可以見<a href="https://nlp.stanford.edu/IR-book/pdf/08eval.pdf" target="_blank" rel="external">Interdoction to Information Retrieval 第8.2節</a>，裡面概述了各個資料集。但如何建立資料集並不是這一章的重點，因此以下假設我們已經得到含有上述三者資訊的資料集，並往下進行討論。</p>
-<h1 id="三、使用者搜尋的Query與其真實資訊需求的落差"><a href="#三、使用者搜尋的Query與其真實資訊需求的落差" class="headerlink" title="三、使用者搜尋的Query與其真實資訊需求的落差"></a>三、使用者搜尋的Query與其真實資訊需求的落差</h1><p>在此我們還有一個議題需要被討論，那就是使用者搜尋的Query以及使用者真實的資訊需求，舉例來說有一個搜尋Query是這樣寫的：<em>red wine white wine heart attack(紅酒 白酒 心臟病)</em>，我們可能會自動翻譯成：<em>喝紅酒或白酒比較容易發生心臟病?</em>，但搜尋文章的結果可能為：<em>At heart of his speech was an attack on the wine industry lobby for downplaying the role of red and white wine in drunk driving(他講話的核心是對於淡化紅酒及白酒在酒醉駕駛中的腳色的攻擊)</em>。</p>
-<p>然而這樣的問題，掌握在使用者身上，很難用科學的方式去處理，當然現在可能漸漸有辦法透過數據解決，不過上述幾個比較有名的資料集中所提供的Query大都避開了這樣的問題，透過詳述問題的方式呈現Query，因此本章也暫時當作Query以及資訊需求是相等的。</p>
-<h1 id="四、最基礎的評價工具-Precision-以及-Recall"><a href="#四、最基礎的評價工具-Precision-以及-Recall" class="headerlink" title="四、最基礎的評價工具: Precision 以及 Recall"></a>四、最基礎的評價工具: Precision 以及 Recall</h1><h2 id="一-、前提說明"><a href="#一-、前提說明" class="headerlink" title="(一)、前提說明:"></a>(一)、前提說明:</h2><p>以下介紹兩個這個領域當中最基礎的評價指標，分別為precision以及recall，需特別注意的是這兩個指標在應用時，要求的相關文章標記僅為二元的，也就是說，如果該文章相關rel=1，如果該文章不相關rel=0</p>
-<h2 id="二-、指標簡介"><a href="#二-、指標簡介" class="headerlink" title="(二)、指標簡介"></a>(二)、指標簡介</h2><p>1.Precision: 在所有抽出的結果中有多少相關的文章<br>$$ Precision={|Relevant \cap Retrieved| \over |Retrieved|}\;\;\;\;\;(式2.1)$$<br>2.Recall: 在所有相關的文章中，有幾篇被抽出來<br>$$ Recall={|Relevant \cap Retrieved| \over |Relevant|}\;\;\;\;\;(式2.2)$$</p>
-<p>其中Relevant代表所有相關文章集合，Retrieved代表被系統檢索出來的文章的集合，而$\cap$則代表聯集，絕對值||在集合中則是取總數的意思，所以$|Relevant \cap Retrieved|$代表被系統檢索出來的文章中同時是跟Query相關的。</p>
-<h2 id="三-、Retrieved-與-Relevant-之間的關係"><a href="#三-、Retrieved-與-Relevant-之間的關係" class="headerlink" title="(三)、Retrieved 與 Relevant 之間的關係"></a>(三)、Retrieved 與 Relevant 之間的關係</h2><p>為了更清楚的理解，我們也可以用這種方式來看待Precision以及Recall。如果我們把所有的文章分成以下四類:True Positive(TP)、False Postive(FP)、True Negative(TN)、False Negative(FN)，其中Positive以及Negative指得是系統的判斷，而True與False則是人為判斷是否相關，從下面這張表可以更清楚的理解其中意思。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Retrieved</th>
-<th>Non Retrieved</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Relevant</td>
-<td>True Positive(TP)</td>
-<td>False Negative(TN)</td>
-</tr>
-<tr>
-<td>Irrelevant</td>
-<td>False Postive(FP)</td>
-<td>True Negative(TN)</td>
-</tr>
-<tr>
-<td>aaaas:</td>
-<td>::</td>
-<td>:</td>
-</tr>
-</tbody>
-</table>
-<p>ps.這邊大家常常容易搞混，如果真的弄不清楚，可以想想醫院最害怕遇到甚麼狀況，無非是機器判斷了沒有生病，可是其實是嚴重的隱性疾病，那末這種情況將被歸類在False Negative。</p>
-<p>如果把這個邏輯套用到Precision以及Recall上，則兩個指標的計算公式則可以改寫如下:<br>$$ Precision={|Relevant \cap Retrieved| \over |Retrieved|}={|TP| \over |TP|+|FP|}\;\;\;\;\;(式2.3)$$<br>$$ Recall={|Relevant \cap Retrieved| \over |Relevant|}={|TP| \over |TP|+|TN|}\;\;\;\;\;(式2.4)$$</p>
-<h2 id="四-、最直觀的指標在IR領域的適用障礙"><a href="#四-、最直觀的指標在IR領域的適用障礙" class="headerlink" title="(四)、最直觀的指標在IR領域的適用障礙"></a>(四)、最直觀的指標在IR領域的適用障礙</h2><p>那麼，你可能會問，為何我們不直接計算: 所有文章當中，準確被檢索以及準確被拒絕的文章(式2.5)，如此一來將能夠用一個最直觀指標來衡量檢索系統。<br>$$ 最直觀的指標= {|TP|+|TF| \over |TP|+|TN|+|FP|+|FN|} \;\;\;\;\;(式2.5)$$<br>然而你也可以想像的到，在資訊檢索領域中，要從海量資料當中找出使用者需要的前十份，拒絕的文章樹必定非常可觀，也就是說，|TN|(準確被拒絕者)將可能非常非常大，依但在分子與分母兩者都加上|TN|，這個指標將會非常接近1，也就難以衡量系統的優劣了。</p>
-
-          
+          <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>在評價資訊檢索時，人們在意的指標有很多面相，在過去比較重要的像是搜尋的數量跟速度，但隨著科技的進步，現在更趨向於不同面相精準，這也是本章節的重點。不過值得一提的是使用者介面(UI)、使用者體驗(UX)也是在這個領域當中有人持續關注及研究的議題，例如google使用的top-10 result method一個頁面中只回傳前十筆相關資料，又或者是<a href="http://www.ajopaul.com/wp-content/uploads/2008/04/searchme.jpg">Searchme Visual Search</a>提供一個創新的搜尋結果可預覽的呈現方式，然而這些資訊實在太難以被量化研究，因此，本章將主要聚焦在精準度的呈現。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/22/Evaluation-in-Information-Retrieval/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -529,21 +495,14 @@
 
       
         
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。</p>
-<p>不過，身為一位初初接觸這個領域的學生，寫程式的經驗也不是太豐富，實在不敢獻醜，因此，這些文章堆的目的絕對不是要傳達多年研究的成果，也不會像學術文章般嚴謹，更無法確保其中的精確性，但我想如果把它定位為學習筆記，我更傾向於用一個數學外行人的角度詳盡的解釋每一個模型推倒的流程，如果你對這個領域有興趣，他應該會更幫助你理解它。</p>
-<p>另外，因為仍在續再學習，因此這裡會持續更新自己的學習筆記。</p>
-<h1 id="何謂資訊檢索"><a href="#何謂資訊檢索" class="headerlink" title="何謂資訊檢索"></a>何謂資訊檢索</h1><p>從文件海中尋找出使用者需要的資訊。簡單點，可以想像成google在做的事。</p>
-<h1 id="參考書籍"><a href="#參考書籍" class="headerlink" title="參考書籍"></a>參考書籍</h1><p>這幾篇文章都是根據正在修習的課程以及<a href="https://nlp.stanford.edu/IR-book/" target="_blank" rel="external">Introduction to Information Retrieval</a>上學習而整理出來的一些筆記及心得，這本書寫得很好，教授也很佛心，如果看得懂英文的話，整本都免費可以在網上下載。</p>
-<h1 id="章節安排"><a href="#章節安排" class="headerlink" title="章節安排"></a>章節安排</h1><p>以下所列章節皆直接使用與書上相同的章節號，其中由於本書前半段主要在講如何收集資訊的部分，並不是本堂課程要談的，因此從比較後面的章節開始學習。而在進入者個領域的過程中，首先要學習的大約是，怎麼評價一個檢索系統的好壞，否則根本無法找到本領域追尋的目標，因此第八章首先談到資訊檢索領域中的幾個重要的評價方法。接下來就是三個重要的檢索模型，分別將不同的抽象的數學概念，具體的應用在資訊檢索領域中。其中第六章使用的是向量的概念，第十一章、第十二章都是使用的是機率的概念，不過思路不同、使用的機率模型不同。</p>
-<ul>
-<li><a href="https://jeremy4555.github.io/2017/04/22/Evaluation-in-Information-Retrieval/">第八章</a>:資訊檢索的評價(Evaluation in information retrieval)</li>
-<li>[第六章]:空間向量模型(Vector Space Model)</li>
-<li>[第十一章]:機率模型(Probability Model)</li>
-<li>[第十二章]:語言模型(Language Model)</li>
-</ul>
-
-          
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/21/Introduction/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -632,7 +591,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">分類</span>
               </a>
             </div>
