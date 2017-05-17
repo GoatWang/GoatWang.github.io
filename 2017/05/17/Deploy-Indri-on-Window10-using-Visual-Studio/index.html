@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Jeremy, Wang" />
+  <meta name="keywords" content="Indri," />
 
 
 
@@ -87,17 +87,28 @@
 
 
 
-<meta name="description" content="前言近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。">
-<meta name="keywords">
+<meta name="description" content="IntroductionIndri is a powerful IR tool. For more information, you can do to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
+<meta name="keywords" content="Indri">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IR1: 一個數學外行人學習資訊檢索(Information Retrieval)的筆記們–始">
-<meta property="og:url" content="https://jeremy4555.github.io/2017/04/21/Introduction/index.html">
+<meta property="og:title" content="Deploy Indri on Window 10 using Visual Studio">
+<meta property="og:url" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
-<meta property="og:description" content="前言近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。">
-<meta property="og:updated_time" content="2017-04-23T13:44:11.050Z">
+<meta property="og:description" content="IntroductionIndri is a powerful IR tool. For more information, you can do to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriFolder.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/3VSUpdate.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsProgramManager.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsErrorList1.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix3.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG">
+<meta property="og:updated_time" content="2017-05-17T13:46:32.282Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IR1: 一個數學外行人學習資訊檢索(Information Retrieval)的筆記們–始">
-<meta name="twitter:description" content="前言近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。">
+<meta name="twitter:title" content="Deploy Indri on Window 10 using Visual Studio">
+<meta name="twitter:description" content="IntroductionIndri is a powerful IR tool. For more information, you can do to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
+<meta name="twitter:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG">
 
 
 
@@ -125,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://jeremy4555.github.io/2017/04/21/Introduction/"/>
+  <link rel="canonical" href="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/"/>
 
 
 
 
 
-  <title> IR1: 一個數學外行人學習資訊檢索(Information Retrieval)的筆記們–始 | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> Deploy Indri on Window 10 using Visual Studio | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -250,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/04/21/Introduction/">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeremy Wang">
@@ -271,7 +282,7 @@
             
             
               
-                IR1: 一個數學外行人學習資訊檢索(Information Retrieval)的筆記們–始
+                Deploy Indri on Window 10 using Visual Studio
               
             
           </h1>
@@ -286,8 +297,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-04-21T19:44:26+08:00">
-                2017-04-21
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-05-17T20:23:03+08:00">
+                2017-05-17
               </time>
             
 
@@ -344,18 +355,38 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>近期自己投入了非常大量的時間吸收、理解這個領域的知識，也已經將這個領域部分學理論實踐在python中，也因為這樣的投入，很真實地感受到了數學的威力，我想這大約是目前我曾經接觸過的領域中唯一或唯二，持續會想讓自己跟別人一再分享的技術之一。因此，一方面想與大家分享自己再這個領域學習的喜悅，另一方面也希望記錄下自己努力的成果，盼未來的某一天回過頭來看這些文章的積累，會有柳暗花明又一村的感悟。<a id="more"></a></p>
-<p>不過，身為一位初初接觸這個領域的學生，寫程式的經驗也不是太豐富，實在不敢獻醜，因此，這些文章堆的目的絕對不是要傳達多年研究的成果，也不會像學術文章般嚴謹，更無法確保其中的精確性，但我想如果把它定位為學習筆記，我更傾向於用一個數學外行人的角度詳盡的解釋每一個模型推倒的流程，如果你對這個領域有興趣，他應該會更幫助你理解它。</p>
-<p>另外，因為仍在續再學習，因此這裡會持續更新自己的學習筆記。</p>
-<h1 id="何謂資訊檢索"><a href="#何謂資訊檢索" class="headerlink" title="何謂資訊檢索"></a>何謂資訊檢索</h1><p>從文件海中尋找出使用者需要的資訊。簡單點，可以想像成google在做的事。我在學習這門課時，自己的感受的是，這個領域主要在…用很酷的數學方法解決數十萬個if以及else。</p>
-<h1 id="參考書籍"><a href="#參考書籍" class="headerlink" title="參考書籍"></a>參考書籍</h1><p>這幾篇文章都是根據正在修習的課程以及<a href="https://nlp.stanford.edu/IR-book/" target="_blank" rel="external">Introduction to Information Retrieval</a>上學習而整理出來的一些筆記及心得，這本書寫得很好，教授也很佛心，如果看得懂英文的話，整本都免費可以在網上下載。</p>
-<h1 id="章節安排"><a href="#章節安排" class="headerlink" title="章節安排"></a>章節安排</h1><p>以下所列章節皆直接使用與書上相同的章節號，其中由於本書前半段主要在講如何收集資訊的部分，並不是本堂課程要談的，因此從比較後面的章節開始學習。而在進入這個領域的過程中，首先要學習的大約是，怎麼評價一個檢索系統的好壞，否則根本無法找到本領域追尋的目標，因此第八章首先談到資訊檢索領域中的幾個重要的評價方法。接下來就是三個很酷炫的檢索模型，分別將不同的抽象的數學概念，具體的應用在資訊檢索領域中。其中第六章使用的是向量的概念，第十一章、第十二章都是使用的是機率的概念，不過思路不同、使用的機率模型不同。</p>
-<ul>
-<li><a href="/2017/04/22/Evaluation-in-Information-Retrieval/">第八章: 資訊檢索的評價(Evaluation in information retrieval)</a></li>
-<li><a href="/2017/04/23/Vector-Space-Model/">第六章: 空間向量模型(Vector Space Model)</a></li>
-<li>[第十一章]:機率模型(Probability Model)</li>
-<li>[第十二章]:語言模型(Language Model)</li>
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Indri is a powerful IR tool. For more information, you can do to their <a href="https://www.lemurproject.org/indri/" target="_blank" rel="external">home page</a>. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard work. As a result I just wnat to write down the process to set it up on windows. </p>
+<p>However, I still recommend you to use Indri through Linux system if it is possible. It is very convenient to set up a virtual machine, and installing Ubuntu is just a piece of cake.Below I will show you how to deal with all troubles when using Visual Studio to build the Solution in Indri.</p>
+<h1 id="Download-and-unzip-Indri"><a href="#Download-and-unzip-Indri" class="headerlink" title="Download and unzip Indri"></a>Download and unzip Indri</h1><ol>
+<li>download: From <a href="https://sourceforge.net/projects/lemur/?source=typ_redirect" target="_blank" rel="external">this page</a>, You can download indri-5.11.tar.gz.</li>
+<li>unzip: The tool I use is <a href="http://www.developershome.com/7-zip/" target="_blank" rel="external">7-zip</a>. To be mentioned, it is recommended to open 7-zip first and use browser in 7-zip to change your directory to where you download Indri and then unzip it.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG" alt="IndriUnzip.PNG" title=""></li>
+<li>Then You can get this folder, and use Visual Studio to open indri-VS2012.sln.(I have tried both VS2015 and VS2017 can deal with this solution file)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriFolder.PNG" alt="IndriFolder.PNG" title="">
+</li>
+</ol>
+<h1 id="Build-in-Visual-Studio"><a href="#Build-in-Visual-Studio" class="headerlink" title="Build in Visual Studio"></a>Build in Visual Studio</h1><ol>
+<li>When going in to VS, you will first be called to update some packages, and just click yes.Then you’ll get Program Manager window below.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/3VSUpdate.PNG" alt="3VSUpdate.PNG" title="">
+<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsProgramManager.PNG" alt="VsProgramManager.PNG" title=""></li>
+<li>(You can ignore this paragraph) If you are interested in how to debug of this solution, you can first rebuild all solution first. Just right click on solution’Indri-VS2012’(15 Projects) and click rebuild. Then you’ll get three kinds of bugs in the following files.<ul>
+<li>(clarity)lemur-compat.hpp and (dist)SequentialReadBuffer.hpp</li>
+<li>(dist)hash_set or hash_map</li>
+<li>(swig) indri_jni.cpp<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsErrorList1.PNG" alt="VsErrorList1.PNG" title="">
+<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix3.PNG" alt="ErrorFix3.PNG" title="">
+</li>
 </ul>
+</li>
+</ol>
+<h1 id="Solutions-to-three-kinds-of-bugs"><a href="#Solutions-to-three-kinds-of-bugs" class="headerlink" title="Solutions to three kinds of bugs"></a>Solutions to three kinds of bugs</h1><ol>
+<li>go to lemur-compat.hpp and SequentialReadBuffer.hpp, on the nerest Top of the file add “#include &lt;algorithm&gt;”<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG" alt="ErrorFix2.PNG" title=""></li>
+<li>In the Program Manager window: Right click dist &gt;property &gt;c++ &gt;preprocessor definition&gt; add “_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1;” befor all words.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG" alt="ErrorFix4.PNG" title=""></li>
+<li>Add your java sdk path to: Right click swig &gt;property &gt;C++ &gt;Other include directories.Remember to add to path: one is \jdkxxx\include, another is jdkxxx\include\win32.(If you haven’t install java sdk, you have to deal withh the problem yourself)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG" alt="ErrorFix6.PNG" title="">
+</li>
+</ol>
+<p>#Finally </p>
+<ol>
+<li>Rebuild all Solution</li>
+<li>use command line to test if it is set up successfully.<br>you can type in: $ dumpindex<br>and you’ll get:<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG" alt="DumpIndexCmdLine.JPG" title="">
+</li>
+</ol>
 
       
     </div>
@@ -383,6 +414,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Indri/" rel="tag"># Indri</a>
+          
+        </div>
+      
 
       
         
@@ -392,15 +429,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/22/Evaluation-in-Information-Retrieval/" rel="next" title="IR2:資訊檢索的評價">
-                <i class="fa fa-chevron-left"></i> IR2:資訊檢索的評價
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/29/Execute-Indri-on-win10/" rel="prev" title="Execute Indri on win10">
+                Execute Indri on win10 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -558,7 +595,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#何謂資訊檢索"><span class="nav-number">2.</span> <span class="nav-text">何謂資訊檢索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#參考書籍"><span class="nav-number">3.</span> <span class="nav-text">參考書籍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#章節安排"><span class="nav-number">4.</span> <span class="nav-text">章節安排</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Download-and-unzip-Indri"><span class="nav-number">2.</span> <span class="nav-text">Download and unzip Indri</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-in-Visual-Studio"><span class="nav-number">3.</span> <span class="nav-text">Build in Visual Studio</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solutions-to-three-kinds-of-bugs"><span class="nav-number">4.</span> <span class="nav-text">Solutions to three kinds of bugs</span></a></li></ol></div>
             
 
           </div>

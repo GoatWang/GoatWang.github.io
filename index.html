@@ -250,6 +250,300 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/15622747_1207299666013163_2211742436901915922_n.jpg?oh=f0ebf41169212e1b6bbdc1eeb65a6258&oe=597989BB">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeremy Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/" itemprop="url">
+                  Deploy Indri on Window 10 using Visual Studio
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-05-17T20:23:03+08:00">
+                2017-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Information-Retrieval/" itemprop="url" rel="index">
+                    <span itemprop="name">Information Retrieval</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Indri is a powerful IR tool. For more information, you can do to their <a href="https://www.lemurproject.org/indri/" target="_blank" rel="external">home page</a>. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard work. As a result I just wnat to write down the process to set it up on windows. </p>
+<p>However, I still recommend you to use Indri through Linux system if it is possible. It is very convenient to set up a virtual machine, and installing Ubuntu is just a piece of cake.Below I will show you how to deal with all troubles when using Visual Studio to build the Solution in Indri.</p>
+<h1 id="Download-and-unzip-Indri"><a href="#Download-and-unzip-Indri" class="headerlink" title="Download and unzip Indri"></a>Download and unzip Indri</h1><ol>
+<li>download: From <a href="https://sourceforge.net/projects/lemur/?source=typ_redirect" target="_blank" rel="external">this page</a>, You can download indri-5.11.tar.gz.</li>
+<li>unzip: The tool I use is <a href="http://www.developershome.com/7-zip/" target="_blank" rel="external">7-zip</a>. To be mentioned, it is recommended to open 7-zip first and use browser in 7-zip to change your directory to where you download Indri and then unzip it.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG" alt="IndriUnzip.PNG" title=""></li>
+<li>Then You can get this folder, and use Visual Studio to open indri-VS2012.sln.(I have tried both VS2015 and VS2017 can deal with this solution file)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriFolder.PNG" alt="IndriFolder.PNG" title="">
+</li>
+</ol>
+<h1 id="Build-in-Visual-Studio"><a href="#Build-in-Visual-Studio" class="headerlink" title="Build in Visual Studio"></a>Build in Visual Studio</h1><ol>
+<li>When going in to VS, you will first be called to update some packages, and just click yes.Then you’ll get Program Manager window below.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/3VSUpdate.PNG" alt="3VSUpdate.PNG" title="">
+<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsProgramManager.PNG" alt="VsProgramManager.PNG" title=""></li>
+<li>(You can ignore this paragraph) If you are interested in how to debug of this solution, you can first rebuild all solution first. Just right click on solution’Indri-VS2012’(15 Projects) and click rebuild. Then you’ll get three kinds of bugs in the following files.<ul>
+<li>(clarity)lemur-compat.hpp and (dist)SequentialReadBuffer.hpp</li>
+<li>(dist)hash_set or hash_map</li>
+<li>(swig) indri_jni.cpp<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsErrorList1.PNG" alt="VsErrorList1.PNG" title="">
+<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix3.PNG" alt="ErrorFix3.PNG" title="">
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="Solutions-to-three-kinds-of-bugs"><a href="#Solutions-to-three-kinds-of-bugs" class="headerlink" title="Solutions to three kinds of bugs"></a>Solutions to three kinds of bugs</h1><ol>
+<li>go to lemur-compat.hpp and SequentialReadBuffer.hpp, on the nerest Top of the file add “#include &lt;algorithm&gt;”<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG" alt="ErrorFix2.PNG" title=""></li>
+<li>In the Program Manager window: Right click dist &gt;property &gt;c++ &gt;preprocessor definition&gt; add “_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1;” befor all words.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG" alt="ErrorFix4.PNG" title=""></li>
+<li>Add your java sdk path to: Right click swig &gt;property &gt;C++ &gt;Other include directories.Remember to add to path: one is \jdkxxx\include, another is jdkxxx\include\win32.(If you haven’t install java sdk, you have to deal withh the problem yourself)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG" alt="ErrorFix6.PNG" title="">
+</li>
+</ol>
+<p>#Finally </p>
+<ol>
+<li>Rebuild all Solution</li>
+<li>use command line to test if it is set up successfully.<br>you can type in: $ dumpindex<br>and you’ll get:<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG" alt="DumpIndexCmdLine.JPG" title="">
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/04/29/Execute-Indri-on-win10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/15622747_1207299666013163_2211742436901915922_n.jpg?oh=f0ebf41169212e1b6bbdc1eeb65a6258&oe=597989BB">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeremy Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/29/Execute-Indri-on-win10/" itemprop="url">
+                  Execute Indri on win10
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-04-29T15:09:13+08:00">
+                2017-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/04/23/Vector-Space-Model/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -723,7 +1017,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">文章</span>
               </a>
             </div>
@@ -740,6 +1034,15 @@
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
           
 
         </nav>
