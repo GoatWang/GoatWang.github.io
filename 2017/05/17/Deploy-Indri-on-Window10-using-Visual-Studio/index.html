@@ -104,7 +104,7 @@
 <meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG">
 <meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG">
 <meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG">
-<meta property="og:updated_time" content="2017-05-17T15:03:54.543Z">
+<meta property="og:updated_time" content="2017-05-21T02:37:49.136Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Deploy Indri on Window 10 using Visual Studio">
 <meta name="twitter:description" content="IntroductionIndri is a powerful IR tool. For more information, you can go to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
@@ -356,7 +356,7 @@
 
       
         <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Indri is a powerful IR tool. For more information, you can go to their <a href="https://www.lemurproject.org/indri/" target="_blank" rel="external">home page</a>. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard work. As a result, I just wnat to write down the process to set it up on windows. <a id="more"></a></p>
-<p>However, I still recommend you to use Indri through Linux system if it is possible. It is very convenient to set up a virtual machine, and installing Ubuntu is just a piece of cake nowadays. Below I will show you how to deal with all troubles when using Visual Studio to build the Solution in Indri.</p>
+<p>However, I still recommend you to use Indri through Linux system if it is possible. It is very convenient to set up a virtual machine, and installing Ubuntu is just a piece of cake nowadays. If you still insist in using it in windows like me, below I will show you how to deal with all troubles when using Visual Studio to build the solution in Indri directory.</p>
 <h1 id="Download-and-unzip-Indri"><a href="#Download-and-unzip-Indri" class="headerlink" title="Download and unzip Indri"></a>Download and unzip Indri</h1><ol>
 <li>download: From <a href="https://sourceforge.net/projects/lemur/?source=typ_redirect" target="_blank" rel="external">this page</a>, You can download indri-5.11.tar.gz.</li>
 <li>unzip: The tool I use is <a href="http://www.developershome.com/7-zip/" target="_blank" rel="external">7-zip</a>. To be mentioned, it is recommended to open 7-zip first and use browser in 7-zip to change your directory to where you download Indri and then unzip it.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG" alt="IndriUnzip.PNG" title=""></li>
@@ -376,9 +376,9 @@
 </li>
 </ol>
 <h1 id="Solutions-to-three-kinds-of-bugs"><a href="#Solutions-to-three-kinds-of-bugs" class="headerlink" title="Solutions to three kinds of bugs"></a>Solutions to three kinds of bugs</h1><ol>
-<li>go to lemur-compat.hpp and SequentialReadBuffer.hpp, on the nerest Top of the file add “#include &lt;algorithm&gt;”<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG" alt="ErrorFix2.PNG" title=""></li>
+<li>go to lemur-compat.hpp and SequentialReadBuffer.hpp, on the Top of the file add “#include &lt;algorithm&gt;”<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG" alt="ErrorFix2.PNG" title=""></li>
 <li>In the Program Manager window: Right click dist &gt;property &gt;c++ &gt;preprocessor definition&gt; add “_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1;” befor all words.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG" alt="ErrorFix4.PNG" title=""></li>
-<li>Add your java sdk path to: Right click swig &gt;property &gt;C++ &gt;Other include directories.Remember to add to path: one is \jdkxxx\include, another is jdkxxx\include\win32.(If you haven’t install java sdk, you have to deal withh the problem yourself)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG" alt="ErrorFix6.PNG" title="">
+<li>Add your java sdk path to: Right click swig &gt;property &gt;C++ &gt;Other include directories. Remember to add two path: one is \jdkxxx\include, another is jdkxxx\include\win32.(If you haven’t install java sdk, you have to deal withh the problem yourself)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG" alt="ErrorFix6.PNG" title="">
 </li>
 </ol>
 <h1 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h1><ol>
