@@ -94,7 +94,7 @@
 <meta property="og:url" content="https://jeremy4555.github.io/2017/06/02/LogLoss-Function/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
 <meta property="og:description" content="FunctionFrom scikit-learn:This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels gi">
-<meta property="og:updated_time" content="2017-06-02T04:53:10.775Z">
+<meta property="og:updated_time" content="2017-06-02T04:57:31.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogLoss Function">
 <meta name="twitter:description" content="FunctionFrom scikit-learn:This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels gi">
@@ -344,9 +344,8 @@
       
 
       
-        <h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><p>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html" target="_blank" rel="external">scikit-learn</a>:<br>This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels given a probabilistic classifier’s predictions. The log loss is only defined for two or more labels. For a single sample with true label yt in {0,1} and estimated probability yp that yt = 1, the log loss is<br>$$-log P(yt|yp) = -(yt\ log(yp) + (1 - yt) log(1 - yp))$$</p>
+        <h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><p>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html" target="_blank" rel="external">scikit-learn</a>:<br>This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels given a probabilistic classifier’s predictions. The log loss is only defined for two or more labels. For a single sample with true label yt in {0,1} and estimated probability yp that yt = 1, the log loss is<br>$$-log P(yt|yp) = -(yt\ log(yp) + (1 - yt) log(1 - yp))$$<a id="more"></a></p>
 <p>However, the actual scroe of ‘is_duplicate’ equals 1 or 0, we can derive from this function into<br>$$-log P(yt|yp) = -(log(yp) + log(1 - yp))$$</p>
-<a id="more"></a>
 <h1 id="Source-data"><a href="#Source-data" class="headerlink" title="Source data"></a>Source data</h1><p>Because of the copy right issue, I give you part of the data. Originally, the dataset contains  6 columns: id, qid1, qid2, question1, question2, is_duplicate, which is used to train a model to distinguish whether two questions are duplicate. </p>
 <table>
 <thead>
