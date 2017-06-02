@@ -348,113 +348,15 @@
 
       
         
-          
-            <h1 id="Source-data"><a href="#Source-data" class="headerlink" title="Source data"></a>Source data</h1><p>Because of the copy right issue, I give you part of the data. Originally, the dataset contains  6 columns: id, qid1, qid2, question1, question2, is_duplicate, which is used to train a model to distinguish whether two questions are duplicate. </p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>qid1</th>
-<th>qid2</th>
-<th>question1&nbsp;&nbsp;&nbsp;&nbsp;</th>
-<th>question2&nbsp;&nbsp;&nbsp;&nbsp;</th>
-<th>is_duplicate</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>$0$</td>
-<td>1</td>
-<td>2</td>
-<td>What is the step by step guide to invest in sh…</td>
-<td>What is the step by step guide to invest in sh…</td>
-<td>0</td>
-</tr>
-<tr>
-<td>$1$</td>
-<td>3</td>
-<td>4</td>
-<td>What is the story of Kohinoor (Koh-i-Noor) Dia…</td>
-<td>What would happen if the Indian government sto…</td>
-<td>0</td>
-</tr>
-<tr>
-<td>$2$</td>
-<td>5</td>
-<td>6</td>
-<td>How can I increase the speed of my internet co…</td>
-<td>How can Internet speed be increased by hacking…</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<p>However, we don’t need actul text in questions in order to learn LogLoss function. Aa a result, I delete ‘question1’, ‘question2’, and release this edition: <a href="/2017/06/02/LogLoss-Function/train.csv" title="trainingData">trainingData</a></p>
-<table>
-<thead>
-<tr>
-<th>id</th>
-<th>qid1</th>
-<th>qid2</th>
-<th>is_duplicate</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>1</td>
-<td>2</td>
-<td>0</td>
-</tr>
-<tr>
-<td>1</td>
-<td>3</td>
-<td>4</td>
-<td>0</td>
-</tr>
-<tr>
-<td>2</td>
-<td>5</td>
-<td>6</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><p>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html" target="_blank" rel="external">scikit-learn</a>:<br>This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels given a probabilistic classifier’s predictions. The log loss is only defined for two or more labels. For a single sample with true label yt in {0,1} and estimated probability yp that yt = 1, the log loss is<br>$$-log P(yt|yp) = -(yt\ log(yp) + (1 - yt) log(1 - yp))$$</p>
+          <h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><p>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html">scikit-learn</a>:<br>This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels given a probabilistic classifier’s predictions. The log loss is only defined for two or more labels. For a single sample with true label yt in {0,1} and estimated probability yp that yt = 1, the log loss is<br>$$-log P(yt|yp) = -(yt\ log(yp) + (1 - yt) log(1 - yp))$$</p>
 <p>However, the actual scroe of ‘is_duplicate’ equals 1 or 0, we can derive from this function into<br>$$-log P(yt|yp) = -(log(yp) + log(1 - yp))$$</p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><pre><code>##Self-Defined LogLoss
-import pandas as pd
-import numpy as np
-path = &apos;path/to/train.csv&apos;
-df_train = pd.read_csv(path)
-df_train.head()
-
-def logloss(actual, predict):
-    predict = min(max(predict, 1e-15), (1 - (1e-15)))  
-    ##if the number smaller than 10^-15, then define it to be 10^-15
-    ##if the number bigger than 1-(10^-15), then define it to be 1-(10^-15)
-
-    if actual == 1:    ##actual==1, else(actual==0)
-        return np.log(predict)    ##numpy default log base = 2
-    else:
-        return np.log(1-predict)
-
-predict = np.average(df_train[&apos;is_duplicate&apos;])    
-##Assume our model predict every query pair has a score of average score of all pairs
-print(predict)
-LodlossList = [-logloss(actual, predict) for actual in df_train[&apos;is_duplicate&apos;]]
-LoglossScore = np.average(LodlossList)
-print(LoglossScore)
-
-
-##Use sklearn
-from sklearn.metrics import log_loss
-
-p = np.average(df_train[&apos;is_duplicate&apos;])    ##directly use average score
-print(p)
-LoglossScore = log_loss(df_train[&apos;is_duplicate&apos;], np.zeros_like(df_train[&apos;is_duplicate&apos;]) + p)
-print(LoglossScore)
-</code></pre>
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/02/LogLoss-Function/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -595,7 +497,7 @@ print(LoglossScore)
       
         
           
-            <p><a href="http://taiwanuniversitiescourses.azurewebsites.net/" target="_blank" rel="external">To be finished…</a></p>
+            <p><a href="http://taiwanuniversitiescourses.azurewebsites.net/" target="_blank" rel="external">Repo</a><br>To be finished…</p>
 
           
         
