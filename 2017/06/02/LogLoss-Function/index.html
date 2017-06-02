@@ -94,7 +94,7 @@
 <meta property="og:url" content="https://jeremy4555.github.io/2017/06/02/LogLoss-Function/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
 <meta property="og:description" content="Source dataBecause of the copy right issue, I give you part of the data. Originally, the dataset contains  6 columns: id, qid1, qid2, question1, question2, is_duplicate, which is used to train a model">
-<meta property="og:updated_time" content="2017-06-02T04:17:34.581Z">
+<meta property="og:updated_time" content="2017-06-02T04:49:13.769Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogLoss Function">
 <meta name="twitter:description" content="Source dataBecause of the copy right issue, I give you part of the data. Originally, the dataset contains  6 columns: id, qid1, qid2, question1, question2, is_duplicate, which is used to train a model">
@@ -416,9 +416,39 @@
 </table>
 <h1 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h1><p>From <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html" target="_blank" rel="external">scikit-learn</a>:<br>This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels given a probabilistic classifier’s predictions. The log loss is only defined for two or more labels. For a single sample with true label yt in {0,1} and estimated probability yp that yt = 1, the log loss is<br>$$-log P(yt|yp) = -(yt\ log(yp) + (1 - yt) log(1 - yp))$$</p>
 <p>However, the actual scroe of ‘is_duplicate’ equals 1 or 0, we can derive from this function into<br>$$-log P(yt|yp) = -(log(yp) + log(1 - yp))$$</p>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight python"><figcaption><span>Self-Defined LossLog</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">path = <span class="string">'path/to/train.csv'</span></div><div class="line">df_train = pd.read_csv(path)</div><div class="line">df_train.head()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logloss</span><span class="params">(actual, predict)</span>:</span></div><div class="line">    predict = min(max(predict, <span class="number">1e-15</span>), (<span class="number">1</span> - (<span class="number">1e-15</span>)))  </div><div class="line">    <span class="comment">##if the number smaller than 10^-15, then define it to be 10^-15</span></div><div class="line">    <span class="comment">##if the number bigger than 1-(10^-15), then define it to be 1-(10^-15)</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> actual == <span class="number">1</span>:    <span class="comment">##actual==1, else(actual==0)</span></div><div class="line">        <span class="keyword">return</span> np.log(predict)    <span class="comment">##numpy default log base = 2</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> np.log(<span class="number">1</span>-predict)</div><div class="line">    </div><div class="line">predict = np.average(df_train[<span class="string">'is_duplicate'</span>])    </div><div class="line"><span class="comment">##Assume our model predict every query pair has a score of average score of all pairs</span></div><div class="line">print(predict)</div><div class="line">LodlossList = [-logloss(actual, predict) <span class="keyword">for</span> actual <span class="keyword">in</span> df_train[<span class="string">'is_duplicate'</span>]]</div><div class="line">LoglossScore = np.average(LodlossList)</div><div class="line">print(LoglossScore)</div></pre></td></tr></table></figure>
-<figure class="highlight python"><figcaption><span>Use sklearn</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> log_loss</div><div class="line"></div><div class="line">p = np.average(df_train[<span class="string">'is_duplicate'</span>])    <span class="comment">##directly use average score</span></div><div class="line">print(p)</div><div class="line">LoglossScore = log_loss(df_train[<span class="string">'is_duplicate'</span>], np.zeros_like(df_train[<span class="string">'is_duplicate'</span>]) + p)</div><div class="line">print(LoglossScore)</div></pre></td></tr></table></figure>
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><pre><code>##Self-Defined LogLoss
+import pandas as pd
+import numpy as np
+path = &apos;path/to/train.csv&apos;
+df_train = pd.read_csv(path)
+df_train.head()
 
+def logloss(actual, predict):
+    predict = min(max(predict, 1e-15), (1 - (1e-15)))  
+    ##if the number smaller than 10^-15, then define it to be 10^-15
+    ##if the number bigger than 1-(10^-15), then define it to be 1-(10^-15)
+
+    if actual == 1:    ##actual==1, else(actual==0)
+        return np.log(predict)    ##numpy default log base = 2
+    else:
+        return np.log(1-predict)
+
+predict = np.average(df_train[&apos;is_duplicate&apos;])    
+##Assume our model predict every query pair has a score of average score of all pairs
+print(predict)
+LodlossList = [-logloss(actual, predict) for actual in df_train[&apos;is_duplicate&apos;]]
+LoglossScore = np.average(LodlossList)
+print(LoglossScore)
+
+
+##Use sklearn
+from sklearn.metrics import log_loss
+
+p = np.average(df_train[&apos;is_duplicate&apos;])    ##directly use average score
+print(p)
+LoglossScore = log_loss(df_train[&apos;is_duplicate&apos;], np.zeros_like(df_train[&apos;is_duplicate&apos;]) + p)
+print(LoglossScore)
+</code></pre>
       
     </div>
 
