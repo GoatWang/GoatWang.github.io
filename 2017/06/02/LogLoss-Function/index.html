@@ -94,7 +94,7 @@
 <meta property="og:url" content="https://jeremy4555.github.io/2017/06/02/LogLoss-Function/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
 <meta property="og:description" content="FunctionFrom scikit-learn:This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels gi">
-<meta property="og:updated_time" content="2017-06-06T02:42:04.107Z">
+<meta property="og:updated_time" content="2017-06-06T02:43:32.012Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LogLoss Function">
 <meta name="twitter:description" content="FunctionFrom scikit-learn:This is the loss function used in (multinomial) logistic regression and extensions of it such as neural networks, defined as the negative log-likelihood of the true labels gi">
@@ -416,41 +416,8 @@
 </tr>
 </tbody>
 </table>
-<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><pre><code>{% codeblock %}
-    ##Self-Defined LogLoss
-    import pandas as pd
-    import numpy as np
-    path = 'path/to/train.csv'
-    df_train = pd.read_csv(path)
-    df_train.head()
+<h1 id="Code"><a href="#Code" class="headerlink" title="Code"></a>Code</h1><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">##Self-Defined LogLoss</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</div><div class="line">path = <span class="string">'path/to/train.csv'</span></div><div class="line">df_train = pd.read_csv(path)</div><div class="line">df_train.head()</div><div class="line"></div><div class="line">def logloss(actual, predict):</div><div class="line">    predict = min(max(predict, <span class="number">1e-15</span>), (<span class="number">1</span> - (<span class="number">1e-15</span>)))  </div><div class="line">    ##<span class="keyword">if</span> the number smaller than <span class="number">10</span>^<span class="number">-15</span>, then define it to be <span class="number">10</span>^<span class="number">-15</span></div><div class="line">    ##<span class="keyword">if</span> the number bigger than <span class="number">1</span>-(<span class="number">10</span>^<span class="number">-15</span>), then define it to be <span class="number">1</span>-(<span class="number">10</span>^<span class="number">-15</span>)</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> actual == <span class="number">1</span>:    ##actual==<span class="number">1</span>, else(actual==<span class="number">0</span>)</div><div class="line">        return np.log(predict)    ##numpy default log == ln (<span class="keyword">with</span> e <span class="keyword">as</span> base)</div><div class="line">    else:</div><div class="line">        return np.log(<span class="number">1</span>-predict)</div><div class="line">    </div><div class="line">predict = np.average(df_train[<span class="string">'is_duplicate'</span>])    </div><div class="line">##Assume our model predict every query pair has a score <span class="keyword">of</span> average score <span class="keyword">of</span> all pairs</div><div class="line">print(predict)</div><div class="line">LoglossList = [-logloss(actual, predict) for actual <span class="keyword">in</span> df_train[<span class="string">'is_duplicate'</span>]]</div><div class="line">LoglossScore = np.average(LoglossList)</div><div class="line">print(LoglossScore)</div><div class="line"></div><div class="line"></div><div class="line">##Use sklearn</div><div class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> log_loss</div><div class="line"></div><div class="line">p = np.average(df_train[<span class="string">'is_duplicate'</span>])    ##directly use average score</div><div class="line">print(p)</div><div class="line">LoglossScore = log_loss(df_train[<span class="string">'is_duplicate'</span>], np.zeros_like(df_train[<span class="string">'is_duplicate'</span>]) + p)</div><div class="line">print(LoglossScore)</div></pre></td></tr></table></figure>
 
-    def logloss(actual, predict):
-        predict = min(max(predict, 1e-15), (1 - (1e-15)))  
-        ##if the number smaller than 10^-15, then define it to be 10^-15
-        ##if the number bigger than 1-(10^-15), then define it to be 1-(10^-15)
-        
-        if actual == 1:    ##actual==1, else(actual==0)
-            return np.log(predict)    ##numpy default log == ln (with e as base)
-        else:
-            return np.log(1-predict)
-        
-    predict = np.average(df_train['is_duplicate'])    
-    ##Assume our model predict every query pair has a score of average score of all pairs
-    print(predict)
-    LoglossList = [-logloss(actual, predict) for actual in df_train['is_duplicate']]
-    LoglossScore = np.average(LoglossList)
-    print(LoglossScore)
-
-
-    ##Use sklearn
-    from sklearn.metrics import log_loss
-
-    p = np.average(df_train['is_duplicate'])    ##directly use average score
-    print(p)
-    LoglossScore = log_loss(df_train['is_duplicate'], np.zeros_like(df_train['is_duplicate']) + p)
-    print(LoglossScore)
-    {% endcodeblock %}
-</code></pre>
       
     </div>
 
