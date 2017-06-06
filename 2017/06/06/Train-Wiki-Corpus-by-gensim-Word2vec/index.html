@@ -94,7 +94,7 @@
 <meta property="og:url" content="https://jeremy4555.github.io/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
 <meta property="og:description" content="What is Word2vec?There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word">
-<meta property="og:updated_time" content="2017-06-06T03:52:39.770Z">
+<meta property="og:updated_time" content="2017-06-06T03:56:37.931Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Train Wiki Corpus by gensim Word2vec">
 <meta name="twitter:description" content="What is Word2vec?There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word">
@@ -419,9 +419,8 @@
 </tbody>
 </table>
 <h1 id="Start-train-Wiki-corpus"><a href="#Start-train-Wiki-corpus" class="headerlink" title="Start train Wiki corpus"></a>Start train Wiki corpus</h1><h2 id="Download-wiki-Corpus"><a href="#Download-wiki-Corpus" class="headerlink" title="Download wiki Corpus"></a>Download wiki Corpus</h2><ul>
-<li>Download the same corpus with me from this <a href="https://dumps.wikimedia.org/enwiki/20170520/enwiki-20170520-pages-articles.xml.bz2" target="_blank" rel="external">link</a></li>
-<li>Note1: I download this corpus at 2017/06/02. Also, you can download the <a href="https://dumps.wikimedia.org/enwiki/latest/" target="_blank" rel="external">latested one</a>, find the link named: enwiki-latest-pages-articles.xml.bz2   </li>
-<li>Note2: It’s about 13 GB </li>
+<li>Download the same corpus with me from this <a href="https://dumps.wikimedia.org/enwiki/20170520/enwiki-20170520-pages-articles.xml.bz2" target="_blank" rel="external">link</a>(about 13 GB )</li>
+<li>ps. I download this corpus at 2017/06/02. Also, you can download the <a href="https://dumps.wikimedia.org/enwiki/latest/" target="_blank" rel="external">latested one</a>, find the link named: enwiki-latest-pages-articles.xml.bz2   </li>
 </ul>
 <h2 id="Preprocess-Wiki-Corpus-3-5-hours"><a href="#Preprocess-Wiki-Corpus-3-5-hours" class="headerlink" title="Preprocess Wiki Corpus(3.5 hours)"></a>Preprocess Wiki Corpus(3.5 hours)</h2><p>Before doing the following works, I have to notice you. The following tasks will take you about more than 15 hours, during which the cpu of your computer will run up to 90% to 100%. Take my computer for example, my CPU is Intel(R) Core(TM) i7-6500 CPU, and Ram is 8.00GB. And all following tasks took me up to 15 hours, during which I put two fans around my computer to help cold down. As a result, you have to check your working environment first, then do the following tasks.</p>
 <p>process the xml format wikipedia to text format using <a href="/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/process_wiki.py" title="process_wiki.py">process_wiki.py</a>, download it and put it into the directory where you save ‘enwiki-xxxx-pages-articles.xml.bz2’. Then, Open your command line: go to the directory, and type:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">python process_wiki.py enwiki-XXXX-pages-articles.xml.bz2 wiki.en.text   </div><div class="line"><span class="comment">##Remembeer to replace the filename</span></div></pre></td></tr></table></figure></p>
