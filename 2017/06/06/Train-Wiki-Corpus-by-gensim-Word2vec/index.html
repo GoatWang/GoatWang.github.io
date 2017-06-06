@@ -1,0 +1,877 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Jeremy, Wang" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon-20170422030939549.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="What is Word2vec?There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word">
+<meta name="keywords">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Train Wiki Corpus by gensim Word2vec">
+<meta property="og:url" content="https://jeremy4555.github.io/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/index.html">
+<meta property="og:site_name" content="Jeremy Wang's Blog">
+<meta property="og:description" content="What is Word2vec?There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word">
+<meta property="og:updated_time" content="2017-06-06T03:44:06.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Train Wiki Corpus by gensim Word2vec">
+<meta name="twitter:description" content="What is Word2vec?There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jeremy4555.github.io/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/"/>
+
+
+
+
+
+  <title> Train Wiki Corpus by gensim Word2vec | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeremy Wang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Learning Note</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/15622747_1207299666013163_2211742436901915922_n.jpg?oh=f0ebf41169212e1b6bbdc1eeb65a6258&oe=597989BB">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeremy Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Train Wiki Corpus by gensim Word2vec
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-06-06T11:44:06+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python-Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Python Note</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="What-is-Word2vec"><a href="#What-is-Word2vec" class="headerlink" title="What is Word2vec?"></a>What is Word2vec?</h1><p>There are some keywords about the model for you to consider: unsupervised learning, LSTM, encode(translate) a word to a vector. Actually, I don’t know exactly about the theory of word2vec. What I can tell you is that, using models training from a corpus by this method, you can find related words a specific word or a words list. <a id="more"></a></p>
+<h1 id="To-be-installed"><a href="#To-be-installed" class="headerlink" title="To be installed"></a>To be installed</h1><ul>
+<li><a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#pandas" target="_blank" rel="external">pandas</a></li>
+<li><a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#gensim" target="_blank" rel="external">gensim</a></li>
+<li><p>nltk (using , I am using python3.5 32bit, and I am not sure if it works for other edition of python)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ python -m pip install nltk</div></pre></td></tr></table></figure>
+</li>
+<li><p><a href="http://www.nltk.org/data.html" target="_blank" rel="external">nltk data</a></p>
+</li>
+</ul>
+<h1 id="Test-gensim-word2cev-function"><a href="#Test-gensim-word2cev-function" class="headerlink" title="Test gensim word2cev function"></a>Test gensim word2cev function</h1><h2 id="1-Preprocess-nltk-predownload-corpus-document-collections"><a href="#1-Preprocess-nltk-predownload-corpus-document-collections" class="headerlink" title="(1). Preprocess nltk predownload corpus(document collections)"></a>(1). Preprocess nltk predownload corpus(document collections)</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"><span class="keyword">from</span> nltk.stem.porter <span class="keyword">import</span> PorterStemmer</div><div class="line"><span class="keyword">from</span> nltk.stem.lancaster <span class="keyword">import</span> LancasterStemmer</div><div class="line"><span class="keyword">from</span> nltk <span class="keyword">import</span> word_tokenize</div><div class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> stopwords</div><div class="line"></div><div class="line">st = LancasterStemmer()    <span class="comment">##You can also select Porter stemmer, through which you can remove 's', 'ed', 'es' in the end of a word.</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</div><div class="line"><span class="keyword">from</span> nltk.corpus <span class="keyword">import</span> brown, movie_reviews, treebank   <span class="comment">##I use these three coupuses to test</span></div><div class="line"></div><div class="line">stops = stopwords.words(<span class="string">"english"</span>)    <span class="comment">## remove stop words such as: the, and , is, are...... you can print stops to see what words will be drop</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">removestops</span><span class="params">(item)</span>:</span></div><div class="line">    WithoutStops = pd.Series([word <span class="keyword">for</span> word <span class="keyword">in</span> item <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> stops])</div><div class="line">    Stemmed = list(WithoutStops.apply(st.stem))</div><div class="line">    <span class="keyword">return</span> Stemmed</div><div class="line">brownLi = pd.Series(brown.sents()).apply(removestops)    </div><div class="line"><span class="comment">## from brown.sents(), you can see preprocessed documents in form of list collected in a list </span></div><div class="line"><span class="comment">## apply function can apply defined function to each item in pandas' Series(DataFrame also work)</span></div><div class="line">movie_reviewsLi = pd.Series(movie_reviews.sents()).apply(removestops)</div><div class="line">treebankLi = pd.Series(treebank.sents()).apply(removestops)</div><div class="line"></div><div class="line">print(len(brownLi))</div><div class="line">print(len(movie_reviewsLi))</div><div class="line">print(len(treebankLi))</div></pre></td></tr></table></figure>
+<h2 id="2-The-codes-above-takes-you-about-5-mins-you-have-to-wait-patiently-Then-you-can-train-it-and-see-the-result"><a href="#2-The-codes-above-takes-you-about-5-mins-you-have-to-wait-patiently-Then-you-can-train-it-and-see-the-result" class="headerlink" title="(2). The codes above takes you about 5 mins, you have to wait patiently. Then, you can train it and see the result:"></a>(2). The codes above takes you about 5 mins, you have to wait patiently. Then, you can train it and see the result:</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">b = Word2Vec(brownLi)</div><div class="line">mr = Word2Vec(movie_reviewsLi)</div><div class="line">t = Word2Vec(treebankLi)</div><div class="line"></div><div class="line">mon_b = pd.Series(b.most_similar(<span class="string">'money'</span>, topn=<span class="number">5</span>))</div><div class="line">mon_mr = pd.Series(mr.most_similar(<span class="string">'money'</span>, topn=<span class="number">5</span>))</div><div class="line">mon_t = pd.Series(t.most_similar(<span class="string">'money'</span>, topn=<span class="number">5</span>))</div><div class="line"></div><div class="line">com_b = pd.Series(b.most_similar(<span class="string">'company'</span>, topn=<span class="number">5</span>))</div><div class="line">com_mr = pd.Series(mr.most_similar(<span class="string">'company'</span>, topn=<span class="number">5</span>))</div><div class="line">com_t = pd.Series(t.most_similar(<span class="string">'company'</span>, topn=<span class="number">5</span>)) </div><div class="line"></div><div class="line">dataList = [mon_b,mon_mr,mon_t,com_b,com_mr,com_t]</div><div class="line">Indecies = [<span class="string">'mon_b'</span>,<span class="string">'mon_mr'</span>,<span class="string">'mon_t'</span>,<span class="string">'com_b'</span>,<span class="string">'com_mr'</span>,<span class="string">'com_t'</span>]</div><div class="line"></div><div class="line">pd.DataFrame(data=dataList, index=Indecies)</div></pre></td></tr></table></figure>
+<h2 id="3-Result"><a href="#3-Result" class="headerlink" title="(3). Result"></a>(3). Result</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mon_b</td>
+<td>(‘imagin’, ‘0.9841’)</td>
+<td>(‘job’, ‘0.9712’)</td>
+<td>(‘learn’, ‘0.9674’)</td>
+<td>(‘chant’, ‘0.9655’)</td>
+<td>(‘child’, ‘0.9646’)</td>
+</tr>
+<tr>
+<td>mon_mr</td>
+<td>(‘away’, ‘0.8631’)</td>
+<td>(‘someon’, ‘0.8479’)</td>
+<td>(‘rewind’, ‘0.8439’)</td>
+<td>(‘wait’, ‘0.8361’)</td>
+<td>(‘try’, ‘0.8236’)</td>
+</tr>
+<tr>
+<td>mon_t</td>
+<td>(‘reg’, ‘0.9999’)</td>
+<td>(‘ag’, ‘0.9999’)</td>
+<td>(‘may’, ‘0.9999’)</td>
+<td>(‘institut’, ‘0.9999’)</td>
+<td>(‘stat’, ‘0.9999’)</td>
+</tr>
+<tr>
+<td>com_b</td>
+<td>(‘county’, ‘0.9796’)</td>
+<td>(‘highway’, ‘0.9754’)</td>
+<td>(‘railroad’, ‘0.9752’)</td>
+<td>(‘district’, ‘0.9744’)</td>
+<td>(‘redevelop’, ‘0.969’)</td>
+</tr>
+<tr>
+<td>com_mr</td>
+<td>(‘england’, ‘0.9799’)</td>
+<td>(‘london’, ‘0.9774’)</td>
+<td>(‘californ’, ‘0.9738’)</td>
+<td>(‘mexico’, ‘0.9723’)</td>
+<td>(‘chicago’, ‘0.9712’)</td>
+</tr>
+<tr>
+<td>com_t</td>
+<td>(‘ad’, ‘0.9999’)</td>
+<td>(‘could’, ‘0.9999’)</td>
+<td>(‘may’, ‘0.9999’)</td>
+<td>(‘ag’, ‘0.9999’)</td>
+<td>(‘also’, ‘0.9999’)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Start-train-Wiki-corpus"><a href="#Start-train-Wiki-corpus" class="headerlink" title="Start train Wiki corpus"></a>Start train Wiki corpus</h1><h2 id="1-Download-wiki-Corpus"><a href="#1-Download-wiki-Corpus" class="headerlink" title="(1). Download wiki Corpus"></a>(1). Download wiki Corpus</h2><ul>
+<li>Download the same corpus with me from this <a href="https://dumps.wikimedia.org/enwiki/20170520/enwiki-20170520-pages-articles.xml.bz2" target="_blank" rel="external">link</a></li>
+<li>Note1: I download this corpus at 2017/06/02. Also, you can download the <a href="https://dumps.wikimedia.org/enwiki/latest/" target="_blank" rel="external">latested one</a>, find the link named: enwiki-latest-pages-articles.xml.bz2   </li>
+<li>Note2: It’s about 13 GB </li>
+</ul>
+<h2 id="2-Preprocess-Wiki-Corpus"><a href="#2-Preprocess-Wiki-Corpus" class="headerlink" title="(2). Preprocess Wiki Corpus"></a>(2). Preprocess Wiki Corpus</h2><p>Before doing the following works, I have to notice you. The following tasks will take you about more than 15 hours, during which the cpu of your computer will run up to 90% to 100%. Take my computer for example, my CPU is Intel(R) Core(TM) i7-6500 CPU, and Ram is 8.00GB. And all following tasks took me up to 16 hours, during which I put two fans around my computer to help cold down. As a result, you have to check your working environment first, then do the following tasks.</p>
+<p>process the xml format wikipedia to text format using <a href="/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/process_wiki.py" title="process_wiki.py">process_wiki.py</a>, download it and put it into the directory where you save ‘enwiki-xxxx-pages-articles.xml.bz2’</p>
+<p>Open your command line: go to the directory, and type<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">python process_wiki.py enwiki-XXXX-pages-articles.xml.bz2 wiki.en.text   </div><div class="line"><span class="comment">##Remembeer to replace the filename</span></div></pre></td></tr></table></figure></p>
+<p>Output will be:</p>
+<pre><code>D:\WikiCorpus&gt;python process_wiki.py enwiki-20170520-pages-articles.xml.bz2 wiki.en.text
+C:\Users\Jeremy\AppData\Local\Programs\Python\Python35\lib\site-packages\gensim\utils.py:860: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+warnings.warn(&quot;detected Windows; aliasing chunkize to chunkize_serial&quot;)
+2017-06-03 07:04:45,539: INFO: running process_wiki.py enwiki-20170520-pages-articles.xml.bz2 wiki.en.text
+C:\Users\Jeremy\AppData\Local\Programs\Python\Python35\lib\site-packages\gensim\utils.py:860: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+warnings.warn(&quot;detected Windows; aliasing chunkize to chunkize_serial&quot;)
+C:\Users\Jeremy\AppData\Local\Programs\Python\Python35\lib\site-packages\gensim\utils.py:860: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+warnings.warn(&quot;detected Windows; aliasing chunkize to chunkize_serial&quot;)
+C:\Users\Jeremy\AppData\Local\Programs\Python\Python35\lib\site-packages\gensim\utils.py:860: UserWarning: detected Windows; aliasing chunkize to chunkize_serial
+warnings.warn(&quot;detected Windows; aliasing chunkize to chunkize_serial&quot;)
+2017-06-03 07:06:22,577: INFO: Saved 10000 articles
+2017-06-03 07:07:54,501: INFO: Saved 20000 articles
+2017-06-03 07:09:07,157: INFO: Saved 30000 articles
+2017-06-03 07:10:08,793: INFO: Saved 40000 articles
+2017-06-03 07:10:58,331: INFO: Saved 50000 articles
+2017-06-03 07:11:30,901: INFO: Saved 60000 articles
+2017-06-03 07:12:02,807: INFO: Saved 70000 articles
+...
+2017-06-03 10:38:51,985: INFO: Saved 4270000 articles
+2017-06-03 10:39:08,530: INFO: finished iterating over Wikipedia corpus of 4275675 documents with 2346581879 positions (total 17544907 articles, 2410007372 positions before pruning articles shorter than 50 words)
+2017-06-03 10:39:08,538: INFO: Finished Saved 4275675 articles
+</code></pre><h2 id="3-Train-the-word2vec-model"><a href="#3-Train-the-word2vec-model" class="headerlink" title="(3). Train the word2vec model"></a>(3). Train the word2vec model</h2><p>download <a href="/2017/06/06/Train-Wiki-Corpus-by-gensim-Word2vec/train_word2vec_model.py" title="train_word2vec_model.py">train_word2vec_model.py</a> and put it into the directory where you save ‘wiki.en.text’. Then, open your command line: go to the directory, and type:<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python train_word2vec_model.py wiki.en.text wiki.en.word2vec.model</div></pre></td></tr></table></figure></p>
+<p>I forget to record the output message, but it takes about 13 hours.</p>
+<h2 id="4-Use-the-word2vec-model"><a href="#4-Use-the-word2vec-model" class="headerlink" title="(4). Use the word2vec model"></a>(4). Use the word2vec model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gensim</div><div class="line">model = gensim.models.Word2Vec.load(<span class="string">"D:\WikiCorpus\WikiModel\wiki.en.word2vec.model"</span>)</div><div class="line">model.most_similar(positive=[<span class="string">'teacher'</span>],topn=<span class="number">20</span>)</div></pre></td></tr></table></figure>
+<p>result:<br><figure class="highlight scheme"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">[(<span class="symbol">'schoolteacher</span>', <span class="number">0.683679461479187</span>),</div><div class="line"> (<span class="symbol">'instructor</span>', <span class="number">0.6685980558395386</span>),</div><div class="line"> (<span class="symbol">'tutor</span>', <span class="number">0.667843759059906</span>),</div><div class="line"> (<span class="symbol">'educator</span>', <span class="number">0.6145995855331421</span>),</div><div class="line"> (<span class="symbol">'teachers</span>', <span class="number">0.6062737107276917</span>),</div><div class="line"> (<span class="symbol">'teaching</span>', <span class="number">0.5911847352981567</span>),</div><div class="line"> (<span class="symbol">'lecturer</span>', <span class="number">0.5808757543563843</span>),</div><div class="line"> (<span class="symbol">'librarian</span>', <span class="number">0.5734823346138</span>),</div><div class="line"> (<span class="symbol">'pupil</span>', <span class="number">0.571779727935791</span>),</div><div class="line"> (<span class="symbol">'professor</span>', <span class="number">0.5539975166320801</span>),</div><div class="line"> (<span class="symbol">'schoolmaster</span>', <span class="number">0.547014057636261</span>),</div><div class="line"> (<span class="symbol">'student</span>', <span class="number">0.545426607131958</span>),</div><div class="line"> (<span class="symbol">'pedagogue</span>', <span class="number">0.5427858233451843</span>),</div><div class="line"> (<span class="symbol">'headmaster</span>', <span class="number">0.5372023582458496</span>),</div><div class="line"> (<span class="symbol">'mentor</span>', <span class="number">0.5237945318222046</span>),</div><div class="line"> (<span class="symbol">'taught</span>', <span class="number">0.5192644596099854</span>),</div><div class="line"> (<span class="symbol">'headmistress</span>', <span class="number">0.5052664279937744</span>),</div><div class="line"> (<span class="symbol">'school</span>', <span class="number">0.500705361366272</span>),</div><div class="line"> (<span class="symbol">'scholar</span>', <span class="number">0.4987880289554596</span>),</div><div class="line"> (<span class="symbol">'classmate</span>', <span class="number">0.49570029973983765</span>)]</div></pre></td></tr></table></figure></p>
+<h2 id="5-Note"><a href="#5-Note" class="headerlink" title="(5). Note"></a>(5). Note</h2><p> I modify the code from <a href="http://textminingonline.com/training-word2vec-model-on-english-wikipedia-by-gensim" target="_blank" rel="external">this page</a> because there are some encoding problems in windows system when using chinese as first language.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/02/LogLoss-Function/" rel="prev" title="LogLoss Function">
+                LogLoss Function <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://scontent-tpe1-1.xx.fbcdn.net/v/t1.0-9/15622747_1207299666013163_2211742436901915922_n.jpg?oh=f0ebf41169212e1b6bbdc1eeb65a6258&oe=597989BB"
+               alt="Jeremy Wang" />
+          <p class="site-author-name" itemprop="name">Jeremy Wang</p>
+           
+              <p class="site-description motion-element" itemprop="description">a hardworking beginner of programming</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jeremy4555" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/%E9%81%B8%E4%BB%B2-%E7%8E%8B-35a164118/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy45555" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-Word2vec"><span class="nav-number">1.</span> <span class="nav-text">What is Word2vec?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#To-be-installed"><span class="nav-number">2.</span> <span class="nav-text">To be installed</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Test-gensim-word2cev-function"><span class="nav-number">3.</span> <span class="nav-text">Test gensim word2cev function</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Preprocess-nltk-predownload-corpus-document-collections"><span class="nav-number">3.1.</span> <span class="nav-text">(1). Preprocess nltk predownload corpus(document collections)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-The-codes-above-takes-you-about-5-mins-you-have-to-wait-patiently-Then-you-can-train-it-and-see-the-result"><span class="nav-number">3.2.</span> <span class="nav-text">(2). The codes above takes you about 5 mins, you have to wait patiently. Then, you can train it and see the result:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Result"><span class="nav-number">3.3.</span> <span class="nav-text">(3). Result</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Start-train-Wiki-corpus"><span class="nav-number">4.</span> <span class="nav-text">Start train Wiki corpus</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Download-wiki-Corpus"><span class="nav-number">4.1.</span> <span class="nav-text">(1). Download wiki Corpus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Preprocess-Wiki-Corpus"><span class="nav-number">4.2.</span> <span class="nav-text">(2). Preprocess Wiki Corpus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Train-the-word2vec-model"><span class="nav-number">4.3.</span> <span class="nav-text">(3). Train the word2vec model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Use-the-word2vec-model"><span class="nav-number">4.4.</span> <span class="nav-text">(4). Use the word2vec model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Note"><span class="nav-number">4.5.</span> <span class="nav-text">(5). Note</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Wang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+</body>
+</html>
