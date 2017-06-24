@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://jeremy4555.github.io/2017/06/24/BackupMongodbPeroidically/2VsConsoleProj.JPG">
 <meta property="og:image" content="https://jeremy4555.github.io/2017/06/24/BackupMongodbPeroidically/3Release.JPG">
 <meta property="og:image" content="https://jeremy4555.github.io/2017/06/24/BackupMongodbPeroidically/4Build.JPG">
-<meta property="og:updated_time" content="2017-06-24T09:51:37.197Z">
+<meta property="og:updated_time" content="2017-06-24T11:09:07.922Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Backup mlab Mongodb To Local Peroidically by C#">
 <meta name="twitter:description" content="IntroductionAt first, I try to use mlab built-in backup system. However, it’s not include in its free 500mb program. As a result, I wrote a C# program to back up by myself.">
@@ -147,6 +147,15 @@
 
 
 
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-101626873-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
 
 
 
@@ -162,7 +171,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -359,7 +368,7 @@
 <h1 id="Use-C-to-manipulate-cmd"><a href="#Use-C-to-manipulate-cmd" class="headerlink" title="Use C# to manipulate cmd"></a>Use C# to manipulate cmd</h1><p>First, Open a console project.<br><img src="/2017/06/24/BackupMongodbPeroidically/2VsConsoleProj.JPG" alt="Open Console Project" title="Open Console Project"></p>
 <p>Second, input codes below in the Main thread<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> System.Diagnostics;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">void</span> Main(<span class="keyword">string</span>[] args)</div><div class="line">&#123;</div><div class="line">    <span class="comment">//This ProcessStartInfo class define the environment in which you want to open the cmd prompt</span></div><div class="line">    ProcessStartInfo startInfo = <span class="keyword">new</span> ProcessStartInfo</div><div class="line">    &#123;</div><div class="line">        <span class="comment">//Right under this directory, You will have to find MongoDump Directory</span></div><div class="line">        WorkingDirectory = <span class="string">"D:\\&lt;Yoru working directory&gt;"</span>,  </div><div class="line">        <span class="comment">//The program you want to execute. Because you have added mongodump.exe to your environment path, you don't have to give the cmd line absolute path to find the executable.</span></div><div class="line">        FileName = <span class="string">"mongodump"</span>,</div><div class="line">        Arguments = <span class="string">"-h ds155841.mlab.com:55841 -d &lt;databaseName&gt; -u &lt;user&gt; -p &lt;password&gt; -o MongoDump\\"</span> + DateTime.Now.ToString(<span class="string">"yyyyMMddhhmm"</span>),</div><div class="line">        <span class="comment">//CreateNoWindow = true,  //Once I set the process started by windows schedule, the prompt window will not show. If you have this problem you can try to set this parameter. </span></div><div class="line">        UseShellExecute = false,</div><div class="line">        RedirectStandardOutput = true</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    Its a class to manipulate cmd <span class="built_in">line</span></div><div class="line">    <span class="keyword">using</span> (<span class="built_in">Process</span> exeProcess = <span class="built_in">Process</span>.Start(startInfo))</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">if</span> (exeProcess != null) exeProcess.WaitForExit();</div><div class="line">        <span class="comment">//We don't need any return words, therefore you can ignore the code below.</span></div><div class="line">        <span class="built_in">while</span> (!exeProcess.StandardOutput.EndOfStream)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">string</span> <span class="built_in">line</span> = exeProcess.StandardOutput.ReadLine();</div><div class="line">            <span class="comment">// do something with line</span></div><div class="line">            <span class="built_in">Console</span>.WriteLine(<span class="string">"This Line is written by me"</span> + <span class="built_in">line</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>Third, set build type to be “release”, then  build the program.<br><img src="/2017/06/24/BackupMongodbPeroidically/3Release.JPG" alt="check build type to be Release" title="check build type to be Release"><br><img src="/2017/06/24/BackupMongodbPeroidically/4Build.JPG" alt="Build" title="Build"></p>
-<p>Fourth, check the directory of your console project, and find “\bin\Release\<yourprojname>.exe”. Once you execute this exeutable file, you will start the same process with using cmd to dump. In this way, you have successfully manipulate cmd by C#.</yourprojname></p>
+<p>Fourth, check the directory of your console project, and find “\bin\Release\YourProjName.exe”. Once you execute this exeutable file, you will start the same process with using cmd to dump. In this way, you have successfully manipulated cmd by C#.</p>
 <h1 id="Use-Windows10-task-schedulor-to-execute-this-program-autometically"><a href="#Use-Windows10-task-schedulor-to-execute-this-program-autometically" class="headerlink" title="Use Windows10 task schedulor to execute this program autometically"></a>Use Windows10 task schedulor to execute this program autometically</h1><p>this you can directly refer to <a href="https://www.youtube.com/watch?v=w2PiUmhQ6-A" target="_blank" rel="external">this video</a> </p>
 
       
