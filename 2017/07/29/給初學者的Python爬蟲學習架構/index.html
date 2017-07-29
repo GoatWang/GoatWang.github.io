@@ -1,0 +1,926 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon-20170422030939549.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="目標概述一些我接觸過的一些套件，讓大家對爬蟲的「技術鍊」有基礎的了解。 動機這篇文章主要是寫給剛開始學習Python爬蟲的初學者，由於自己剛開始學習這部分知識時，所有的套件名詞猶如雪片般飛來，有時會錯誤的理解一個套件的使用方式，有時則對某個套件期待過高，學成時總覺得不過爾爾，有種失落感。因此著述。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="給初學者的Python爬蟲學習架構">
+<meta property="og:url" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/index.html">
+<meta property="og:site_name" content="Jeremy Wang's Blog">
+<meta property="og:description" content="目標概述一些我接觸過的一些套件，讓大家對爬蟲的「技術鍊」有基礎的了解。 動機這篇文章主要是寫給剛開始學習Python爬蟲的初學者，由於自己剛開始學習這部分知識時，所有的套件名詞猶如雪片般飛來，有時會錯誤的理解一個套件的使用方式，有時則對某個套件期待過高，學成時總覺得不過爾爾，有種失落感。因此著述。">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/爬蟲架構.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/httpGet.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/httpPost.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/httpPostData.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/htmlEncoding.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/亂碼.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/postDataDecoding.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/requestsHeader.JPG">
+<meta property="og:image" content="https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/SelectorXpath.JPG">
+<meta property="og:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/chromeSelectElement.JPG">
+<meta property="og:updated_time" content="2017-07-29T15:11:03.389Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="給初學者的Python爬蟲學習架構">
+<meta name="twitter:description" content="目標概述一些我接觸過的一些套件，讓大家對爬蟲的「技術鍊」有基礎的了解。 動機這篇文章主要是寫給剛開始學習Python爬蟲的初學者，由於自己剛開始學習這部分知識時，所有的套件名詞猶如雪片般飛來，有時會錯誤的理解一個套件的使用方式，有時則對某個套件期待過高，學成時總覺得不過爾爾，有種失落感。因此著述。">
+<meta name="twitter:image" content="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/爬蟲架構.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/"/>
+
+
+
+
+
+  <title> 給初學者的Python爬蟲學習架構 | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-101626873-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?3c92bed7f41160da3b0e94889c12cf8a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeremy Wang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Learning Note</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeremy Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jeremy.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeremy Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                給初學者的Python爬蟲學習架構
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-07-29T23:11:03+08:00">
+                2017-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python-Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Python Note</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/29/給初學者的Python爬蟲學習架構/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/29/給初學者的Python爬蟲學習架構/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目標"><a href="#目標" class="headerlink" title="目標"></a>目標</h1><p>概述一些我接觸過的一些套件，讓大家對爬蟲的「技術鍊」有基礎的了解。</p>
+<h1 id="動機"><a href="#動機" class="headerlink" title="動機"></a>動機</h1><p>這篇文章主要是寫給剛開始學習Python爬蟲的初學者，由於自己剛開始學習這部分知識時，所有的套件名詞猶如雪片般飛來，有時會錯誤的理解一個套件的使用方式，有時則對某個套件期待過高，學成時總覺得不過爾爾，有種失落感。因此著述。<a id="more"></a></p>
+<h1 id="本篇文章的「爬蟲」"><a href="#本篇文章的「爬蟲」" class="headerlink" title="本篇文章的「爬蟲」"></a>本篇文章的「爬蟲」</h1><p>為了避免概念混淆，先打個預防針，我接下來要介紹的爬蟲，並非大規模的、地毯式的爬取任何可以取得的網頁，而是有針對性的爬蟲。也就是說，我在進行網頁爬取時，一般都會在同一個domain之內(網址中”http:/ /“後，第一個”/“符號之前的字串)，同時會先鎖定我要爬取的幾個頁面，並進一步鎖定每一個頁面中我要取得的資訊，然後最後會用相對精準的方式整理資料存入資料庫。</p>
+<h1 id="爬蟲的架構"><a href="#爬蟲的架構" class="headerlink" title="爬蟲的架構"></a>爬蟲的架構</h1><img src="/2017/07/29/給初學者的Python爬蟲學習架構/爬蟲架構.JPG" alt="爬蟲架構.JPG" title="">
+<ol>
+<li>取得html檔: 由於每個網頁都是由html檔所構成，因此，取得html檔也就取得了頁面上可以看到的所有資訊，只是包含了很多你不要的雜訊。</li>
+<li>解析html檔: 把上面取得的html檔中的雜訊去掉。由於html檔是給瀏覽器解析的，如果你直接去看html的純文字檔會非常辛苦，你可以現在按下F12試試看你找不找的到你要的資訊，而這樣給瀏覽器解析的文檔主要由html tag(如div, a, span…等)，因此這部分主要著重在取出html tag中有價值的資訊(如夾在tag中間的text，或是value屬性中的值)。</li>
+<li>把取出的資訊塞入資料庫</li>
+</ol>
+<h1 id="取得html檔"><a href="#取得html檔" class="headerlink" title="取得html檔"></a>取得html檔</h1><p>要取得html檔，我們首先就必須了解，前端(瀏覽器)是如何跟每個網站的伺服器要資料，以下詳細說明。</p>
+<h2 id="Http動詞"><a href="#Http動詞" class="headerlink" title="Http動詞:"></a>Http動詞:</h2><p>從RestfulApi的理論來說，目前一般網頁除了透過URL(網址)去取得網頁之外，都還會配上一個HTTP動詞，增加前端介面跟資料庫互動的彈性，大家有興趣可以看一下<a href="http://www.restapitutorial.com/lessons/httpmethods.html" target="_blank" rel="external">WIKI</a>。</p>
+<h3 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h3><p>一般在瀏覽器上輸入URL進入網頁都是預設為GET動詞，就是純粹從資料庫中取出資料。</p>
+<h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h3><p>POST動詞則是送出一筆表單資料，比較常見的出現地點是各位在申請帳號，輸入完資料之後按下提交那一刻，瀏覽器除了會自動重新轉向新的URL外，還會配上POST的動詞，如此則會回傳一筆表單資料伺服器，然後再進一步導向「申請成功」的介面。而這兩個動詞也是爬蟲領域當中比較常用到的，其他動詞若各位對架設API有興趣，可以自己再去學習。<br>需要特別提醒的是，因為POST是送出一筆表單資料，所以下面「用法」環節，也要傳送一筆python中dictionary型別的資料給伺服器，才能得到POST方法配上URL回傳回來的資料。</p>
+<h3 id="查看GET或是POST"><a href="#查看GET或是POST" class="headerlink" title="查看GET或是POST"></a>查看GET或是POST</h3><p>至於如何進一步去查看，目前的網頁是透過GET或是POST而回傳的結果，則可以按下F12，點到Application(如果是空的，可以按一下F5重新整理)，並透過每一份文件中的Preview進一步確定回傳的文件中哪一份是你要的，然後再點回Header去看，Request Method後面是GET或是POST。<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/httpGet.JPG" alt="Http GET" title="Http GET"><br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/httpPost.JPG" alt="Http POST" title="Http POST"><br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/httpPostData.JPG" alt="POST Data" title="POST Data"></p>
+<h2 id="套件與使用方法"><a href="#套件與使用方法" class="headerlink" title="套件與使用方法"></a>套件與使用方法</h2><h3 id="主要使用套件-requests-早期用urllib"><a href="#主要使用套件-requests-早期用urllib" class="headerlink" title="主要使用套件: requests(早期用urllib):"></a>主要使用套件: <a href="http://docs.python-requests.org/en/master/user/install/" target="_blank" rel="external">requests</a>(早期用<a href="http://beanobody.blogspot.tw/2015/12/python-3-urllib.html" target="_blank" rel="external">urllib</a>):</h3><p>其實我不太清楚這兩者的差異，但至目前為止，我遇過的所有網站，都可以透過requests來處理。</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">import requests  <span class="comment"># 使用requsts套件</span></div><div class="line"></div><div class="line"><span class="comment"># GET</span></div><div class="line"><span class="comment"># 上圖(Http Verb)中的Request URL</span></div><div class="line">url = <span class="string">"https://sea.cc.ntpu.edu.tw/pls/dev_stud/course_query_all.CHI_query_common"</span> </div><div class="line">re = requests.get(url) </div><div class="line">re.encoding='big5'</div><div class="line"><span class="comment"># re.encoding='cp950'</span></div><div class="line"><span class="comment"># re.encoding='utf8'</span></div><div class="line">print(re.text)</div><div class="line"></div><div class="line"><span class="comment"># POST</span></div><div class="line">url = <span class="string">"https://sea.cc.ntpu.edu.tw/pls/dev_stud/course_query_all.queryByAllConditions"</span> </div><div class="line">data =&#123;</div><div class="line"><span class="string">"qCollege"</span>:<span class="string">"法律學院"</span>.encode('big5'),  <span class="comment">#用big5編碼後傳輸</span></div><div class="line"><span class="string">"qdept"</span>:<span class="string">"LU31"</span>,</div><div class="line"><span class="string">"qYear"</span>:105,</div><div class="line"><span class="string">"qTerm"</span>:2,</div><div class="line"><span class="string">"seq1"</span>:<span class="string">"A"</span>,</div><div class="line"><span class="string">"seq2"</span>:<span class="string">"M"</span></div><div class="line">&#125;</div><div class="line">re = requests.post(url,data=data)</div><div class="line">re.encoding='big5'</div><div class="line"><span class="comment"># re.encoding='cp950'</span></div><div class="line"><span class="comment"># re.encoding='utf8'</span></div><div class="line">print(re.text)</div></pre></td></tr></table></figure>
+<h2 id="實務問題一-encoding問題"><a href="#實務問題一-encoding問題" class="headerlink" title="實務問題一: encoding問題"></a>實務問題一: encoding問題</h2><p>如果發現爬下來的的頁面無法解析的話，大部分時候是編碼的問題，編碼一般都是用utf8，這個包含的字量比較多，例如「喆」在其他編碼中一班會用「吉吉」儲存，不過比較老舊的非英文網站，或是政府官方網站，如果是中文的話很可能會使用cp950或是big5，這個編碼一般都是從html文件中(所有的html文件都有head跟body兩個部分)的head部分找得到，按下F12找到Elements。<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/htmlEncoding.JPG" alt="Html Encoding" title="Html Encoding"></p>
+<h3 id="狀況一-爬下來的html檔是亂碼"><a href="#狀況一-爬下來的html檔是亂碼" class="headerlink" title="狀況一: 爬下來的html檔是亂碼"></a>狀況一: 爬下來的html檔是亂碼</h3><p>這種狀況可直接設定requests類別實體下的encoding屬性為相對應的編碼，上面「使用方法」中已經有使用過，就不再贅述。<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/亂碼.JPG" alt="html亂碼" title="html亂碼"></p>
+<h3 id="狀況二-POST-Data是亂碼"><a href="#狀況二-POST-Data是亂碼" class="headerlink" title="狀況二: POST Data是亂碼"></a>狀況二: POST Data是亂碼</h3><p>如上圖(Post Data)中的qCollege欄位的值即是亂碼，此時點擊此途中右上角的view URL encoded，並複製編碼下的字串到<a href="http://www.webatic.com/run/convert/url.php" target="_blank" rel="external">webatic</a>去解碼，了解這個編碼背後的意思。<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/postDataDecoding.JPG" alt="webatic deocde url" title="webatic deocde url"></p>
+<h2 id="實務問題二-檔案讀寫問題"><a href="#實務問題二-檔案讀寫問題" class="headerlink" title="實務問題二: 檔案讀寫問題"></a>實務問題二: 檔案讀寫問題</h2><p>若不先將html存成純文字檔案，有可能會產生兩個大問題。第一、電腦的記憶體有限且相對不穩定，所以如果把每個頁面都用暫存存起來，可能會產生記憶體不足，或是程式執行出錯時暫存全部被洗掉的問題。第二、如果每次測試解析html之前都要上網站去get一次，兩大的話很有可能會被鎖定IP。因此，檔案讀寫是爬蟲過程中不可或缺的一項技能。使用的套件是python內建的套件open，我們直接承接上面的re.text字串，進行以下示範。<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">## Write File</span></div><div class="line">path = <span class="string">"htmlTest"</span>  <span class="comment"># 你檔案想要存放的檔名，如果沒給路徑、直接寫檔名，將存在與你現在所執行的python檔同一個資料夾中</span></div><div class="line"><span class="built_in">file</span> = <span class="built_in">open</span>(path, <span class="string">'w'</span>, encoding=<span class="string">'utf8'</span>)  </div><div class="line"><span class="comment"># 第一個參數(path): 如果該路徑下，有相同檔名的檔案，將會直接複寫且不可回復。若沒有，系統則會自動幫你開一個新檔案</span></div><div class="line"><span class="comment"># 第二個參數('w'): 一般來說，我只用到'w'以及'r'，分別是'寫'與'讀'的意思，其他二進位檔案的讀寫方式，各位有興趣可以自行去研究。如果要讀檔案，直接把'w'改成'r'即可。</span></div><div class="line"><span class="comment"># 第三個參數(encoding='utf8'): 指得是開啟這個檔案所使用的編碼，因為windows如果是中文版的，預設打開編碼是cp950(滿討厭的)，所以在寫入檔案的時候，最好用utf8編碼，裡面的字才不會跑掉。</span></div><div class="line"><span class="built_in">file</span>.<span class="built_in">write</span>(re.<span class="keyword">text</span>)</div><div class="line"><span class="built_in">file</span>.<span class="built_in">close</span>()  <span class="comment"># 寫完要關掉檔案，才會成功存檔。</span></div><div class="line"></div><div class="line"><span class="comment">## Read File 如果你已經把上面程式碼成功執行，則可以往下試著把它讀出來</span></div><div class="line">path = <span class="string">"htmlTest"</span>  </div><div class="line"><span class="built_in">file</span> = <span class="built_in">open</span>(path, <span class="string">'r'</span>, encoding=<span class="string">'utf8'</span>)  </div><div class="line"><span class="comment"># 三種讀取方式，每次打開檔案請擇一使用，若重複使用會出現問題。</span></div><div class="line"><span class="comment"># 一、一次全部讀出來</span></div><div class="line">context = <span class="built_in">file</span>.<span class="built_in">read</span>()</div><div class="line"><span class="comment"># 二、一次讀一行出來</span></div><div class="line"><span class="built_in">file</span>.readline() <span class="comment">##讀第一行</span></div><div class="line"><span class="built_in">file</span>.readline() <span class="comment">##讀第二行</span></div><div class="line"><span class="built_in">file</span>.readline() <span class="comment">##讀第三行</span></div><div class="line"><span class="comment"># 三、透過迴圈方式一次讀一行出來(聽說現在用with的語法效能較好，大家可以去python官網學一下)</span></div><div class="line"><span class="keyword">for</span> <span class="built_in">line</span> <span class="keyword">in</span> <span class="built_in">file</span>:</div><div class="line">    print(<span class="built_in">line</span>)</div><div class="line"></div><div class="line"><span class="built_in">file</span>.<span class="built_in">close</span>()</div></pre></td></tr></table></figure></p>
+<h2 id="實務問題三-一般網站的防爬蟲機制"><a href="#實務問題三-一般網站的防爬蟲機制" class="headerlink" title="實務問題三: 一般網站的防爬蟲機制"></a>實務問題三: 一般網站的防爬蟲機制</h2><p>因為網站的防爬蟲機制，一般都是在requests的階段會碰到問題，所以就在這部分講一講，比較常遇到的一些問題，以及他的解決方案。</p>
+<h3 id="直接偵測requests的header"><a href="#直接偵測requests的header" class="headerlink" title="直接偵測requests的header"></a>直接偵測requests的header</h3><img src="/2017/07/29/給初學者的Python爬蟲學習架構/requestsHeader.JPG" alt="Requests Header" title="Requests Header">
+<p>這個header可以透過F12&gt;Network&gt;目標頁面&gt;Requests Headers找到，這個東西如果你是用python的requests套件，伺服器端偵測到的可能就是Python用戶端送出的requests，有些防爬蟲比較高階的網站會檔下這類型的requests，因此如果有遇到這類問題，可以這樣處理。<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> requests</div><div class="line">## 這是一個很有名的，爬蟲愛好者常去挑戰的一個募資網站</div><div class="line">url = <span class="string">"https://www.indiegogo.com/projects/viviva-colorsheets-the-most-portable-watercolors-painting-travel--4#/"</span> </div><div class="line">## 使用假header</div><div class="line">headers = &#123;<span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>&#125;</div><div class="line">re = requests.get(url, headers=headers) </div><div class="line">re.encoding = <span class="string">'utf8'</span></div><div class="line">print(re.text)</div></pre></td></tr></table></figure></p>
+<p>如果各位不相信，可以把假header拿掉試試看，然後在回傳的值當中，尋找這個網頁最重要的元素(ctrl+F)$259,123，照理說你透過python得到的網頁，跟直接透過瀏覽器接點進去的就不是同一網頁了，應該會是她特別寫給爬蟲愛好者取得的一個網頁，你也就找不到這個數字了。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">import requests</div><div class="line">url = <span class="string">"https://www.indiegogo.com/projects/viviva-colorsheets-the-most-portable-watercolors-painting-travel--4#/"</span> </div><div class="line">re = requests.get(url) </div><div class="line">re<span class="selector-class">.encoding</span> = <span class="string">'utf8'</span></div><div class="line"><span class="function"><span class="title">print</span><span class="params">(re.text)</span></span></div></pre></td></tr></table></figure></p>
+<h3 id="一秒太多次requests"><a href="#一秒太多次requests" class="headerlink" title="一秒太多次requests"></a>一秒太多次requests</h3><p>由於大量爬取同一個網域的網站，剛開始我們都會直接透過迴圈處理，但是迴圈一般都會以比你想像中快十倍甚至百倍的速度運行，也就是說，一秒內你可能發超過10個requests給那個網站的伺服器。而恰巧不巧，早期攻擊一個網站最常使用的方式就是大量送出封包癱瘓伺服器，但是現在這部分的攻擊基本上都已經沒有效果，每一種語言的網站架構基本上都會有預設防禦這種類型的攻擊，就算開發人員沒有特別注意，也會預設擋下這類型的requests。所以建議你，如果要大量發出請求，可以使用time這個套件。<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import requests</div><div class="line">import <span class="selector-tag">time</span></div><div class="line">url = <span class="string">"http://cid.acad.ncku.edu.tw/files/14-1056-54086,r677-1.php?Lang=zh-tw"</span> </div><div class="line"></div><div class="line">contextLi = []</div><div class="line">i=<span class="number">0</span></div><div class="line">while <span class="selector-tag">i</span> &lt; <span class="number">10</span>:</div><div class="line">    re = requests.get(url)</div><div class="line">    re<span class="selector-class">.encoding</span> = <span class="string">'utf8'</span></div><div class="line">    contextLi.append(re.text)</div><div class="line">    <span class="selector-tag">i</span> += <span class="number">1</span></div><div class="line">    print(<span class="selector-tag">i</span> , <span class="string">" succeed"</span>)</div><div class="line">    <span class="selector-tag">time</span>.sleep(<span class="number">2</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="title">print</span><span class="params">(<span class="string">"this is the first requests----------------------------------\n"</span>, contextLi[<span class="number">0</span>])</span></span></div><div class="line"><span class="function"><span class="title">print</span><span class="params">(<span class="string">"this is the last requests----------------------------------\n"</span>,contextLi[-<span class="number">1</span>])</span></span></div></pre></td></tr></table></figure></p>
+<h3 id="總共太多次requests，或太規律，鎖IP"><a href="#總共太多次requests，或太規律，鎖IP" class="headerlink" title="總共太多次requests，或太規律，鎖IP"></a>總共太多次requests，或太規律，鎖IP</h3><p>重複向特定網站的伺服器送出過多requests時，網站可能會直接鎖定你現在所使用的IP位置，這個時候也只能想辦法換IP拉，有幾種換IP的方式，因為你的手機一般都是浮動IP，所以如果流量夠的話，可以重新連線一次，一般wifi也是同樣的原理。不過有時候，這樣做如果間隔時間太短，系統還是會使用同一組IP。</p>
+<p>這邊介紹一個小工具給大家，原本是我去大陸時，翻牆回來的工具，後來發現爬蟲上使用更是便利，而且如股純粹是爬蟲用途的話，你可以不必使用付費的版本。就是<a href="https://www.hotspotshield.com/" target="_blank" rel="external">hotspotshield</a>，當然大家如果有習慣使用的VPN工具，那也是可以啦，這個工具的使用上，一但你發現你的IP被封鎖了，直接重新連線hotspotshield，它就會幫你換到其他國家的IP了。</p>
+<p>順帶一提發現IP被檔的辦法，我很習慣性的會先把抓下來的html文件存成一個個的純文字檔，在城市在跑的過程中，你可以打開檔案總管到你儲存純文字檔的資料夾中，監視檔案的大小，一旦發現檔案的大小都維持在同一個且很低的水平的時候，大約就代表你被封鎖IP了。當然你也可以透過python去偵測純文字檔儲存下來的大小，如果規模夠大的話，還是很有效益的。</p>
+<h2 id="實務問題四-javascript渲染出來的網頁，或不明原因被檔的網頁"><a href="#實務問題四-javascript渲染出來的網頁，或不明原因被檔的網頁" class="headerlink" title="實務問題四: javascript渲染出來的網頁，或不明原因被檔的網頁"></a>實務問題四: javascript渲染出來的網頁，或不明原因被檔的網頁</h2><p>由於現在網頁技術越來越先進，往往很多網頁的內容，並不需要透過獨立的網址才能呈現，在同一個網址下，透過javascript就可以讓html元素做很多變換，在配上ajax甚至可以跟資料庫互動。因此，若你要取得這些，進入網頁與使用者互動之後才會得出的html元素，純粹的requests就無法滿足你的需求了。<br>也因應這個網頁設計越趨複雜的趨勢，現在網頁測試的領域也越來越興盛，因此<a href="http://www.seleniumhq.org/" target="_blank" rel="external">selenium</a>這一個網頁自動化測試工具也就誕生了。它實作了非常多的介面，當然其中也包含python。從爬蟲的領域來看，這個東西就是個神器救星，因為所謂網頁測試，也就是要模仿真人操作網頁的行為禁行測試網頁是否有bug，<br>換而言之，真人透過與網頁互動用javascript產生的html元素這時也可以輕易取得了。另一方面，由於不太可能有網站可以區分自動化工具跟真人，一旦它擋下你的自動化測試工具，它擋到真的人的機會也會很高，會很不利它網站的運作。總體而言，這還是一個滿方便的爬蟲工具。<br>這邊簡單說明一下selenium使用的過程中要注意的問題:</p>
+<ol>
+<li>無論使用哪一個瀏覽器，都要使用webDriver，如<a href="https://sites.google.com/a/chromium.org/chromedriver/" target="_blank" rel="external">Chrome Driver</a></li>
+<li>我習慣透過<a href="#Selector以及Xpath">Selector或是Xpath</a>定位元素</li>
+<li>再對任何元素做動作的時候，最好要設定保護機制，如果元素還沒出來，將無法定位到元素，後面的操作也不會成功</li>
+<li>要取得當前頁面的html，使用的是page_source這個屬性的值<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> selenium import webdriver</div><div class="line">import <span class="built_in">time</span></div><div class="line"></div><div class="line">driver = webdriver.Chrome() <span class="comment"># 如果你沒有把webdriver放在同一個資料夾中，必須指定位置給他</span></div><div class="line">driver.<span class="keyword">get</span>(<span class="string">"https://timetable.nctu.edu.tw/"</span>)</div><div class="line"></div><div class="line">def tryclick(driver, selector, <span class="built_in">count</span>=<span class="number">0</span>): <span class="comment">##保護機制，以防無法定味道還沒渲染出來的元素</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        elem = driver.find_element_by_css_selector(selector)</div><div class="line">        <span class="comment"># elem = driver.find_element_by_xpath(Xpath)  # 如果你想透過Xpath定位元素</span></div><div class="line"></div><div class="line">        elem.click() <span class="comment"># 點擊定位到的元素</span></div><div class="line">    except:</div><div class="line">        <span class="built_in">time</span>.sleep(<span class="number">2</span>)</div><div class="line">        <span class="built_in">count</span>+=<span class="number">1</span></div><div class="line">        <span class="keyword">if</span>(<span class="built_in">count</span> &lt;<span class="number">2</span>):</div><div class="line">            tryclick(driver, selector,<span class="built_in">count</span>)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            print(<span class="string">"cannot locate element"</span> + selector)</div><div class="line"></div><div class="line">tryclick(driver, <span class="string">"#flang &gt; option:nth-child(2)"</span>) <span class="comment"># 設定成中文</span></div><div class="line">tryclick(driver, <span class="string">"#crstime_search"</span>) <span class="comment"># 點擊「檢索」按鍵</span></div><div class="line"><span class="built_in">time</span>.sleep(<span class="number">3</span>) <span class="comment"># 等待javascript渲染出來，當然這個部分還有更進階的作法，關鍵字是implicit wait, explicit wait，有興趣可以自己去找</span></div><div class="line">html = driver.page_source <span class="comment"># 取得html文字</span></div><div class="line">driver.close()  <span class="comment"># 關掉Driver打開的瀏覽器</span></div><div class="line">print(html)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="解析html檔"><a href="#解析html檔" class="headerlink" title="解析html檔"></a>解析html檔</h1><p>在解析html檔時，我們首先需要了解兩個概念，第一個是html標籤，這個部分也是組成網頁的最主要部分，第二個是定位html標籤的方法selector以及Xpath，這兩個工具可以幫助你在html檔中快速找到你要的網頁資訊。</p>
+<h2 id="html標籤tag-元素element"><a href="#html標籤tag-元素element" class="headerlink" title="html標籤tag(元素element)"></a>html標籤tag(元素element)</h2><p>這個部分我只說幾個重要的元素，這部分如果是html的初學者，必須注意每一個tag的功能，在爬蟲的應用上通常會特別注意「是否為表單元素」，如果是表單元素，有價值的資訊並不像其他元素，用一組html tag包起來，而是放在tag中的value屬性。其他，比較詳細的教材，可以看<a href="http://www.w3school.com.cn/html/html_primary.asp" target="_blank" rel="external">W3school</a>。</p>
+<ul>
+<li><p>標題(h1~h6)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>This is a heading<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h6</span>&gt;</span>This is a heading<span class="tag">&lt;/<span class="name">h6</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>段落(p)</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;This <span class="keyword">is</span> a <span class="built_in">paragraph</span>.&lt;/p&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>連結</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">a</span> href=<span class="string">"http://www.w3school.com.cn"</span>&gt;This is <span class="keyword">a</span> link&lt;/<span class="keyword">a</span>&gt;</div><div class="line"><span class="comment"># 注意href是a元素的「屬性」，裡面的網址若沒有http開頭，一般都是使用跟你所在網頁相同的網域(domain)，詳見下面的圖片解釋。</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>頁面分割用元素</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="section">&lt;div&gt;</span><span class="section">&lt;/div&gt;</span></div><div class="line"><span class="comment">#這幾年比較新設計的網頁，一般都是使用這個元素做頁面分割的，雖然本身不含有重要的資訊，但是在定位元素時，會很常需要繞過div</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>圖片</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;img <span class="built_in">style</span>=<span class="string">"padding-top:112px"</span> <span class="built_in">height</span>=<span class="string">"92"</span> src=<span class="string">"/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"</span> <span class="built_in">width</span>=<span class="string">"272"</span> alt=<span class="string">"Google"</span> id=<span class="string">"hplogo"</span> <span class="built_in">title</span>=<span class="string">"Google"</span> onload=<span class="string">"google.aft&amp;amp;&amp;amp;google.aft(this)"</span>&gt;</div><div class="line"># 此圖片中的img使從google首頁擷取下來的，<span class="built_in">style</span>, <span class="built_in">height</span>, <span class="built_in">width</span>...都是這元素的屬性。而google的網域是https://www.google.com.tw/，因此你可以透過https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png，找到google標誌的圖片，</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="https://www.google.com.tw/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"></p>
+<ul>
+<li>表單元素: 這個地方要比較注意的是，一般表單元素中有價值的資訊都存在value當中，而不是一對tag的中間。<figure class="highlight stata"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">form</span>&gt;</div><div class="line">&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span> name=<span class="string">"firstname"</span>&gt;</div><div class="line">&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"radio"</span> name=<span class="string">"sex"</span> value=<span class="string">"male"</span> checked&gt;Male</div><div class="line">&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"submit"</span> value=<span class="string">"Submit"</span>&gt;</div><div class="line">&lt;/<span class="keyword">form</span>&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<form style="border-style:solid"><br>DEMO<br><input type="text" name="firstname"><br><input type="radio" name="sex" value="male" checked>Male<br><input type="submit" value="Submit"><br></form>
+
+<ul>
+<li><p>表格元素: 這是表格元素的架構，一個比較正規的html table應該要以這個架構去寫成，大家可以多把焦點放在整個朝狀結構每一格tag的名稱。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="section">&lt;table&gt;</span></div><div class="line">    <span class="section">&lt;thead&gt;</span></div><div class="line">        <span class="section">&lt;tr&gt;</span><span class="section">&lt;th&gt;</span><span class="section">&lt;/th&gt;</span><span class="section">&lt;th&gt;</span><span class="section">&lt;/th&gt;</span><span class="section">&lt;/tr&gt;</span></div><div class="line">    <span class="section">&lt;/thead&gt;</span></div><div class="line">    <span class="section">&lt;tbody&gt;</span></div><div class="line">        <span class="section">&lt;tr&gt;</span><span class="section">&lt;td&gt;</span><span class="section">&lt;/td&gt;</span><span class="section">&lt;td&gt;</span><span class="section">&lt;/td&gt;</span><span class="section">&lt;/tr&gt;</span></div><div class="line">    <span class="section">&lt;/tbody&gt;</span></div><div class="line"><span class="section">&lt;/table&gt;</span></div></pre></td></tr></table></figure>
+<p>大家可以直接上去<a href="http://mops.twse.com.tw/server-java/t164sb01?step=1&amp;CO_ID=1216&amp;SYEAR=2017&amp;SSEASON=1&amp;REPORT_ID=C" target="_blank" rel="external">這個網頁(公開資訊觀測站)</a>按F12中element看看，這裡就不演示了。 </p>
+</li>
+</ul>
+<h2 id="Selector以及Xpath"><a href="#Selector以及Xpath" class="headerlink" title="Selector以及Xpath"></a>Selector以及Xpath</h2><p>上面講了主要組成網頁的基本元素，接下來要講的是，讓電腦可以找到特定元素的方法。這邊只簡單講概念，詳細部分，selector請看<a href="https://www.w3schools.com/cssref/css_selectors.asp" target="_blank" rel="external">W3school</a>，Xpath請看<a href="https://www.w3schools.com/xml/xpath_intro.asp" target="_blank" rel="external">W3school</a>。</p>
+<h3 id="Selector"><a href="#Selector" class="headerlink" title="Selector:"></a>Selector:</h3><p>這個部分因為實在太複雜，只說幾個重要的，我知道大家看完還是霧煞煞，別著急，下面我們會跟著python套件一起示範使用方式。</p>
+<ol>
+<li>元素名稱: 所有是這個名稱的元素</li>
+<li>class: 用”.”代表，一般一個html頁面中多個html元素會共享一個class</li>
+<li>id: 用”#”代表，一般一個html頁面中每個html元素的id是不會重複的</li>
+<li>空白建: 代表在某個元素下面尋找全部</li>
+<li>“&gt;”: 代表尋找下一階層的元素</li>
+</ol>
+<p>舉<a href="https://sea.cc.ntpu.edu.tw/pls/dev_stud/course_query_all.CHI_query_common" target="_blank" rel="external">台北大學課程檢索頁面</a>為例:<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/SelectorXpath.JPG" alt="台北大學課程檢索頁面" title="台北大學課程檢索頁面"><br>進入頁面後按下F12，如果是使用chrome，左上角會找到一個元素選擇器，透過選擇器去網頁上面點選特定的元素，瀏覽器就能自動幫你定位出他在html中的位置。<br><img src="/2017/07/29/給初學者的Python爬蟲學習架構/chromeSelectElement.JPG" alt="chromeSelectElement.JPG" title=""></p>
+<p>此時，在元素上面點擊右鍵&gt;copy&gt;copy selector，就可以取得這個元素的Selector:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &gt; center &gt; <span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span> &gt; <span class="selector-tag">td</span> &gt; <span class="selector-tag">table</span> &gt; <span class="selector-tag">tbody</span> &gt; <span class="selector-tag">tr</span>:nth-child(<span class="number">1</span>) &gt; <span class="selector-tag">td</span> &gt; <span class="selector-tag">fieldset</span> &gt; <span class="selector-tag">form</span>:nth-child(<span class="number">2</span>) &gt; <span class="selector-tag">p</span> &gt; select</div></pre></td></tr></table></figure></p>
+<p>不過請注意，nth-child這個功能在下面要介紹的拆解html的python套件BeautifulSoup中並沒有被實作，也就是這個套件無法處理這樣的語法，因此必須透過其他解決方案，來處理這個元素。</p>
+<h3 id="Xpath"><a href="#Xpath" class="headerlink" title="Xpath:"></a>Xpath:</h3><p>這個概念就比較簡單，html檔案是巢狀結構，也就是一層包一層的結構，最上層的結構就是html，然後html裡面會包著head跟body，網頁中通常會直接被你看到的部分都包在body中。下面可能就會有很多div, h1~h6,或其他上述元素。<br>而所謂Xpath，就是透過，從最上層到最下層。每一層經過的tag名稱串接起來的定位器，承上例，將copy Selector改為copy Xpath即可得到:<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/html/body/center/table/tbody/<span class="regexp">tr/td/table/tbody</span><span class="regexp">/tr[1]/td</span><span class="regexp">/fieldset/form</span>[<span class="number">1</span>]/p/<span class="keyword">select</span></div></pre></td></tr></table></figure></p>
+<h2 id="應用套件BeautifulSoup、pandas"><a href="#應用套件BeautifulSoup、pandas" class="headerlink" title="應用套件BeautifulSoup、pandas"></a>應用套件<a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank" rel="external">BeautifulSoup</a>、<a href="http://pandas.pydata.org/" target="_blank" rel="external">pandas</a></h2><h3 id="非表格元素-BeautifulSoup"><a href="#非表格元素-BeautifulSoup" class="headerlink" title="非表格元素: BeautifulSoup"></a>非表格元素: <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank" rel="external">BeautifulSoup</a></h3><p>首先必須說明的是，這個套件的底層是用正規表示式所寫成，早期一點的爬蟲玩家，大都必須比較辛苦的手刻正規表示式，現在大家就比較方便拉，詳情大家可以看他們的官網，以下我僅針對比較常用的幾個元素做簡單示範。<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 安裝</span></div><div class="line">$ pip install BeautifulSoup4 <span class="comment">##不要忘記"4"</span></div><div class="line"></div><div class="line"><span class="comment"># 一、把取得的html純文字送給BeautifulSoup，產生BeautifulSoup類別</span></div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">import</span> requests</div><div class="line">re = requests.get(<span class="string">"https://www.crummy.com/software/BeautifulSoup/bs4/doc/"</span>)  </div><div class="line">soup = BeautifulSoup(re.text)</div><div class="line"></div><div class="line"><span class="comment"># 二、找到element</span></div><div class="line"><span class="comment">## 透過tag名稱尋找元素(第一個，回傳一個元素類別)</span></div><div class="line">elem = soup.find(<span class="string">'a'</span>)</div><div class="line"><span class="built_in">print</span>(elem)</div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div><div class="line"></div><div class="line"><span class="comment">## 透過tag名稱尋找元素(全部，回傳一個元素類別「陣列」)</span></div><div class="line">elems = soup.find_all(<span class="string">'a'</span>)</div><div class="line"><span class="keyword">for</span> elem <span class="keyword">in</span> elems:</div><div class="line">    <span class="built_in">print</span>(elem)</div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div><div class="line"></div><div class="line"><span class="comment">## 透過selector尋找元素(回傳一個元素類別「陣列」)</span></div><div class="line">selector = <span class="string">"<span class="subst">#quick-start</span> &gt; h1"</span></div><div class="line">elem = soup.select(selector)</div><div class="line"><span class="built_in">print</span>(elem)</div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 三、取出element中的重要資訊</span></div><div class="line"><span class="comment">## 取出element特定attribute的值</span></div><div class="line">elem = soup.find(<span class="string">'a'</span>)</div><div class="line"><span class="built_in">print</span>(elem)</div><div class="line"><span class="built_in">print</span>(elem[<span class="string">'href'</span>]) <span class="comment">##方法一</span></div><div class="line"><span class="built_in">print</span>(elem.get(<span class="string">'href'</span>))  <span class="comment">##方法二</span></div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div><div class="line"></div><div class="line"><span class="comment">## 取出一對tag間的文字</span></div><div class="line">selector = <span class="string">"<span class="subst">#quick-start</span> &gt; h1"</span></div><div class="line">elem = soup.select(selector)</div><div class="line"><span class="built_in">print</span>(elem[<span class="number">0</span>])</div><div class="line"><span class="built_in">print</span>(elem[<span class="number">0</span>].text)</div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div><div class="line"></div><div class="line"><span class="comment">## 取得整個網頁的所有文字)</span></div><div class="line"><span class="built_in">print</span>(soup.get_text())</div><div class="line"><span class="built_in">print</span>(<span class="string">"----------------------------------"</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="表格元素-pandas"><a href="#表格元素-pandas" class="headerlink" title="表格元素: pandas"></a>表格元素: <a href="http://pandas.pydata.org/" target="_blank" rel="external">pandas</a></h3><p>如果對於數據處理有興趣，非常推薦認真學一下pandas，這東西就是python中的excel，功能非常強大，解析html tag只是其中的一個小功能。<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line">url = <span class="string">"http://mops.twse.com.tw/server-java/t164sb01?step=1&amp;CO_ID=1216&amp;SYEAR=2017&amp;SSEASON=1&amp;REPORT_ID=C"</span>  ## 公開資訊觀測站的財報</div><div class="line">dfs = pd.read_html(url)  ## 回傳DataFrame類別的陣列</div><div class="line">df = dfs[<span class="number">1</span>]</div><div class="line">print(df)</div><div class="line"></div><div class="line"># 簡單的操作pandas教學</div><div class="line">## 只查看前面五行</div><div class="line">print(df.head(<span class="number">5</span>))</div><div class="line"></div><div class="line">## 查看所有的columns</div><div class="line">columns = df.columns</div><div class="line">print(columns)</div><div class="line"></div><div class="line">## 僅查看取特定column</div><div class="line">showColumns = [columns[<span class="number">0</span>], columns[<span class="number">1</span>]]</div><div class="line">print(df[showColumns].head())</div><div class="line"></div><div class="line">## 僅查看特定的row</div><div class="line">print(df.xs(<span class="number">5</span>))  ##不可指派內容</div><div class="line">print(df.loc[<span class="number">5</span>])  ##可指派內容</div><div class="line"></div><div class="line">## 存檔</div><div class="line">df.to_csv(<span class="string">"&#123;檔名&#125;"</span>, index=<span class="literal">False</span>)</div><div class="line">df.to_json(<span class="string">"&#123;檔名&#125;"</span>)</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/Use-Facebook-API-to-login-Asp-Net-Identity/" rel="prev" title="Use Facebook API to login Asp.Net Identity">
+                Use Facebook API to login Asp.Net Identity <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/jeremy.jpg"
+               alt="Jeremy Wang" />
+          <p class="site-author-name" itemprop="name">Jeremy Wang</p>
+           
+              <p class="site-description motion-element" itemprop="description">a hardworking beginner of programming</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jeremy4555" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/wanghsuanchung" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy45555" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目標"><span class="nav-number">1.</span> <span class="nav-text">目標</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#動機"><span class="nav-number">2.</span> <span class="nav-text">動機</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本篇文章的「爬蟲」"><span class="nav-number">3.</span> <span class="nav-text">本篇文章的「爬蟲」</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#爬蟲的架構"><span class="nav-number">4.</span> <span class="nav-text">爬蟲的架構</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#取得html檔"><span class="nav-number">5.</span> <span class="nav-text">取得html檔</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Http動詞"><span class="nav-number">5.1.</span> <span class="nav-text">Http動詞:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GET"><span class="nav-number">5.1.1.</span> <span class="nav-text">GET</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#POST"><span class="nav-number">5.1.2.</span> <span class="nav-text">POST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看GET或是POST"><span class="nav-number">5.1.3.</span> <span class="nav-text">查看GET或是POST</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#套件與使用方法"><span class="nav-number">5.2.</span> <span class="nav-text">套件與使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要使用套件-requests-早期用urllib"><span class="nav-number">5.2.1.</span> <span class="nav-text">主要使用套件: requests(早期用urllib):</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">5.2.2.</span> <span class="nav-text">使用方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實務問題一-encoding問題"><span class="nav-number">5.3.</span> <span class="nav-text">實務問題一: encoding問題</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#狀況一-爬下來的html檔是亂碼"><span class="nav-number">5.3.1.</span> <span class="nav-text">狀況一: 爬下來的html檔是亂碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#狀況二-POST-Data是亂碼"><span class="nav-number">5.3.2.</span> <span class="nav-text">狀況二: POST Data是亂碼</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實務問題二-檔案讀寫問題"><span class="nav-number">5.4.</span> <span class="nav-text">實務問題二: 檔案讀寫問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實務問題三-一般網站的防爬蟲機制"><span class="nav-number">5.5.</span> <span class="nav-text">實務問題三: 一般網站的防爬蟲機制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#直接偵測requests的header"><span class="nav-number">5.5.1.</span> <span class="nav-text">直接偵測requests的header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一秒太多次requests"><span class="nav-number">5.5.2.</span> <span class="nav-text">一秒太多次requests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#總共太多次requests，或太規律，鎖IP"><span class="nav-number">5.5.3.</span> <span class="nav-text">總共太多次requests，或太規律，鎖IP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#實務問題四-javascript渲染出來的網頁，或不明原因被檔的網頁"><span class="nav-number">5.6.</span> <span class="nav-text">實務問題四: javascript渲染出來的網頁，或不明原因被檔的網頁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解析html檔"><span class="nav-number">6.</span> <span class="nav-text">解析html檔</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#html標籤tag-元素element"><span class="nav-number">6.1.</span> <span class="nav-text">html標籤tag(元素element)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Selector以及Xpath"><span class="nav-number">6.2.</span> <span class="nav-text">Selector以及Xpath</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Selector"><span class="nav-number">6.2.1.</span> <span class="nav-text">Selector:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Xpath"><span class="nav-number">6.2.2.</span> <span class="nav-text">Xpath:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#應用套件BeautifulSoup、pandas"><span class="nav-number">6.3.</span> <span class="nav-text">應用套件BeautifulSoup、pandas</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#非表格元素-BeautifulSoup"><span class="nav-number">6.3.1.</span> <span class="nav-text">非表格元素: BeautifulSoup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表格元素-pandas"><span class="nav-number">6.3.2.</span> <span class="nav-text">表格元素: pandas</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeremy Wang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Jeremy.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://jeremy4555.github.io/2017/07/29/給初學者的Python爬蟲學習架構/';
+          this.page.identifier = '2017/07/29/給初學者的Python爬蟲學習架構/';
+          this.page.title = '給初學者的Python爬蟲學習架構';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Jeremy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+</body>
+</html>
