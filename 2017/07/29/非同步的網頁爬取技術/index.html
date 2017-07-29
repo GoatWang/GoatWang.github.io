@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Indri," />
+  <meta name="keywords" content="Python," />
 
 
 
@@ -87,28 +87,17 @@
 
 
 
-<meta name="description" content="IntroductionIndri is a powerful IR tool. For more information, you can go to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
-<meta name="keywords" content="Indri">
+<meta name="description" content="概述從網頁的取得來說，因為每次去要求server回傳html檔，都要等待server回應，此時client端(也就是你的電腦)其實是沒有在運算的，而是在等待server端的回應，因此若能夠使用這段時間，發出其他要求，將可大大增加爬取的速度。不過，非同步技術的概念其實相當複雜，甚至牽涉到一些硬體的知識，比較主要的難點在於與「多執行續」的差異解釋，這裡就不多加解釋，有興趣可以自行google。">
+<meta name="keywords" content="Python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Deploy Indri on Window 10 using Visual Studio">
-<meta property="og:url" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/index.html">
+<meta property="og:title" content="非同步的網頁爬取技術">
+<meta property="og:url" content="https://jeremy4555.github.io/2017/07/29/非同步的網頁爬取技術/index.html">
 <meta property="og:site_name" content="Jeremy Wang's Blog">
-<meta property="og:description" content="IntroductionIndri is a powerful IR tool. For more information, you can go to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriFolder.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/3VSUpdate.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsProgramManager.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsErrorList1.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix3.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG">
-<meta property="og:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG">
-<meta property="og:updated_time" content="2017-07-28T00:46:49.377Z">
+<meta property="og:description" content="概述從網頁的取得來說，因為每次去要求server回傳html檔，都要等待server回應，此時client端(也就是你的電腦)其實是沒有在運算的，而是在等待server端的回應，因此若能夠使用這段時間，發出其他要求，將可大大增加爬取的速度。不過，非同步技術的概念其實相當複雜，甚至牽涉到一些硬體的知識，比較主要的難點在於與「多執行續」的差異解釋，這裡就不多加解釋，有興趣可以自行google。">
+<meta property="og:updated_time" content="2017-07-29T15:56:40.980Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Deploy Indri on Window 10 using Visual Studio">
-<meta name="twitter:description" content="IntroductionIndri is a powerful IR tool. For more information, you can go to their home page. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard">
-<meta name="twitter:image" content="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG">
+<meta name="twitter:title" content="非同步的網頁爬取技術">
+<meta name="twitter:description" content="概述從網頁的取得來說，因為每次去要求server回傳html檔，都要等待server回應，此時client端(也就是你的電腦)其實是沒有在運算的，而是在等待server端的回應，因此若能夠使用這段時間，發出其他要求，將可大大增加爬取的速度。不過，非同步技術的概念其實相當複雜，甚至牽涉到一些硬體的知識，比較主要的難點在於與「多執行續」的差異解釋，這裡就不多加解釋，有興趣可以自行google。">
 
 
 
@@ -136,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/"/>
+  <link rel="canonical" href="https://jeremy4555.github.io/2017/07/29/非同步的網頁爬取技術/"/>
 
 
 
 
 
-  <title> Deploy Indri on Window 10 using Visual Studio | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 非同步的網頁爬取技術 | Jeremy Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
@@ -280,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/">
+    <link itemprop="mainEntityOfPage" href="https://jeremy4555.github.io/2017/07/29/非同步的網頁爬取技術/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeremy Wang">
@@ -301,7 +290,7 @@
             
             
               
-                Deploy Indri on Window 10 using Visual Studio
+                非同步的網頁爬取技術
               
             
           </h1>
@@ -316,8 +305,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-05-17T20:23:03+08:00">
-                2017-05-17
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-07-29T23:30:23+08:00">
+                2017-07-29
               </time>
             
 
@@ -339,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Information-Retrieval/" itemprop="url" rel="index">
-                    <span itemprop="name">Information Retrieval</span>
+                  <a href="/categories/Python-Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Python Note</span>
                   </a>
                 </span>
 
@@ -357,9 +346,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/#comments" itemprop="discussionUrl">
+                <a href="/2017/07/29/非同步的網頁爬取技術/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/07/29/非同步的網頁爬取技術/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -385,38 +374,11 @@
       
 
       
-        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>Indri is a powerful IR tool. For more information, you can go to their <a href="https://www.lemurproject.org/indri/" target="_blank" rel="external">home page</a>. To be mentioned in this article, although they assert that it can be set up on Windows, it is quite a hard work. As a result, I wnat to write down the process about how to set it up on windows. <a id="more"></a></p>
-<p>However, I still recommend you to use Indri through Linux system if it is possible. It is very convenient to set up a virtual machine, and installing Ubuntu is just a piece of cake nowadays. If you still insist in using it in windows like me, below I will show you how to deal with all troubles when using Visual Studio to build the solution in Indri directory.</p>
-<p>Tobe mentioned, if you use linux, tou can just run the scripts below to set it up. To check if you set up successfully, you can directly jump to <a href="#Finally">this part</a><br><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">sudo apt-<span class="built_in">get</span> <span class="keyword">update</span></div><div class="line">sudo apt-<span class="built_in">get</span> install libz-dev</div><div class="line">sudo apt-<span class="built_in">get</span> install g++ </div><div class="line">sudo apt-<span class="built_in">get</span> install zlib1g-dev</div><div class="line"></div><div class="line">wget http<span class="variable">s:</span>//sourceforge.net/projects/lemur/<span class="keyword">files</span>/lemur/indri-<span class="number">5.11</span>/indri-<span class="number">5.11</span>.tar.gz</div><div class="line">tar xzvf indri-<span class="number">5.11</span>.tar.gz</div><div class="line"><span class="keyword">cd</span> indri-<span class="number">5.11</span></div><div class="line">./configure</div><div class="line"><span class="keyword">make</span></div><div class="line">sudo <span class="keyword">make</span> install</div></pre></td></tr></table></figure></p>
-<h1 id="Download-and-unzip-Indri"><a href="#Download-and-unzip-Indri" class="headerlink" title="Download and unzip Indri"></a>Download and unzip Indri</h1><ol>
-<li>download: From <a href="https://sourceforge.net/projects/lemur/?source=typ_redirect" target="_blank" rel="external">this page</a>, You can download indri-5.11.tar.gz.</li>
-<li>unzip: The tool I use is <a href="http://www.developershome.com/7-zip/" target="_blank" rel="external">7-zip</a>. To be mentioned, it is recommended to open 7-zip first and use browser in 7-zip to change your directory to where you download Indri and then unzip it.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriUnzip.PNG" alt="IndriUnzip.PNG" title=""></li>
-<li>Then You can get this folder, and use Visual Studio to open indri-VS2012.sln.(I have tried both VS2015 and VS2017 can deal with this solution file)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/IndriFolder.PNG" alt="IndriFolder.PNG" title="">
-</li>
-</ol>
-<h1 id="Build-in-Visual-Studio"><a href="#Build-in-Visual-Studio" class="headerlink" title="Build in Visual Studio"></a>Build in Visual Studio</h1><ol>
-<li>When going in to VS, you will first be called to update some packages, and just click yes.Then you’ll get Program Manager window below.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/3VSUpdate.PNG" alt="3VSUpdate.PNG" title="">
-<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsProgramManager.PNG" alt="VsProgramManager.PNG" title=""></li>
-<li>(You can ignore this paragraph) If you are interested in how to debug of this solution, you can first rebuild all solution first. Just right click on solution’Indri-VS2012’(15 Projects) and click rebuild. Then you’ll get three kinds of bugs in the following files.<ul>
-<li>(clarity)lemur-compat.hpp and (dist)SequentialReadBuffer.hpp</li>
-<li>(dist)hash_set or hash_map</li>
-<li>(swig) indri_jni.cpp<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/VsErrorList1.PNG" alt="VsErrorList1.PNG" title="">
-<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix3.PNG" alt="ErrorFix3.PNG" title="">
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="Solutions-to-three-kinds-of-bugs"><a href="#Solutions-to-three-kinds-of-bugs" class="headerlink" title="Solutions to three kinds of bugs"></a>Solutions to three kinds of bugs</h1><ol>
-<li>go to lemur-compat.hpp and SequentialReadBuffer.hpp, on the Top of the file add “#include &lt;algorithm&gt;”<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix2.PNG" alt="ErrorFix2.PNG" title=""></li>
-<li>In the Program Manager window: Right click dist &gt;property &gt;c++ &gt;preprocessor definition&gt; add “_SILENCE_STDEXT_HASH_DEPRECATION_WARNINGS=1;” befor all words.<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix4.PNG" alt="ErrorFix4.PNG" title=""></li>
-<li>Add your java sdk path to: Right click swig &gt;property &gt;C++ &gt;Other include directories. Remember to add two path: one is \jdkxxx\include, another is jdkxxx\include\win32.(If you haven’t install java sdk, you have to deal withh the problem yourself)<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/ErrorFix6.PNG" alt="ErrorFix6.PNG" title="">
-</li>
-</ol>
-<h1 id="Finally"><a href="#Finally" class="headerlink" title="Finally"></a>Finally</h1><ol>
-<li>Rebuild all Solution</li>
-<li>use command line to test if it is set up successfully.<br>you can type in: $ dumpindex<br>and you’ll get:<img src="/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/DumpIndexCmdLine.JPG" alt="DumpIndexCmdLine.JPG" title="">
-</li>
-</ol>
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>從網頁的取得來說，因為每次去要求server回傳html檔，都要等待server回應，此時client端(也就是你的電腦)其實是沒有在運算的，而是在等待server端的回應，因此若能夠使用這段時間，發出其他要求，將可大大增加爬取的速度。不過，非同步技術的概念其實相當複雜，甚至牽涉到一些硬體的知識，比較主要的難點在於與「多執行續」的差異解釋，這裡就不多加解釋，有興趣可以自行google。<a id="more"></a></p>
+<h1 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h1><p>在看這隻程式碼時，建議由最下面往上看，首先建立loop物件，然後透過run_until_complete方法執行Main function，再整理並打包執行多次「呼叫fetch_coroutine function」的tasks。其中比較需要注意的是，要以非同步的方式執行的function，都必須在def前面寫上async，然後呼叫非同步方法時，等待回應須加上await。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> aiohttp</div><div class="line"><span class="keyword">import</span> asyncio</div><div class="line"><span class="keyword">import</span> async_timeout</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fetch_coroutine</span><span class="params">(client, url)</span>:</span></div><div class="line">    <span class="keyword">with</span> async_timeout.timeout(<span class="number">10</span>):</div><div class="line">        <span class="keyword">async</span> <span class="keyword">with</span> client.get(url) <span class="keyword">as</span> response:</div><div class="line">            <span class="keyword">assert</span> response.status == <span class="number">200</span>  <span class="comment">## 如果server端成功回應</span></div><div class="line">            html = <span class="keyword">await</span> response.text()  <span class="comment">##  取得html檔</span></div><div class="line">            soup = BeautifulSoup(html ,<span class="string">'lxml'</span>)  <span class="comment">## 透過bs解析html</span></div><div class="line">            As = soup.find_all(<span class="string">'a'</span>)</div><div class="line">            <span class="keyword">for</span> a <span class="keyword">in</span> As:</div><div class="line">                <span class="keyword">try</span>:</div><div class="line">                    print(a)</div><div class="line">                <span class="keyword">except</span>:</div><div class="line">                    print(<span class="string">"----------------------------------Error------------------------------------"</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">await</span> response.release()</div><div class="line"> </div><div class="line"> </div><div class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(loop)</span>:</span></div><div class="line"></div><div class="line">    urls = [<span class="string">'http://python.org'</span>,</div><div class="line">            <span class="string">'http://python.org'</span>,</div><div class="line">            <span class="string">'http://python.org'</span>,</div><div class="line">            <span class="string">'http://python.org'</span>,</div><div class="line">            <span class="string">'http://python.org'</span>]</div><div class="line"></div><div class="line">    headers = &#123;<span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>&#125;</div><div class="line"> </div><div class="line">    <span class="keyword">async</span> <span class="keyword">with</span> aiohttp.ClientSession(loop=loop, headers=headers, conn_timeout=<span class="number">5</span> ) <span class="keyword">as</span> client:</div><div class="line">        tasks = [fetch_coroutine(client, url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]  <span class="comment">##整理要執行的task(執行很多次fetch_coroutine function)</span></div><div class="line">        <span class="keyword">await</span> asyncio.gather(*tasks)  <span class="comment">## 把所有task打包</span></div><div class="line"> </div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:  <span class="comment">## 如果這支程式是自己直接被執行，而不是透過其他python程式來呼叫，</span></div><div class="line">    startTime = time.time()</div><div class="line">    loop = asyncio.get_event_loop()  <span class="comment">## 首先建立一個loop物件</span></div><div class="line">    loop.run_until_complete(main(loop))  <span class="comment">## 透過run_until_complete方法執行Main function</span></div><div class="line">    finishTime = time.time()</div><div class="line">    print(finishTime - startTime)</div></pre></td></tr></table></figure>
+<h1 id="比較"><a href="#比較" class="headerlink" title="比較"></a>比較</h1><p>上面那段程式碼(非同步)，我的電腦執行時間約是5~7秒不等，而執行以下的程式碼，執行時間約是15秒，約可以節省2/3的時間。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">import requests</div><div class="line">from bs4 import BeautifulSoup</div><div class="line">import <span class="selector-tag">time</span></div><div class="line"></div><div class="line">urls = [<span class="string">'http://python.org'</span>,</div><div class="line">        <span class="string">'http://python.org'</span>,</div><div class="line">        <span class="string">'http://python.org'</span>,</div><div class="line">        <span class="string">'http://python.org'</span>,</div><div class="line">        <span class="string">'http://python.org'</span>]</div><div class="line"></div><div class="line">startTime = <span class="selector-tag">time</span>.time()</div><div class="line"></div><div class="line"><span class="keyword">for</span> url <span class="keyword">in</span> urls:</div><div class="line">    re = requests.get(url)</div><div class="line">    soup = BeautifulSoup(re<span class="selector-class">.text</span>, <span class="string">'lxml'</span>)</div><div class="line">    As = soup.find_all(<span class="string">'a'</span>)</div><div class="line">    <span class="keyword">for</span> <span class="selector-tag">a</span> <span class="keyword">in</span> As:</div><div class="line">        try:</div><div class="line">            print(a)</div><div class="line">        except:</div><div class="line">            print(<span class="string">"----------------------------------Error------------------------------------"</span>)</div><div class="line">finishTime = <span class="selector-tag">time</span>.time()</div><div class="line"><span class="function"><span class="title">print</span><span class="params">(finishTime - startTime)</span></span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -446,7 +408,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Indri/" rel="tag"># Indri</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
           
         </div>
       
@@ -459,18 +421,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/02/LogLoss-Function/" rel="next" title="LogLoss Function">
-                <i class="fa fa-chevron-left"></i> LogLoss Function
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/22/Evaluation-in-Information-Retrieval/" rel="prev" title="IR2:資訊檢索的評價">
-                IR2:資訊檢索的評價 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/29/給初學者的Python爬蟲學習架構/" rel="prev" title="給初學者的Python爬蟲學習架構">
+                給初學者的Python爬蟲學習架構 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -636,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Download-and-unzip-Indri"><span class="nav-number">2.</span> <span class="nav-text">Download and unzip Indri</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-in-Visual-Studio"><span class="nav-number">3.</span> <span class="nav-text">Build in Visual Studio</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Solutions-to-three-kinds-of-bugs"><span class="nav-number">4.</span> <span class="nav-text">Solutions to three kinds of bugs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Finally"><span class="nav-number">5.</span> <span class="nav-text">Finally</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程式碼"><span class="nav-number">2.</span> <span class="nav-text">程式碼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#比較"><span class="nav-number">3.</span> <span class="nav-text">比較</span></a></li></ol></div>
             
 
           </div>
@@ -780,9 +738,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'https://jeremy4555.github.io/2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/';
-          this.page.identifier = '2017/05/17/Deploy-Indri-on-Window10-using-Visual-Studio/';
-          this.page.title = 'Deploy Indri on Window 10 using Visual Studio';
+          this.page.url = 'https://jeremy4555.github.io/2017/07/29/非同步的網頁爬取技術/';
+          this.page.identifier = '2017/07/29/非同步的網頁爬取技術/';
+          this.page.title = '非同步的網頁爬取技術';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://Jeremy.disqus.com/embed.js';
