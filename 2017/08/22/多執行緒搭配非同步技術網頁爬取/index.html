@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+<meta name="description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術以及多執行緒網頁爬取技術。以下，我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
 <meta name="keywords" content="Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="多執行緒搭配非同步技術網頁爬取">
 <meta property="og:url" content="https://GoatWang.github.io/2017/08/22/多執行緒搭配非同步技術網頁爬取/index.html">
 <meta property="og:site_name" content="Goat Wang's Blog">
-<meta property="og:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
-<meta property="og:updated_time" content="2017-08-22T03:58:13.943Z">
+<meta property="og:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術以及多執行緒網頁爬取技術。以下，我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+<meta property="og:updated_time" content="2017-08-22T04:00:58.859Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="多執行緒搭配非同步技術網頁爬取">
-<meta name="twitter:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+<meta name="twitter:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術以及多執行緒網頁爬取技術。以下，我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
 
 
 
@@ -374,7 +374,7 @@
       
 
       
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在開始看這篇文章之前，非常建議大家先熟悉個別的技術: <a href="https://goatwang.github.io/2017/07/29/非同步的網頁爬取技術/">非同步技術</a><a href="http://blog.thepythontutor.com/2017/07/multithreading-web-scraping-with-python.html?m=1" target="_blank" rel="external">多執行緒網頁爬取技術</a>。<br>我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。<a id="more"></a></p>
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在開始看這篇文章之前，非常建議大家先熟悉個別的技術: <a href="https://goatwang.github.io/2017/07/29/非同步的網頁爬取技術/">非同步技術</a>以及<a href="http://blog.thepythontutor.com/2017/07/multithreading-web-scraping-with-python.html?m=1" target="_blank" rel="external">多執行緒網頁爬取技術</a>。以下，我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。<a id="more"></a></p>
 <p>首先，關注到他們的差別。所謂的非同步技術，指得是我們每發出一個requests都要等待srver端的回應，而非同步技術可以充分利用這個等待時間，同時再發出其他requests，直到server成功回應時，才開始用同一個執行緒出處理回應回來的資料。必須注意的是，他並不會占用到多的CPU核心數，只是充分利用在同一個核心上的運算量而已。承接著，上面這段解釋，大家應該很好想像，多執行緒在做的實情，無非就是，使用多個CPU核心去處理事情，這邊要比較注意的是，假設你的CPU核心不夠，硬是將執行緒的數量開的比核心數多，將可能會被強制終止某些執行緒。</p>
 <p>再來，必須關注到「多執行緒的技術理解焦點」，如果還沒碰過這個技術，大家可以看完這一段落之後再開始學習多執行緒，相信會大有幫助。我想大家在理解這個技術的時候，可以先建一個手動的多執行緒，也就是把一個要跑回圈的data list，拆成三段或四段，在不同的terminal針對每一個data list執行同一支的程式。在這過程中，你會關注到一個最麻煩的部分是，要怎麼裁切data list，以及裁切了之後會不會有些執行緒很快執行完，有些執行緒則處理很久。</p>
 <p>因此，在面臨到這些狀況時，python內建了一個非常方便的類別queue，這個queue跟list很像，除了使用上有一些小差異之外(list的append、queue用put，list的讀取一般用for迴圈，queue則直接使用get配上while迴圈)。其中最大的差別在，list使用for迴圈可以被重複使用，<br>但是queue中的data只要get出來之後，就會從queue裡面消失。而也正是因為這個特性，上多執行緒在取出queue的data的時候，完全不用煩惱，前一個執行緒執行到哪，只要持續地從queue取出要處理的data即可，直到取完最後一個queue中的data。</p>
