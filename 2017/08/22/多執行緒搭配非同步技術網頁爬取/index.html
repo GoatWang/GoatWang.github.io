@@ -1,0 +1,844 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon-20170422030939549.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多執行緒搭配非同步技術網頁爬取">
+<meta property="og:url" content="https://GoatWang.github.io/2017/08/22/多執行緒搭配非同步技術網頁爬取/index.html">
+<meta property="og:site_name" content="Goat Wang's Blog">
+<meta property="og:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+<meta property="og:updated_time" content="2017-08-22T03:58:13.943Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多執行緒搭配非同步技術網頁爬取">
+<meta name="twitter:description" content="概述在開始看這篇文章之前，非常建議大家先熟悉個別的技術: 非同步技術多執行緒網頁爬取技術。我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://GoatWang.github.io/2017/08/22/多執行緒搭配非同步技術網頁爬取/"/>
+
+
+
+
+
+  <title> 多執行緒搭配非同步技術網頁爬取 | Goat Wang's Blog </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+
+
+
+
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-101626873-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ff02436efc78f89df95a7ff74f2e4f77";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Goat Wang's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Learning Note</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://GoatWang.github.io/2017/08/22/多執行緒搭配非同步技術網頁爬取/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Goat Wang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jeremy.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Goat Wang's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                多執行緒搭配非同步技術網頁爬取
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2017-08-22T11:58:13+08:00">
+                2017-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python-Note/" itemprop="url" rel="index">
+                    <span itemprop="name">Python Note</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/22/多執行緒搭配非同步技術網頁爬取/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/22/多執行緒搭配非同步技術網頁爬取/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>在開始看這篇文章之前，非常建議大家先熟悉個別的技術: <a href="https://goatwang.github.io/2017/07/29/非同步的網頁爬取技術/">非同步技術</a><a href="http://blog.thepythontutor.com/2017/07/multithreading-web-scraping-with-python.html?m=1" target="_blank" rel="external">多執行緒網頁爬取技術</a>。<br>我想針對「他們的差別」以及在「多執行緒的技術理解焦點」兩個部分進行簡單的說明。<a id="more"></a></p>
+<p>首先，關注到他們的差別。所謂的非同步技術，指得是我們每發出一個requests都要等待srver端的回應，而非同步技術可以充分利用這個等待時間，同時再發出其他requests，直到server成功回應時，才開始用同一個執行緒出處理回應回來的資料。必須注意的是，他並不會占用到多的CPU核心數，只是充分利用在同一個核心上的運算量而已。承接著，上面這段解釋，大家應該很好想像，多執行緒在做的實情，無非就是，使用多個CPU核心去處理事情，這邊要比較注意的是，假設你的CPU核心不夠，硬是將執行緒的數量開的比核心數多，將可能會被強制終止某些執行緒。</p>
+<p>再來，必須關注到「多執行緒的技術理解焦點」，如果還沒碰過這個技術，大家可以看完這一段落之後再開始學習多執行緒，相信會大有幫助。我想大家在理解這個技術的時候，可以先建一個手動的多執行緒，也就是把一個要跑回圈的data list，拆成三段或四段，在不同的terminal針對每一個data list執行同一支的程式。在這過程中，你會關注到一個最麻煩的部分是，要怎麼裁切data list，以及裁切了之後會不會有些執行緒很快執行完，有些執行緒則處理很久。</p>
+<p>因此，在面臨到這些狀況時，python內建了一個非常方便的類別queue，這個queue跟list很像，除了使用上有一些小差異之外(list的append、queue用put，list的讀取一般用for迴圈，queue則直接使用get配上while迴圈)。其中最大的差別在，list使用for迴圈可以被重複使用，<br>但是queue中的data只要get出來之後，就會從queue裡面消失。而也正是因為這個特性，上多執行緒在取出queue的data的時候，完全不用煩惱，前一個執行緒執行到哪，只要持續地從queue取出要處理的data即可，直到取完最後一個queue中的data。</p>
+<h1 id="專案"><a href="#專案" class="headerlink" title="專案"></a>專案</h1><ul>
+<li>說明: 這個專案中的每一個執行緒，將先上Bing檢索一間公司的公司名稱，然後透過非同步技術對Bing回應的第一頁的所有連結送出requests，並將美個網頁中的純文字取出，最後將所頁面的純文字寫入同一份純文字檔案。</li>
+<li>原始碼專案: <a href="https://github.com/GoatWang/MultiAsyncCrawler" target="_blank" rel="external">Github Repository</a></li>
+<li>建議: 使用虛擬環境，在clone下整個專案之後，在專案的資料夾目錄中打開terminal，執行以下指令<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">pip <span class="keyword">install </span>virtualenv</div><div class="line">virtualenv venv</div><div class="line">venv\<span class="keyword">Scripts\activate</span></div><div class="line">pip <span class="keyword">install </span>-r requirements.txt</div><div class="line">python <span class="keyword">MultiAsync.py</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="主要程式碼"><a href="#主要程式碼" class="headerlink" title="主要程式碼"></a>主要程式碼</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> aiohttp</div><div class="line"><span class="keyword">import</span> asyncio</div><div class="line"><span class="keyword">import</span> async_timeout</div><div class="line"></div><div class="line"><span class="keyword">import</span> queue</div><div class="line"><span class="keyword">import</span> threading</div><div class="line"></div><div class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</div><div class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</div><div class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</div><div class="line"></div><div class="line"><span class="keyword">import</span> string</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> os</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">## 1. Build Queue</span></div><div class="line">input_companies = queue.Queue()</div><div class="line">fail_log = queue.Queue()</div><div class="line"></div><div class="line"><span class="comment">## 2. Search query list</span></div><div class="line">companies = [</div><div class="line">        <span class="string">"Agilysys, Inc."</span>,</div><div class="line">        <span class="string">"ASEC International Corporation"</span>,</div><div class="line">        <span class="string">"Beijing Oriental Jicheng Co Ltd"</span>,</div><div class="line">        <span class="string">"Chander Electronics Corp."</span>,</div><div class="line">        <span class="string">"Dragon Group International Limited"</span>,</div><div class="line">        <span class="string">"Euro Tech Holdings Company Ltd"</span>,</div><div class="line">        <span class="string">"Howteh Technology Co., Ltd."</span>,</div><div class="line">        <span class="string">"Kyokuto Boeki Kaisha, Ltd."</span>,</div><div class="line">        <span class="string">"Leeport (Holdings) Limited"</span>,</div><div class="line">        <span class="string">"Makus, Inc."</span>,</div><div class="line">        <span class="string">"MEIJI ELECTRIC INDUSTRIES CO., LTD."</span>,</div><div class="line">        <span class="string">"Naito &amp; Co Ltd"</span>,</div><div class="line">        <span class="string">"OSAKA KOHKI CO LTD"</span>,</div><div class="line">        <span class="string">"Premier Farnell plc"</span>,</div><div class="line">        <span class="string">"Rexel SA"</span>,</div><div class="line">        <span class="string">"Solomon Technology Corporation"</span>,</div><div class="line">        <span class="string">"TAKACHIHO KOHEKI CO., LTD."</span>,</div><div class="line">        <span class="string">"TOMITA CO., LTD."</span>,</div><div class="line">        <span class="string">"Uematsu Shokai Co., Ltd."</span>,</div><div class="line">        <span class="string">"Unitron Tech Co Ltd"</span>,</div><div class="line">        <span class="string">"Vitec Holdings Co Ltd"</span>,</div><div class="line">        <span class="string">"WPG Holdings Limited"</span>,</div><div class="line">        <span class="string">"Wuhan P&amp;S Information Technology Co Ltd"</span>,</div><div class="line">        <span class="string">"Yleiselektroniikka Oyj"</span></div><div class="line">        ]</div><div class="line"></div><div class="line"><span class="comment">## 3. transfer list into queue</span></div><div class="line"><span class="keyword">for</span> company <span class="keyword">in</span> companies:   </div><div class="line">    input_companies.put(<span class="string">"&#123;&#125; product"</span>.format(company))</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">newBingCrawler</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="comment">## init a new event loop for this threading(That is, one threading one event loop)</span></div><div class="line">        self.loop = asyncio.new_event_loop()</div><div class="line"></div><div class="line">    <span class="comment">## 8.run into call function</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">fetch_coroutine</span><span class="params">(client, url)</span>:</span></div><div class="line">            <span class="keyword">with</span> async_timeout.timeout(<span class="number">10</span>):</div><div class="line">                <span class="keyword">try</span>: </div><div class="line">                    <span class="keyword">async</span> <span class="keyword">with</span> client.get(url) <span class="keyword">as</span> response:</div><div class="line">                        <span class="keyword">assert</span> response.status == <span class="number">200</span></div><div class="line">                        <span class="comment">## get purer text in every html file</span></div><div class="line">                        <span class="keyword">if</span> <span class="string">'html'</span> <span class="keyword">in</span> str(response.content_type).lower():</div><div class="line">                            html = <span class="keyword">await</span> response.text()</div><div class="line">                            soup = BeautifulSoup(html ,<span class="string">'lxml'</span>)</div><div class="line">                            [x.extract() <span class="keyword">for</span> x <span class="keyword">in</span> soup.findAll(<span class="string">'script'</span>)]</div><div class="line">                            [x.extract() <span class="keyword">for</span> x <span class="keyword">in</span> soup.findAll(<span class="string">'style'</span>)]</div><div class="line">                            [x.extract() <span class="keyword">for</span> x <span class="keyword">in</span> soup.findAll(<span class="string">'nav'</span>)]</div><div class="line">                            [x.extract() <span class="keyword">for</span> x <span class="keyword">in</span> soup.findAll(<span class="string">'footer'</span>)]</div><div class="line">                            self.companyInfo += soup.text</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">await</span> response.release()</div><div class="line">                <span class="keyword">except</span>:</div><div class="line">                    self.failLinks.append(url)</div><div class="line"></div><div class="line">        <span class="comment">## 7. run into main function</span></div><div class="line">        <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(loop)</span>:</span></div><div class="line">            <span class="comment">## go to bing, input query and submit </span></div><div class="line">            driver = webdriver.PhantomJS()</div><div class="line">            url = <span class="string">"https://www.bing.com/"</span></div><div class="line">            driver.get(url)</div><div class="line">            elem = driver.find_element_by_xpath(<span class="string">'//*[@id="sb_form_q"]'</span>)</div><div class="line">            elem.send_keys(self.query)</div><div class="line">            elem = driver.find_element_by_xpath(<span class="string">'//*[@id="sb_form_go"]'</span>)</div><div class="line">            elem.submit()</div><div class="line">            html = driver.page_source</div><div class="line">            driver.close()</div><div class="line"></div><div class="line">            soup = BeautifulSoup(html, <span class="string">'lxml'</span>)</div><div class="line">            Links = soup.find_all(<span class="string">'a'</span>)</div><div class="line"></div><div class="line">            <span class="comment"># Find links in first page in Bing Search Engine</span></div><div class="line">            Goodlinks = []</div><div class="line">            <span class="keyword">for</span> link <span class="keyword">in</span> Links:</div><div class="line">                linkstr = str(link)</div><div class="line">                <span class="keyword">if</span> ((<span class="string">'http'</span> <span class="keyword">in</span> linkstr) <span class="keyword">and</span> (<span class="string">'href'</span> <span class="keyword">in</span> linkstr) <span class="keyword">and</span> (<span class="keyword">not</span> <span class="string">'href="#"'</span> <span class="keyword">in</span> linkstr) <span class="keyword">and</span> (<span class="keyword">not</span> <span class="string">'href="http://go.microsoft'</span> <span class="keyword">in</span> linkstr)<span class="keyword">and</span> (<span class="keyword">not</span> <span class="string">'microsofttranslator'</span> <span class="keyword">in</span> linkstr)):</div><div class="line">                    Goodlinks.append(link)</div><div class="line">            urls = [link[<span class="string">'href'</span>] <span class="keyword">for</span> link <span class="keyword">in</span> Goodlinks]</div><div class="line"></div><div class="line">            headers = &#123;<span class="string">'user-agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>&#125;</div><div class="line">            <span class="keyword">async</span> <span class="keyword">with</span> aiohttp.ClientSession(loop=loop, headers=headers, conn_timeout=<span class="number">5</span> ) <span class="keyword">as</span> client:</div><div class="line">                tasks = [fetch_coroutine(client, url) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</div><div class="line">                <span class="keyword">await</span> asyncio.gather(*tasks)</div><div class="line">        </div><div class="line">        <span class="comment">## 5. start async requests from a threading</span></div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">            <span class="keyword">try</span>:</div><div class="line">                <span class="comment">## get data from queue</span></div><div class="line">                self.query = input_companies.get(timeout=<span class="number">1</span>)   <span class="comment">##Build self.query</span></div><div class="line">            <span class="keyword">except</span>:</div><div class="line">                <span class="keyword">break</span></div><div class="line">            </div><div class="line">            <span class="comment">## build self attribute</span></div><div class="line">            self.companyInfo = <span class="string">""</span>  <span class="comment">##Build self.companyInfo</span></div><div class="line">            exclude = set(string.punctuation)</div><div class="line">            companyName = self.query.replace(<span class="string">" product"</span>, <span class="string">""</span>)</div><div class="line">            companyName = <span class="string">''</span>.join(p <span class="keyword">for</span> p <span class="keyword">in</span> companyName <span class="keyword">if</span> p <span class="keyword">not</span> <span class="keyword">in</span> exclude)</div><div class="line">            self.companyName = companyName.replace(<span class="string">" "</span>, <span class="string">"_"</span>).lower()  <span class="comment">##Build self.companyName</span></div><div class="line">            self.failLinks = []  <span class="comment">##Build self.failLinks</span></div><div class="line"></div><div class="line">            <span class="comment">## 6. start running loop</span></div><div class="line">            self.loop.run_until_complete(main(self.loop))</div><div class="line"></div><div class="line">            <span class="comment">## 9. After loop</span></div><div class="line">            fail_log.put(&#123;self.companyName:self.failLinks&#125;)</div><div class="line">            </div><div class="line"></div><div class="line">            <span class="comment">##if no such directory, creat one</span></div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(<span class="string">"comapnyEmbedding"</span>):</div><div class="line">                os.mkdir(<span class="string">"comapnyEmbedding"</span>)</div><div class="line"></div><div class="line">            file = open(<span class="string">"comapnyEmbedding/"</span> + self.companyName, <span class="string">'w'</span>, encoding=<span class="string">'utf8'</span>)</div><div class="line">            file.write(self.companyInfo)</div><div class="line">            file.close()</div><div class="line"></div><div class="line">            print(<span class="string">"ThreadingID: "</span> + str(id(self)) + <span class="string">", "</span> + companyName + <span class="string">" success"</span>)</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">## 4. count of threadings you want to build  </span></div><div class="line">threads = []</div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</div><div class="line">    newthread = threading.Thread(target=newBingCrawler())</div><div class="line">    newthread.start()</div><div class="line">    threads.append(newthread)</div><div class="line"></div><div class="line"><span class="comment">## 10. join all threadings' result</span></div><div class="line"><span class="keyword">for</span> thread <span class="keyword">in</span> threads:</div><div class="line">    thread.join()</div><div class="line"></div><div class="line"><span class="comment">## 11. writing logs</span></div><div class="line">logs = []</div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        logLi = fail_log.get(timeout=<span class="number">1</span>)</div><div class="line">        <span class="keyword">if</span> logLi != []:</div><div class="line">            logs.append(logLi)</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">break</span></div><div class="line"></div><div class="line"><span class="keyword">with</span> open(<span class="string">"FailLinks.log"</span>,<span class="string">'w'</span>, encoding=<span class="string">'utf8'</span>) <span class="keyword">as</span> fp:</div><div class="line">    json.dump(logs, fp)</div></pre></td></tr></table></figure>
+<h1 id="特別提醒"><a href="#特別提醒" class="headerlink" title="特別提醒"></a>特別提醒</h1><p>此專案在Linux電腦上無法執行，若有強者能夠修復bug，非常歡迎與我分享，感激不盡。</p>
+<p>我稍微研究了一下error。可能的原因大約是，由於本專案在多執行緒技術之上搭配非同步技術進行網頁爬取，非同步所使用的event loop在每個執行緒裡面都要重新建立，而不能直接使用正在執行Python檔案的event loop，但是建立new event loop時，linux跟windows上的底層處理方式有所差異，因此導致這樣的結果。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/29/非同步的網頁爬取技術/" rel="prev" title="非同步的網頁爬取技術">
+                非同步的網頁爬取技術 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/jeremy.jpg"
+               alt="Goat Wang" />
+          <p class="site-author-name" itemprop="name">Goat Wang</p>
+           
+              <p class="site-description motion-element" itemprop="description">a hardworking beginner of programming</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">文章</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分類</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">標籤</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/GoatWang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/GoatWang" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/jeremy45555" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#專案"><span class="nav-number">2.</span> <span class="nav-text">專案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要程式碼"><span class="nav-number">3.</span> <span class="nav-text">主要程式碼</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特別提醒"><span class="nav-number">4.</span> <span class="nav-text">特別提醒</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Goat Wang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://Goat.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://GoatWang.github.io/2017/08/22/多執行緒搭配非同步技術網頁爬取/';
+          this.page.identifier = '2017/08/22/多執行緒搭配非同步技術網頁爬取/';
+          this.page.title = '多執行緒搭配非同步技術網頁爬取';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://Goat.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+</body>
+</html>
