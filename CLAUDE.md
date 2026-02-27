@@ -24,3 +24,15 @@ Then use (max_id + 1) as the new ID. If no files exist for today, start with 0.
 - `prompts/20250929_0_grok4_comedy_search.py`
 - `prompts/20250926_0_rate_comedy_materials_plan.md`
 - `prompts/20250929_1_title_generation_template.yaml`
+
+## Temporary & Intermediate Files
+
+All temporary files generated during work should be placed in the `prompts/` folder using the same naming convention above. This includes:
+
+- Screenshots and design mockups
+- Design docs and planning notes
+- Experiment scripts and results
+- Investigation intermediate files
+- Any other throwaway/working files
+
+The `prompts/` folder is gitignored, so these files won't be committed to the repository.
