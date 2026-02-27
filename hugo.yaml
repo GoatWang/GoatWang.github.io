@@ -1,0 +1,79 @@
+baseURL: https://GoatWang.github.io/
+languageCode: zh-tw
+title: GoatWang's Blog
+theme: PaperMod
+
+paginate: 10
+
+taxonomies:
+  category: categories
+  tag: tags
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+menu:
+  main:
+    - identifier: archives
+      name: Archives
+      url: /archives/
+      weight: 10
+    - identifier: categories
+      name: Categories
+      url: /categories/
+      weight: 20
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 30
+    - identifier: search
+      name: Search
+      url: /search/
+      weight: 40
+
+params:
+  env: production
+  author:
+    name: GoatWang
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  TocOpen: false
+  comments: true
+
+  homeInfoParams:
+    Title: "Hi, I'm GoatWang"
+    Content: >
+      Software Engineer / Data Scientist.
+      Writing about ML, CV, NLP, Web Development, and career journeys.
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/GoatWang"
+    - name: rss
+      url: "/index.xml"
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys:
+      - title
+      - permalink
+      - summary
+      - content

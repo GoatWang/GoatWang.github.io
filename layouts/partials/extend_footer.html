@@ -1,0 +1,19 @@
+{{- if .IsPage }}
+<div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; text-align: center;">
+  <h3 style="margin-top: 0;">Subscribe to my newsletter</h3>
+  <p style="color: var(--secondary);">Get notified when I publish new posts.</p>
+  <form
+    action="https://buttondown.com/api/emails/embed-subscribe/goatwang"
+    method="post"
+    target="popupwindow"
+    onsubmit="window.open('https://buttondown.com/goatwang', 'popupwindow')"
+    style="display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap;">
+    <input type="email" name="email" placeholder="your@email.com" required
+      style="padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 4px; background: var(--theme); color: var(--primary);">
+    <button type="submit"
+      style="padding: 0.5rem 1.5rem; background: var(--primary); color: var(--theme); border: none; border-radius: 4px; cursor: pointer;">
+      Subscribe
+    </button>
+  </form>
+</div>
+{{- end }}
