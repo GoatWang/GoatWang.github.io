@@ -2,6 +2,7 @@ baseURL: https://GoatWang.github.io/
 languageCode: zh-tw
 title: GoatWang's Blog
 theme: PaperMod
+googleAnalytics: G-43T7LWVTE5
 
 paginate: 10
 
