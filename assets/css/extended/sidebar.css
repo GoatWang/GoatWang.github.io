@@ -1,3 +1,76 @@
+/* ===== Home banner & profile ===== */
+.home-info {
+  overflow: hidden;
+}
+
+.home-banner {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.home-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.home-profile {
+  display: flex;
+  gap: 20px;
+  padding: 0 24px 20px;
+  margin-top: -50px;
+  align-items: flex-start;
+}
+
+.home-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--theme);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.home-profile-text {
+  padding-top: 54px;
+}
+
+.home-profile-text .entry-header h1 {
+  margin: 0 0 8px 0;
+}
+
+.home-profile-text .entry-content {
+  margin: 0;
+}
+
+.home-profile-text .entry-content p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--secondary);
+  margin: 0 0 6px 0;
+}
+
+.home-profile-text .entry-content p:last-child {
+  margin-bottom: 0;
+}
+
+.home-profile-text .entry-content strong {
+  color: var(--primary);
+}
+
+.home-tech {
+  font-size: 0.82rem !important;
+  opacity: 0.8;
+  margin-top: 4px !important;
+}
+
+.home-profile-text .entry-footer {
+  margin-top: 10px;
+}
+
+/* ===== Sidebar + layout ===== */
 .home-wrapper {
   display: flex;
   gap: 24px;
@@ -21,33 +94,6 @@
   padding: 16px;
   border-right: 1px solid var(--border);
   order: -1;
-}
-
-.sidebar-intro {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.sidebar-intro p {
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--secondary);
-  margin: 0 0 8px 0;
-}
-
-.sidebar-intro p:last-child {
-  margin-bottom: 0;
-}
-
-.sidebar-intro strong {
-  color: var(--primary);
-}
-
-.sidebar-tech {
-  font-size: 0.78rem !important;
-  color: var(--secondary);
-  opacity: 0.8;
 }
 
 .sidebar-title {
@@ -113,5 +159,26 @@ body:has(.home-wrapper) main {
 
   body:has(.home-wrapper) main {
     max-width: calc(var(--main-width) + var(--gap) * 2);
+  }
+
+  .home-banner {
+    height: 140px;
+  }
+
+  .home-profile {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 16px 16px;
+    margin-top: -40px;
+  }
+
+  .home-avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  .home-profile-text {
+    padding-top: 0;
   }
 }
