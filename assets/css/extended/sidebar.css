@@ -2,6 +2,8 @@
   display: flex;
   gap: 24px;
   align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .home-main {
@@ -10,14 +12,42 @@
 }
 
 .sidebar {
-  width: 280px;
+  width: 260px;
   flex-shrink: 0;
   position: sticky;
   top: 80px;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
   padding: 16px;
-  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  order: -1;
+}
+
+.sidebar-intro {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-intro p {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--secondary);
+  margin: 0 0 8px 0;
+}
+
+.sidebar-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar-intro strong {
+  color: var(--primary);
+}
+
+.sidebar-tech {
+  font-size: 0.78rem !important;
+  color: var(--secondary);
+  opacity: 0.8;
 }
 
 .sidebar-title {
@@ -71,8 +101,17 @@
   border-radius: 2px;
 }
 
+/* Widen the main container on homepage to use more screen space */
+body:has(.home-wrapper) main {
+  max-width: calc(var(--main-width) + 300px + var(--gap) * 2);
+}
+
 @media (max-width: 768px) {
   .sidebar {
     display: none;
+  }
+
+  body:has(.home-wrapper) main {
+    max-width: calc(var(--main-width) + var(--gap) * 2);
   }
 }

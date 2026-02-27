@@ -54,6 +54,24 @@
 {{/* Open sidebar wrapper on homepage */}}
 {{- if .IsHome }}
 <div class="home-wrapper">
+<aside class="sidebar">
+  <div class="sidebar-intro">
+    <h3 class="sidebar-title">About Me</h3>
+    <p>Hi, I'm <strong>Hsuan-Chung Wang (王選仲)</strong> — Test Engineer at <strong>Google</strong>, based in Taipei.</p>
+    <p>I specialize in computer vision algorithms and parallel programming, building performance-centric solutions for image/video analysis, 3D reconstruction, and object detection.</p>
+    <p>Previously ML Engineer at TekSystem @ Meta, Senior SWE at Certis and Taicon Technology. MSc in Computer Science from the University of Bristol.</p>
+    <p class="sidebar-tech">C++ | CUDA | Python | PyTorch | OpenMP | Docker | ROS</p>
+  </div>
+  <h3 class="sidebar-title">All Posts</h3>
+  <ul class="sidebar-posts">
+    {{- range site.RegularPages.ByDate.Reverse }}
+    <li>
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    </li>
+    {{- end }}
+  </ul>
+</aside>
 <div class="home-main">
 {{- end }}
 
@@ -122,20 +140,9 @@
 </footer>
 {{- end }}
 
-{{/* Close sidebar wrapper and add sidebar on homepage */}}
+{{/* Close sidebar wrapper on homepage */}}
 {{- if .IsHome }}
 </div>{{/* end .home-main */}}
-<aside class="sidebar">
-  <h3 class="sidebar-title">All Posts</h3>
-  <ul class="sidebar-posts">
-    {{- range site.RegularPages.ByDate.Reverse }}
-    <li>
-      <a href="{{ .Permalink }}">{{ .Title }}</a>
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-    </li>
-    {{- end }}
-  </ul>
-</aside>
 </div>{{/* end .home-wrapper */}}
 {{- end }}
 
