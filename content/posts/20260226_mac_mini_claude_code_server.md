@@ -89,7 +89,7 @@ CC 終於推出手機操控了！昨天我才受不了 Happy Coder 的 session �
 
 你需要能從任何地方連上這台 Mac Mini，有兩種方式：
 
-### 方法 A：Tailscale（推薦！超簡單）
+### 方法 A：Tailscale
 
 [Tailscale](https://tailscale.com) 是一個零設定的 VPN 工具，它會給每台裝置一個固定的虛擬 IP，不管你的實體網路怎麼變，這個 IP 都不會變。
 
