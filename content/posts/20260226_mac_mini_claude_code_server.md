@@ -138,6 +138,8 @@ Internet
 
 到 `https://192.168.1.1`（注意一定要加 `https`，用 `http` 會找不到）。帳號是 `cht`，密碼的規則是：機型代號前幾碼 + LAN MAC 位址後四碼（小寫）。例如 Alcatel I-040GW 的密碼就是 `40gw` + 後四碼，RTF8207W 就是 `207w` + 後四碼。MAC 位址印在機器背面的貼紙上。（[參考來源](https://iqmore.tw/cht-hinet-alcatel-i-040gw-login)）
 
+![Modem 背面的 MAC 位址貼紙](/images/posts/20260226_mac_mini_claude_code_server/modem_mac_address.png)
+
 **2. 中華電信 Modem：設定 DMZ Host**
 
 登入後到 **進階設定 > NAT > DMZ Host**，把 DMZ Host 設為你的 WiFi 分享器的 IP（通常是 `192.168.1.x`，可以在 Modem 的連線設備清單中找到）。這樣 Modem 會把所有外部流量都轉發到你的 WiFi 分享器。
