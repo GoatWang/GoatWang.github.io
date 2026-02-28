@@ -93,6 +93,8 @@ CC 終於推出手機操控了！昨天我才受不了 Happy Coder 的 session �
 
 [Tailscale](https://tailscale.com) 是一個零設定的 VPN 工具，它會給每台裝置一個固定的虛擬 IP，不管你的實體網路怎麼變，這個 IP 都不會變。
 
+如果沒有要架設網站或其他服務給其他人使用，Tailscale的設定比較簡單，可以先使用，並略過下面的固定IP設定。
+
 要註冊一個帳號，但用量小免費。
 
 **Mac Mini 上：**
