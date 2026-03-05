@@ -61,6 +61,27 @@ sudo pmset -a autorestart 1
 
 到 **系統設定 > 一般 > 使用者與群組 > 登入選項**，將「自動登入」設為你的使用者帳號。這樣停電重開後不需要手動登入。
 
+### 關閉自動更新
+
+macOS 會在背景自動下載並安裝系統更新，更新完會重開機，對 24 小時運作的 server 來說是致命的。
+
+```bash
+# 關閉自動更新排程
+sudo softwareupdate --schedule off
+```
+
+也可以到 **系統設定 > 一般 > 軟體更新 > 自動更新**，把以下選項全部關閉：
+
+- 下載可用的更新項目
+- 安裝 macOS 更新
+- 安裝安全回應與系統檔案
+
+確認目前的自動更新設定：
+
+```bash
+defaults read /Library/Preferences/com.apple.SoftwareUpdate
+```
+
 ---
 
 ## Step 2：手機也能操控 Claude Code
