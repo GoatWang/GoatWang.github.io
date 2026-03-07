@@ -56,6 +56,26 @@ Available tools (see each tool's `README.md` for details):
 - `tool_scripts/to_gif/` — Convert video to GIF (requires ffmpeg)
 - `tool_scripts/gen_favicon/` — Generate favicon files from an image (requires Pillow)
 
+## Service Selection Standards
+
+When evaluating or recommending third-party services for this project, apply these principles in order:
+
+1. **Data ownership** — All data must be retainable on our own server or in the repo. Never lock subscriber lists, content, or config into a platform that can't be fully exported or API-accessed.
+2. **API-first** — Every service must be fully controllable via API so Claude Code or other agents can manage it programmatically. Avoid services that require manual UI configuration for core operations.
+3. **Source in repo** — All configuration, templates, and branding assets (favicon, name, descriptions, email templates) must live in the Git repo as source of truth. The service should consume these, not host its own copies.
+4. **No unnecessary uploads** — Do not upload branding, images, or metadata to third-party dashboards. If a service requires it, prefer a self-hosted alternative.
+5. **Self-hosted preferred** — When a reliable open-source self-hosted option exists (e.g., Listmonk for newsletters, Umami for analytics), prefer it over SaaS. We have a Mac Mini server with a fixed IP available for hosting.
+6. **SaaS for deliverability/infra only** — Use managed services only for hard infrastructure problems (email deliverability, CDN, DNS) where self-hosting is impractical. Example: use Resend as SMTP relay, but manage subscriber data ourselves.
+
+### Current service decisions
+
+| Need | Service | Why |
+|------|---------|-----|
+| Email delivery | Resend (SMTP relay) | Free tier 3K/month, full API, high deliverability |
+| Subscriber management | TBD (Listmonk or Resend Audiences) | Evaluating self-hosted vs managed |
+| Static hosting | GitHub Pages | Free, deploys from repo |
+| Analytics | Google Analytics | Already configured |
+
 ## GIF Generation for Blog Posts
 
 Use `tool_scripts/to_gif/to_gif.py` to convert screen recordings to GIF:
