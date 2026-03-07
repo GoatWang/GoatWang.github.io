@@ -24,7 +24,7 @@
 }
 
 .toc-sidebar-title {
-  font-size: 0.85rem;
+  font-size: 0.87rem;
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 10px;
@@ -43,7 +43,7 @@
 .toc-sidebar-list li a {
   display: block;
   padding: 4px 12px 4px 0;
-  font-size: 0.78rem;
+  font-size: 0.80rem;
   line-height: 1.4;
   color: var(--secondary);
   text-decoration: none;
