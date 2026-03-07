@@ -20,3 +20,5 @@ __pycache__/
 
 .playwright-mcp
 prompts/
+promtps/
+config.local.json

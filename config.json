@@ -1,0 +1,12 @@
+{
+  "resend": {
+    "from_email": "onboarding@resend.dev",
+    "from_name": "GoatWang's Blog",
+    "audience_id": "0863fc05-240c-45b0-a914-96bbe66ca8ca"
+  },
+  "site": {
+    "url": "https://goatwang.github.io",
+    "title": "GoatWang's Blog",
+    "rss_url": "https://goatwang.github.io/index.xml"
+  }
+}
