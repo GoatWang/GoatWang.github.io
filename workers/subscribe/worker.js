@@ -45,6 +45,26 @@ export default {
     );
 
     if (resp.ok) {
+      // Send welcome email (fire-and-forget)
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "GoatWang's Blog <onboarding@resend.dev>",
+          to: email,
+          subject: "You're subscribed to GoatWang's Blog!",
+          html: `<div style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2>Welcome!</h2>
+            <p>You've been added to the subscription list for <strong>GoatWang's Blog</strong>.</p>
+            <p>You'll receive an email whenever a new post is published.</p>
+            <hr style="margin-top: 32px; border: none; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 12px;">If you didn't subscribe, you can <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color: #999;">unsubscribe</a>.</p>
+          </div>`,
+        }),
+      }).catch(() => {});
       return jsonResponse(200, { ok: true });
     }
 
