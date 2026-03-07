@@ -45,7 +45,13 @@
     {{- end }}
 
     {{- if (.Param "ShowToc") }}
+    {{- /* Find top-level headings: try h2 first, fall back to h3 */ -}}
     {{- $headers := findRE "<h2.*?>(.|\n])+?</h2>" .Content }}
+    {{- $hlevel := "2" }}
+    {{- if lt (len $headers) 1 }}
+      {{- $headers = findRE "<h3.*?>(.|\n])+?</h3>" .Content }}
+      {{- $hlevel = "3" }}
+    {{- end }}
     {{- if ge (len $headers) 1 }}
     <nav class="toc-sidebar" id="toc-sidebar">
       <div class="toc-sidebar-title">Table of Contents</div>
@@ -53,7 +59,7 @@
         {{- range $headers }}
         {{- $id := index (findRE "(id=\"(.*?)\")" . 9) 0 }}
         {{- $cleanedID := replace (replace $id "id=\"" "") "\"" "" }}
-        {{- $text := replaceRE "<h2.*?>((.|\n])+?)</h2>" "$1" . }}
+        {{- $text := replaceRE "<h[2-3].*?>((.|\n])+?)</h[2-3]>" "$1" . }}
         <li>
           <a href="#{{ $cleanedID }}">{{ $text | plainify | safeHTML }}</a>
         </li>
