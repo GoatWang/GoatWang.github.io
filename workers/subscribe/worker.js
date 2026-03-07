@@ -10,7 +10,7 @@
 import welcomeHtml from "../../templates/email_welcome.html";
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     // CORS preflight
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 200, headers: corsHeaders() });
@@ -47,20 +47,22 @@ export default {
     );
 
     if (resp.ok) {
-      // Send welcome email (fire-and-forget)
-      fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: "GoatWang's Blog <jeremy@voieech.com>",
-          to: email,
-          subject: "You're subscribed to GoatWang's Blog!",
-          html: welcomeHtml,
-        }),
-      }).catch(() => {});
+      // Send welcome email in background (waitUntil keeps worker alive)
+      ctx.waitUntil(
+        fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "GoatWang's Blog <jeremy@voieech.com>",
+            to: email,
+            subject: "You're subscribed to GoatWang's Blog!",
+            html: welcomeHtml,
+          }),
+        }).catch(() => {})
+      );
       return jsonResponse(200, { ok: true });
     }
 
