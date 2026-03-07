@@ -60,12 +60,11 @@ Available tools (see each tool's `README.md` for details):
 
 When evaluating or recommending third-party services for this project, apply these principles in order:
 
-1. **Data ownership** — All data must be retainable on our own server or in the repo. Never lock subscriber lists, content, or config into a platform that can't be fully exported or API-accessed.
-2. **API-first** — Every service must be fully controllable via API so Claude Code or other agents can manage it programmatically. Avoid services that require manual UI configuration for core operations.
-3. **Source in repo** — All configuration, templates, and branding assets (favicon, name, descriptions, email templates) must live in the Git repo as source of truth. The service should consume these, not host its own copies.
-4. **No unnecessary uploads** — Do not upload branding, images, or metadata to third-party dashboards. If a service requires it, prefer a self-hosted alternative.
-5. **Self-hosted preferred** — When a reliable open-source self-hosted option exists (e.g., Listmonk for newsletters, Umami for analytics), prefer it over SaaS. We have a Mac Mini server with a fixed IP available for hosting.
-6. **SaaS for deliverability/infra only** — Use managed services only for hard infrastructure problems (email deliverability, CDN, DNS) where self-hosting is impractical. Example: use Resend as SMTP relay, but manage subscriber data ourselves.
+1. **API-first** — Every service must be fully controllable via API so Claude Code or other agents can manage it programmatically. Avoid services that require manual UI configuration for core operations. If the agent can't configure branding, templates, or settings via API, reject the service.
+2. **Personal data in repo** — All personal configuration, templates, and branding assets (favicon, name, descriptions, email templates) must live in the Git repo as source of truth and be deployable via API. The agent must be able to update these without manual UI interaction.
+3. **User data can be managed** — Subscriber data and other user-generated data can live on third-party services, as long as it's accessible and exportable via API. No hard lock-in.
+4. **No manual uploads** — Do not upload branding, images, or metadata to third-party dashboards manually. If a service requires manual UI config that can't be done via API, prefer an alternative.
+5. **Self-hosted when practical** — When a reliable open-source self-hosted option exists and reduces dependency, prefer it. We have a Mac Mini server with a fixed IP available. But don't self-host for the sake of it — use SaaS for hard infra problems (email deliverability, CDN, DNS).
 
 ### Current service decisions
 
