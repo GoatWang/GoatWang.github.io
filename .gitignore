@@ -22,3 +22,4 @@ __pycache__/
 prompts/
 promtps/
 config.local.json
+.wrangler/

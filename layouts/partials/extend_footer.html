@@ -21,7 +21,7 @@ document.getElementById('subscribe-form').addEventListener('submit', function(e)
   var msg = document.getElementById('subscribe-msg');
   btn.disabled = true;
   btn.textContent = '...';
-  fetch('https://goatwang.tail5cb21.ts.net/api/subscribe', {
+  fetch('https://subscribe.jeremy455576.workers.dev/api/subscribe', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: email })

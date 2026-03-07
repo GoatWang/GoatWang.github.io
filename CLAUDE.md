@@ -64,14 +64,15 @@ When evaluating or recommending third-party services for this project, apply the
 2. **Personal data in repo** — All personal configuration, templates, and branding assets (favicon, name, descriptions, email templates) must live in the Git repo as source of truth and be deployable via API. The agent must be able to update these without manual UI interaction.
 3. **User data can be managed** — Subscriber data and other user-generated data can live on third-party services, as long as it's accessible and exportable via API. No hard lock-in.
 4. **No manual uploads** — Do not upload branding, images, or metadata to third-party dashboards manually. If a service requires manual UI config that can't be done via API, prefer an alternative.
-5. **Self-hosted when practical** — When a reliable open-source self-hosted option exists and reduces dependency, prefer it. We have a Mac Mini server with a fixed IP available. But don't self-host for the sake of it — use SaaS for hard infra problems (email deliverability, CDN, DNS).
+5. **Serverless for glue logic** — Use Cloudflare Workers or similar serverless platforms for small proxy/glue endpoints (e.g., subscribe form proxy). Avoid running custom servers on personal hardware for production blog features. Use SaaS for hard infra problems (email deliverability, CDN, DNS).
 
 ### Current service decisions
 
 | Need | Service | Why |
 |------|---------|-----|
 | Email delivery | Resend (SMTP relay) | Free tier 3K/month, full API, high deliverability |
-| Subscriber management | TBD (Listmonk or Resend Audiences) | Evaluating self-hosted vs managed |
+| Subscriber management | Resend Audiences | API-managed, free tier sufficient |
+| Subscribe proxy | Cloudflare Worker | Serverless, hides API key from client |
 | Static hosting | GitHub Pages | Free, deploys from repo |
 | Analytics | Google Analytics | Already configured |
 
