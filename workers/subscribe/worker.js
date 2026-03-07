@@ -55,7 +55,7 @@ export default {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "GoatWang's Blog <onboarding@resend.dev>",
+          from: "GoatWang's Blog <jeremy@voieech.com>",
           to: email,
           subject: "You're subscribed to GoatWang's Blog!",
           html: welcomeHtml,
