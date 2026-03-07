@@ -1,0 +1,124 @@
+/* ===== Sidebar TOC for article pages ===== */
+
+.post-content-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.post-content-wrapper .post-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.toc-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  order: -1;
+  padding-right: 16px;
+  border-right: 1px solid var(--border);
+}
+
+.toc-sidebar-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.toc-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-sidebar-list li {
+  position: relative;
+}
+
+.toc-sidebar-list li a {
+  display: block;
+  padding: 4px 12px 4px 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--secondary);
+  text-decoration: none;
+  border-right: 2px solid transparent;
+  margin-right: -16px;
+  padding-right: 14px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.toc-sidebar-list li a:hover {
+  color: var(--primary);
+}
+
+.toc-sidebar-list li.active > a {
+  color: var(--primary);
+  border-right-color: var(--primary);
+  font-weight: 500;
+}
+
+/* Scrollbar */
+.toc-sidebar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.toc-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* Widen the main container on single pages to fit sidebar TOC */
+.post-single:has(.toc-sidebar) {
+  max-width: none;
+}
+
+body:has(.toc-sidebar) .main {
+  max-width: calc(var(--main-width) + 260px + var(--gap) * 2);
+}
+
+/* Hide the inline TOC when sidebar is visible */
+body:has(.toc-sidebar) .post-single > .toc {
+  display: none;
+}
+
+/* ===== Reading progress bar ===== */
+.toc-sidebar-progress {
+  height: 2px;
+  background: var(--border);
+  margin-bottom: 12px;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.toc-sidebar-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--primary);
+  transition: width 0.15s ease-out;
+}
+
+/* ===== Responsive: hide sidebar TOC on small screens, show inline TOC ===== */
+@media (max-width: 1024px) {
+  .toc-sidebar {
+    display: none;
+  }
+
+  .post-content-wrapper {
+    display: block;
+  }
+
+  body:has(.toc-sidebar) .main {
+    max-width: calc(var(--main-width) + var(--gap) * 2);
+  }
+
+  /* Show inline TOC on smaller screens */
+  body:has(.toc-sidebar) .post-single > .toc {
+    display: block;
+  }
+}

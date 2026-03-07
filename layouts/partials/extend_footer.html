@@ -17,3 +17,98 @@
   </form>
 </div>
 {{- end }}
+
+{{- if .IsPage }}
+<script>
+(function() {
+  const sidebar = document.getElementById('toc-sidebar');
+  if (!sidebar) return;
+
+  const links = sidebar.querySelectorAll('.toc-sidebar-list a');
+  if (!links.length) return;
+
+  // Collect heading elements referenced by TOC links
+  const headings = [];
+  links.forEach(function(link) {
+    const id = decodeURIComponent(link.getAttribute('href').slice(1));
+    const el = document.getElementById(id);
+    if (el) headings.push({ el: el, link: link, li: link.parentElement });
+  });
+
+  // Insert progress bar at top of sidebar
+  const progressWrap = document.createElement('div');
+  progressWrap.className = 'toc-sidebar-progress';
+  const progressBar = document.createElement('div');
+  progressBar.className = 'toc-sidebar-progress-bar';
+  progressWrap.appendChild(progressBar);
+  sidebar.insertBefore(progressWrap, sidebar.children[1]);
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    const viewH = window.innerHeight;
+
+    // Update progress bar based on article content scroll
+    const content = document.querySelector('.post-content');
+    if (content) {
+      const rect = content.getBoundingClientRect();
+      const top = rect.top + scrollY;
+      const bottom = top + rect.height;
+      const progress = Math.min(1, Math.max(0, (scrollY + viewH * 0.3 - top) / (bottom - top)));
+      progressBar.style.width = (progress * 100) + '%';
+    }
+
+    // Find current active heading
+    let current = -1;
+    for (let i = 0; i < headings.length; i++) {
+      const rect = headings[i].el.getBoundingClientRect();
+      if (rect.top <= viewH * 0.2) {
+        current = i;
+      } else {
+        break;
+      }
+    }
+
+    headings.forEach(function(h, i) {
+      if (i === current) {
+        h.li.classList.add('active');
+      } else {
+        h.li.classList.remove('active');
+      }
+    });
+
+    // Keep active item visible in sidebar
+    if (current >= 0) {
+      const activeLi = headings[current].li;
+      const sidebarRect = sidebar.getBoundingClientRect();
+      const liRect = activeLi.getBoundingClientRect();
+      if (liRect.top < sidebarRect.top || liRect.bottom > sidebarRect.bottom) {
+        activeLi.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }
+  }
+
+  // Smooth scroll on click
+  links.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const id = decodeURIComponent(this.getAttribute('href').slice(1));
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+        history.pushState(null, '', '#' + id);
+      }
+    });
+  });
+
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() { onScroll(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  onScroll();
+})();
+</script>
+{{- end }}

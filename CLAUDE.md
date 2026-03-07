@@ -37,12 +37,31 @@ All temporary files generated during work should be placed in the `prompts/` fol
 
 The `prompts/` folder is gitignored, so these files won't be committed to the repository.
 
-## GIF Generation for Blog Posts
+## Python Scripts & Dependencies
 
-Use `tools/to_gif.py` to convert screen recordings to GIF:
+Use `uv` to run any Python scripts. **Never install packages globally with `pip`.**
+
+- **Reusable tools** go in `tool_scripts/<tool_name>/` — each tool gets its own folder with a `README.md`
+- **One-time scripts** go in `prompts/` using the date-based naming convention
+
+Run scripts with inline dependencies using `uv run --with`:
 
 ```bash
-python3 tools/to_gif.py <input_video> <output_gif> --fps <fps> --width <width>
+uv run --with Pillow tool_scripts/gen_favicon/gen_favicon.py static/images/avatar.jpeg
+uv run --with some-package prompts/20260307_0_one_time_task.py
+```
+
+Available tools (see each tool's `README.md` for details):
+
+- `tool_scripts/to_gif/` — Convert video to GIF (requires ffmpeg)
+- `tool_scripts/gen_favicon/` — Generate favicon files from an image (requires Pillow)
+
+## GIF Generation for Blog Posts
+
+Use `tool_scripts/to_gif/to_gif.py` to convert screen recordings to GIF:
+
+```bash
+python3 tool_scripts/to_gif/to_gif.py <input_video> <output_gif> --fps <fps> --width <width>
 ```
 
 ### Sizing for Retina displays
