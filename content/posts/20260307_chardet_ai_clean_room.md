@@ -15,9 +15,11 @@ cover:
   image: /images/posts/20260307_chardet_ai_clean_room/04_chardet_700_release.png
 ---
 
-上週，一場圍繞著 Python 函式庫 `chardet` 的授權爭議，在開源社區引爆。這不只是一場技術爭論，更可能是 AI 時代重新定義「程式碼所有權」的第一聲槍響。
+上週，一場圍繞著 Python 函式庫 `chardet` 的授權爭議，在開源社區引爆——這不只是一場技術爭論，更可能是 AI 時代重新定義「程式碼所有權」的第一聲槍響。
 
-`chardet` 是 Python 的**字元編碼偵測工具**——當你拿到一個文字檔案但不知道它是 UTF-8、Big5、Shift-JIS 還是 GBK 時，`chardet` 會自動猜出來。它是 `requests`（Python 最熱門的 HTTP 套件）的依賴項，每月下載量約 **1.3 億次**，幾乎所有寫 Python 的人都間接用過它。
+為什麼影響這麼大？因為 `chardet` 的使用範圍極廣，這場爭議在開源界幾乎是核彈等級的衝擊。
+
+> `chardet` 是 Python 的**字元編碼偵測工具**——當你拿到一個文字檔案但不知道它是 UTF-8、Big5、Shift-JIS 還是 GBK 時，`chardet` 會自動猜出來。它是 `requests`（Python 最熱門的 HTTP 套件）的依賴項，每月下載量約 **1.3 億次**，幾乎所有寫 Python 的人都間接用過它。
 
 本文基於 [Simon Willison 的分析](https://simonwillison.net/2026/Mar/5/chardet/)、[GitHub Issue #327](https://github.com/chardet/chardet/issues/327) 的 211 則討論、以及 [The Register 的報導](https://www.theregister.com/2026/03/06/ai_kills_software_licensing/)，深入拆解這場爭議的每一個環節。
 
