@@ -1,5 +1,8 @@
 prompts/
 
+# VS Code markdown preview (symlink for Hugo's /images path)
+/images
+
 # Hugo
 public/
 resources/
@@ -23,3 +26,5 @@ prompts/
 promtps/
 config.local.json
 .wrangler/
+tool_scripts/call_llm/config.json
+reports/
