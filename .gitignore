@@ -1,5 +1,8 @@
 prompts/
 
+# VS Code markdown preview (symlink for Hugo's /images path)
+/images
+
 # Hugo
 public/
 resources/
