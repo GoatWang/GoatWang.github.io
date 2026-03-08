@@ -1,0 +1,11 @@
+[project]
+name = "md2pdf"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "markdown>=3.10.2",
+    "pygments>=2.19.2",
+    "weasyprint>=68.1",
+]

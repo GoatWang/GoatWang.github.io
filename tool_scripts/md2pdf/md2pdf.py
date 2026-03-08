@@ -22,6 +22,8 @@ if platform.system() == "Darwin":
         lib_path = os.path.join(brew_prefix, "lib")
         os.environ.setdefault("DYLD_FALLBACK_LIBRARY_PATH", lib_path)
 
+import re
+
 import markdown
 from weasyprint import HTML
 
@@ -120,6 +122,36 @@ li { margin: 0.25em 0; }
 """
 
 
+def _find_hugo_root(start_path):
+    """Walk up from start_path to find a Hugo project root (has a 'static' dir)."""
+    path = os.path.abspath(start_path)
+    if os.path.isfile(path):
+        path = os.path.dirname(path)
+    while True:
+        if os.path.isdir(os.path.join(path, "static")):
+            return path
+        parent = os.path.dirname(path)
+        if parent == path:
+            return None
+        path = parent
+
+
+def _rewrite_hugo_paths(html_body, hugo_root):
+    """Rewrite absolute src/href paths (e.g. /images/...) to filesystem paths under static/."""
+    if not hugo_root:
+        return html_body
+    static_dir = os.path.join(hugo_root, "static")
+
+    def replace_path(match):
+        attr = match.group(1)
+        path = match.group(2)
+        abs_path = os.path.join(static_dir, path.lstrip("/"))
+        file_url = "file://" + abs_path
+        return f'{attr}="{file_url}"'
+
+    return re.sub(r'(src|href)="(/[^"]+)"', replace_path, html_body)
+
+
 def convert(input_path, output_path, css_path=None):
     with open(input_path, "r", encoding="utf-8") as f:
         md_text = f.read()
@@ -142,6 +174,10 @@ def convert(input_path, output_path, css_path=None):
     html_body = markdown.markdown(
         md_text, extensions=extensions, extension_configs=extension_configs
     )
+
+    # Rewrite Hugo absolute paths (/images/...) to filesystem paths (static/images/...)
+    hugo_root = _find_hugo_root(input_path)
+    html_body = _rewrite_hugo_paths(html_body, hugo_root)
 
     css = DEFAULT_CSS
     if css_path:

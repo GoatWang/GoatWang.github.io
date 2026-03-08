@@ -26,3 +26,5 @@ prompts/
 promtps/
 config.local.json
 .wrangler/
+tool_scripts/call_llm/config.json
+reports/

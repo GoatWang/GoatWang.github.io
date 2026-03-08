@@ -44,17 +44,37 @@ Use `uv` to run any Python scripts. **Never install packages globally with `pip`
 - **Reusable tools** go in `tool_scripts/<tool_name>/` — each tool gets its own folder with a `README.md`
 - **One-time scripts** go in `prompts/` using the date-based naming convention
 
-Run scripts with inline dependencies using `uv run --with`:
+### Reusable tools (`tool_scripts/`)
+
+Each tool folder is a `uv` project with its own `.venv`. To set up a new tool:
 
 ```bash
-uv run --with Pillow tool_scripts/gen_favicon/gen_favicon.py static/images/avatar.jpeg
+cd tool_scripts/<tool_name>
+uv init
+uv add <dependencies>
+```
+
+Run tools using their local venv Python:
+
+```bash
+tool_scripts/<tool_name>/.venv/bin/python tool_scripts/<tool_name>/<script>.py [args]
+```
+
+### One-time scripts (`prompts/`)
+
+Run one-time scripts with inline dependencies using `uv run --with`:
+
+```bash
 uv run --with some-package prompts/20260307_0_one_time_task.py
 ```
 
-Available tools (see each tool's `README.md` for details):
+### Available tools
+
+See each tool's `README.md` for details:
 
 - `tool_scripts/to_gif/` — Convert video to GIF (requires ffmpeg)
 - `tool_scripts/gen_favicon/` — Generate favicon files from an image (requires Pillow)
+- `tool_scripts/md2pdf/` — Convert Markdown to PDF (requires pango via Homebrew)
 
 ## Service Selection Standards
 
@@ -75,6 +95,16 @@ When evaluating or recommending third-party services for this project, apply the
 | Subscribe proxy | Cloudflare Worker | Serverless, hides API key from client |
 | Static hosting | GitHub Pages | Free, deploys from repo |
 | Analytics | Google Analytics | Already configured |
+
+## VS Code Markdown Image Preview
+
+Blog posts reference images with absolute paths like `/images/posts/...`, but images live in `static/images/`. VS Code can't resolve these paths for markdown preview. A symlink at the project root fixes this:
+
+```bash
+ln -s static/images images
+```
+
+This symlink is gitignored (see `.gitignore`). If the `images` symlink doesn't exist at the project root, create it before editing posts so VS Code preview renders images correctly.
 
 ## GIF Generation for Blog Posts
 
