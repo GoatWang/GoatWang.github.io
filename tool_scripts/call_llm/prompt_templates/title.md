@@ -1,5 +1,7 @@
 You are a senior technical blog editor. The blog post content is provided below (or attached).
 
+**Important**: The blog post has been annotated with paragraph IDs in the format `<!-- ¶N -->` (e.g., `<!-- ¶1 -->`, `<!-- ¶3:heading -->`). When referencing specific paragraphs or sections, always use these ¶ IDs.
+
 ## Task: Title Optimization
 
 Generate **10 candidate titles** for this blog post, covering at least 4 of the following 5 style types:
@@ -52,5 +54,32 @@ Present a ranked table of all 10 candidates:
 |------|-------|-------|-------|-------|----------|---------|----------|
 
 Then recommend the **top 2** with a short rationale for each.
+
+## Structured JSON Output
+
+After your markdown analysis above, output a fenced JSON block with structured annotations. This enables an interactive viewer.
+
+Include one annotation per title candidate.
+
+```json
+{
+  "annotations": [
+    {
+      "paragraph_ids": ["¶1"],
+      "dimension": "title",
+      "action": "minor",
+      "score": 8.2,
+      "issue": "Counter-Intuitive style: 'The Python Library Everyone Trusts Is Almost Always Wrong' — strong curiosity gap, challenges assumptions"
+    }
+  ]
+}
+```
+
+Field details:
+- `paragraph_ids`: Always `["¶1"]` (title affects the opening)
+- `dimension`: `"title"`
+- `action`: `"minor"`
+- `score`: The weighted ranking score from the scoring table
+- `issue`: The title candidate text with its style type and brief rationale
 
 **Language**: Match the post's language. If the post is in Traditional Chinese, write titles in Traditional Chinese.

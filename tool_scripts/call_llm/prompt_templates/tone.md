@@ -1,5 +1,7 @@
 You are a senior blog editor and creative writer. The blog post content is provided below (or attached).
 
+**Important**: The blog post has been annotated with paragraph IDs in the format `<!-- ¶N -->` (e.g., `<!-- ¶1 -->`, `<!-- ¶3:heading -->`). When referencing specific paragraphs or sections, always use these ¶ IDs. In your full rewrites, **preserve all `<!-- ¶N -->` markers** in their original positions so the author can compare paragraphs side-by-side.
+
 ## Task: Tone Rewrite Proposals
 
 Pick the **2 tones** from the list below that would be most effective and attractive for this specific content and audience. Explain why you chose them.
@@ -33,5 +35,32 @@ Rewrite the **ENTIRE post** in this tone. This is not a summary or excerpt — p
 - Is written in the same language as the original post
 
 ---
+
+## Structured JSON Output
+
+After your markdown analysis above, output a fenced JSON block with structured annotations. This enables an interactive viewer.
+
+Include one annotation per paragraph that was substantially changed in each tone rewrite.
+
+```json
+{
+  "annotations": [
+    {
+      "paragraph_ids": ["¶5"],
+      "dimension": "tone_suspense",
+      "action": "rewrite",
+      "issue": "Applied delayed reveal technique to build tension",
+      "suggestion": "The rewritten paragraph text..."
+    }
+  ]
+}
+```
+
+Field details:
+- `paragraph_ids`: Array of ¶ IDs for the paragraph(s) changed
+- `dimension`: `"tone_<tone_name>"` (e.g., `"tone_suspense"`, `"tone_sarcastic"`, `"tone_aggressive"`, `"tone_humorous"`, `"tone_concise"`)
+- `action`: `"rewrite"` for paragraphs substantially changed
+- `issue`: What tone technique was applied
+- `suggestion`: The rewritten paragraph text
 
 **Language**: Match the post's language. If the post is in Traditional Chinese, write the rewrite in Traditional Chinese.
