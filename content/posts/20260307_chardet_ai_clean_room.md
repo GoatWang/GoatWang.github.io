@@ -12,7 +12,7 @@ tags:
 - claude-code
 - chardet
 cover:
-  image: /images/posts/20260307_chardet_ai_clean_room/04_chardet_700_release.png
+  image: /images/posts/20260307_chardet_ai_clean_room/10_the_register_article.png
 ---
 
 上週，一場圍繞著Python library: `chardet`的授權爭議，在開源社群大爆炸——這極有可能是開源世界大核彈。
