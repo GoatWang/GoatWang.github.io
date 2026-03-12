@@ -1,5 +1,5 @@
 ---
-title: 開源世界崩潰的第一槍---chardet AI授權洗白案的始末
+title: 開源世界崩潰的第一槍——chardet AI授權洗白案的始末
 date: '2026-03-07T00:00:00+08:00'
 draft: false
 categories:
