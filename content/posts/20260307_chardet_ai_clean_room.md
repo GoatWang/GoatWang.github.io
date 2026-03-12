@@ -1,5 +1,5 @@
 ---
-title: 從「chardet AI 抄襲案」看AI 如何「洗白」開源專案的授權違約
+title: 開源專案的末日：從「chardet AI 抄襲案」看AI 如何「洗白」開源專案的授權違約
 date: '2026-03-07T00:00:00+08:00'
 draft: false
 categories:
