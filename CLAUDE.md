@@ -106,6 +106,40 @@ ln -s static/images images
 
 This symlink is gitignored (see `.gitignore`). If the `images` symlink doesn't exist at the project root, create it before editing posts so VS Code preview renders images correctly.
 
+## Shared Web Report Viewer
+
+When the user requests a web report (HTML page for viewing analysis results, summaries, or any structured output), generate it and save to the shared web viewer.
+
+### Server Info
+
+- **Path:** `/Users/wanghsuanchung/web_server/`
+- **Port:** 8801 (internal), 2222 (external)
+- **Framework:** Django 5.1 (managed by `uv`)
+- **Start:** `bash /Users/wanghsuanchung/web_server/start_server.sh`
+- **Reports dir:** `/Users/wanghsuanchung/web_server/reports/GoatWang.github.io/`
+
+### How to Generate a Report
+
+1. Create an HTML file with mobile-friendly design (viewport meta, RWD CSS)
+2. Save to `/Users/wanghsuanchung/web_server/reports/GoatWang.github.io/YYYYMMDD_HHMMSS_<type>.html`
+   - Or directory-based: `YYYYMMDD_HHMMSS_<type>/index.html` (with optional `metadata.json` containing `{"title": "..."}`)
+3. **Naming: timestamp FIRST** — e.g., `20260310_143000_newsletter_preview.html`
+4. Read `/Users/wanghsuanchung/web_server/config.json` to build the URL:
+   - `http://<fixed_ip>:<external_port>/reports/GoatWang.github.io/<slug>/`
+5. Reply with a short summary + the report URL
+
+### HTML Report Requirements
+
+- `<meta name="viewport" content="width=device-width, initial-scale=1.0">`
+- Tables wrapped for horizontal scroll: `style="display:block; overflow-x:auto;"`
+- Font size >= 14px for body text
+- Max-width container (e.g., 960px) with auto margins
+
+### When to Generate a Report vs Plain Text
+
+- **Report**: Multi-section analysis, tables, comparisons, structured data, anything > ~10 lines
+- **Plain text**: Simple one-liner answers, short status updates
+
 ## GIF Generation for Blog Posts
 
 Use `tool_scripts/to_gif/to_gif.py` to convert screen recordings to GIF:
