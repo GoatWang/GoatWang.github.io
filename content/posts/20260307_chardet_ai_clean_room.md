@@ -51,7 +51,7 @@ cover:
 
 隔天，一個消失了15年的名字重新出現在GitHub上。
 
-Mark Pilgrim——`chardet`的原作者，同時也是《Dive Into Python》的作者——開了一個Issue，標題直截了當：**No right to relicense this project**。
+Mark Pilgrim——`chardet`的原作，同時也是《Dive Into Python》的作者——開了一個Issue，標題直截了當：**No right to relicense this project**。
 
 ![Mark Pilgrim's Issue #327](/images/posts/20260307_chardet_ai_clean_room/02_issue327_mark_pilgrim.png)
 
