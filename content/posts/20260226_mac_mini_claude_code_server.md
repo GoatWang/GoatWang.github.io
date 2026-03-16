@@ -172,6 +172,7 @@ Internet
 到 WiFi 分享器的管理頁面（通常是 `http://192.168.0.1`），做兩件事：
 
 - **PPPoE 撥號**：把網際網路連線類型從「動態 IP」改成「PPPoE」，填入中華電信提供的帳號密碼。注意帳號要用 `@ip.hinet.net` 結尾才會拿到固定 IP，用 `@hinet.net` 結尾只會拿到浮動 IP。
+- 這裡的帳號密碼，會在（之前）中華電信安裝網路時獲取，帳號大概是xxxxxxxx@ip.hinet.net，切記不要加HN。
 - **Port Forwarding**：在 NAT / 虛擬伺服器設定裡新增一條規則，外部 Port `222`（不建議直接用 22）→ 內部 IP Mac Mini 的區域網路 IP（例如 `192.168.0.188`）→ 內部 Port `22`。
 
 **4. Mac Mini：開啟遠端登入**
