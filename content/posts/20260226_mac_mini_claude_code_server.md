@@ -254,6 +254,59 @@ claude -p "幫我重構 src/ 底下所有的 API handlers，改用新的 error h
 
 ---
 
+## 7. 2026-04-03 Power Settings Correction (must)
+
+這一段是更正前面 Step 1 的 power settings。2026-04-03 重新檢查這台 Mac mini 後，發現先前的設定其實還沒完全修正，當時 `pmset -g custom` 的 live 狀態是：
+
+```text
+AC Power:
+ powernap             0
+ displaysleep         0
+ womp                 0
+ sleep                1
+ tcpkeepalive         1
+ autorestart          1
+ disksleep            0
+```
+
+這代表兩個關鍵問題還存在：
+
+- `sleep 1` 不是「永不休眠」，而是「插電狀態下，閒置 1 分鐘後進入系統睡眠」
+- `womp 0` 代表「喚醒以進行網路存取」其實是關閉的
+
+也就是說，前面 Step 1 內把 `喚醒以進行網路存取` 寫成 **關閉**、把 `womp` 設成 `0`，現在都應以這一段更正為準。
+
+正確目標應該是：
+
+```bash
+sudo pmset -c sleep 0 displaysleep 0 disksleep 0 autorestart 1 womp 1
+sudo pmset -c powernap 0
+```
+
+這裡最重要的不是 `womp`，而是 `sleep 0`：
+
+- `sleep` 是以「分鐘」計算的 idle system sleep timer，只有 `0` 才是停用
+- `womp` 對應的就是 macOS 介面裡的「喚醒以進行網路存取」
+- `womp 1` 不會讓 Mac 一直保持清醒，它只是允許機器在真的睡著時接受網路喚醒
+- 對要 24 小時遠端連線的 Mac mini 來說，真正的核心設定是 `sleep 0`
+
+2026-04-03 已經從遠端管理 shell 重新套用並確認，修正後的狀態如下：
+
+```text
+AC Power:
+ powernap             0
+ displaysleep         0
+ womp                 1
+ sleep                0
+ tcpkeepalive         1
+ autorestart          1
+ disksleep            0
+```
+
+如果你是照前面舊版本設定的，這一段務必要補上。不然 Mac 還是可能進入 sleep，接著把 SSH、Tailscale 跟 Screen Sharing 一起搞不穩。
+
+---
+
 ## 最終確認清單
 
 設定完之後，用以下指令確認一切正常：
