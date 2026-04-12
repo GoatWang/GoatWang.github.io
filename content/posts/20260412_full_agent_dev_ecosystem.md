@@ -11,12 +11,10 @@ tags:
 - worktree
 - testing
 - ios
-summary: 過去一個月，我真的像是進入另一種開發模式。從 Web 到 iPhone Simulator、從 feature worktree 到獨立驗證環境，我把整套全 Agent 開發流程慢慢補齊。這篇文章整理七個我目前最有感的實戰建議。
+summary: 過去一個月，我真的像是進入另一種開發模式。從 Web 到 iPhone Simulator、從 feature worktree 到獨立驗證環境，我把整套全 Agent 開發流程慢慢補齊。這篇文章整理八個我目前最有感的實戰建議。
 cover:
   image: /images/posts/20260412_full_agent_dev_ecosystem/cover.png
 ---
-
-過去一個月，我的 terminal 沒有少於三個 agent session 同時在跑；每次開 screen share，畫面裡都有一台 iPhone Simulator 在自己點來點去；我打開 FB 的次數從一天 N 次掉到一天一次，而且每次打開通知都至少有五則。
 
 這篇是這一個月踩坑下來，八個我目前最有感的建議。
 
