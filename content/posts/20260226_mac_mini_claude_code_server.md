@@ -41,7 +41,7 @@ cover:
 | 設定 | 值 | 原因 |
 |------|-----|------|
 | 防止自動進入睡眠（顯示器關閉時） | **開啟** | 核心設定，讓 Mac 永遠保持喚醒 |
-| 喚醒以進行網路存取 | **關閉** | 避免 DarkWake 循環 |
+| 喚醒以進行網路存取 | **開啟** | 維持網路喚醒，讓遠端存取更可靠 |
 | 啟用 Power Nap | **關閉** | 避免背景維護觸發睡眠/喚醒 |
 | 低耗電模式 | **關閉** | 避免省電模式干擾 |
 
@@ -51,7 +51,7 @@ cover:
 ### Terminal 指令加強
 
 ```bash
-sudo pmset -a displaysleep 0 disksleep 0 womp 0 powernap 0
+sudo pmset -a displaysleep 0 disksleep 0 womp 1 powernap 0
 sudo pmset -a autorestart 1
 ```
 
