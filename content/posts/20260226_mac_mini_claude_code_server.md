@@ -46,7 +46,15 @@ cover:
 | 低耗電模式 | **關閉** | 避免省電模式干擾 |
 
 到 **系統設定 > 鎖定畫面** 中：
-- **使用電源轉接器時，閒置多久後關閉顯示器** → 設為 **永不**
+- **使用電源轉接器時，閒置多久後關閉顯示器**（Turn display off when inactive）→ 設為 **永不**
+- **螢幕保護程式啟動或顯示器關閉後，需要密碼**（Require password after screen saver begins or display is turned off）→ 設為 **永不**
+
+![系統設定 > 鎖定畫面](/images/posts/20260226_mac_mini_claude_code_server/lock_screen_settings.png)
+
+到 **系統設定 > 桌布 > 螢幕保護程式** 中：
+- **閒置多久後啟動螢幕保護程式** → 設為 **永不**
+
+> 新版 macOS 把螢幕保護程式的計時從「鎖定畫面」移到了「桌布 > 螢幕保護程式」，在鎖定畫面裡找不到是正常的。
 
 ### Terminal 指令加強
 
@@ -195,6 +203,17 @@ ssh -p 222 your-username@your-fixed-ip
 2. 從另一台 Mac 開啟 **螢幕共享** App（Spotlight 搜尋 "Screen Sharing"）
 3. 輸入 Tailscale IP 或區域網路 IP 即可連入
 
+### 關閉螢幕共享結束後的自動鎖定
+
+就算鎖定畫面已經設定成不需要密碼，macOS 還是可能停在鎖定畫面上。這時候 agent 用 Computer Use 操作桌面 App 會找不到視窗（例如 Codex 回報 `cgWindowNotFound`），要等有人遠端進來動一下滑鼠才會恢復。
+
+macOS 的遠端管理預設會在遠端連線結束後，把電腦「還原」成連線前的狀態，包含鎖定畫面。把這個行為關掉：
+
+```bash
+sudo defaults write /Library/Preferences/com.apple.RemoteManagement RestoreMachineState -bool NO
+defaults read /Library/Preferences/com.apple.RemoteManagement RestoreMachineState   # 應顯示 0
+```
+
 ---
 
 ## Step 5：安裝 Claude Code
@@ -314,6 +333,9 @@ AC Power:
 ```bash
 # 確認 Mac 不會睡眠
 pmset -g
+
+# 確認遠端連線結束後不會自動鎖定（應顯示 0）
+defaults read /Library/Preferences/com.apple.RemoteManagement RestoreMachineState
 
 # 確認 Tailscale 運作中
 tailscale status
